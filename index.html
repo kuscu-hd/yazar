@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yazardan Direkt</title>
+    <meta name="description" content="Standartların ötesinde yayıncılık. Yazar danışmanlığı, editörlük hizmeti ve Amazon'da yayınlama." />
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="scroll-progress" aria-hidden="true"><span class="scroll-progress-bar"></span></div>
+
+    <header class="site-header">
+      <a class="brand" href="#top">
+        <img src="assets/yazar_logo.png" alt="Yazardan Direkt" />
+      </a>
+
+      <nav class="nav-primary" aria-label="Ana menü">
+        <a href="#hizmetler">HİZMETLERİMİZ</a>
+        <a href="#amazon">AMAZONDA YAYINLA</a>
+        <a href="#iletisim">İLETİŞİM</a>
+      </nav>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Menüyü aç">
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+      </button>
+    </header>
+
+    <div class="nav-panel" id="nav-panel" hidden>
+      <nav class="nav-full" aria-label="Tüm menü">
+        <a href="#top">ANASAYFA</a>
+        <div class="nav-branch">
+          <a href="https://yazardandirekt.com/hizmetlerimiz.php">HİZMETLERİMİZ</a>
+          <div class="nav-sub">
+            <a href="https://yazardandirekt.com/yazar-danismanligi.php">Yazar Danışmanlığı</a>
+            <a href="https://yazardandirekt.com/editorluk-hizmetleri.php">Editörlük Hizmetleri</a>
+            <a href="https://yazardandirekt.com/tasarim.php">Tasarım</a>
+            <a href="https://yazardandirekt.com/ceviri.php">Çeviri</a>
+            <a href="https://yazardandirekt.com/basim-dagitim.php">Basım-Dağıtım</a>
+            <a href="https://yazardandirekt.com/ekitap-formati.php">E-Kitap Formatı</a>
+          </div>
+        </div>
+        <a href="https://yazardandirekt.com/hakkimizda.php">HAKKIMIZDA</a>
+        <a href="https://yazardandirekt.com/yurtdisi-hizmetler.php">AMAZONDA YAYINLA</a>
+        <a href="https://yazardandirekt.com/">HERYERDEKİTAP – KİTAP SATIŞ</a>
+        <a href="https://yazardandirekt.com/">BLOG</a>
+        <a href="https://yazardandirekt.com/">YAZARLARIMIZ</a>
+        <a href="#iletisim">İLETİŞİM</a>
+      </nav>
+      <p class="nav-credo">
+        Üretimi yücelten, emeği kutsayan bir yerden bakıyoruz dünyaya. Sözün kıymetini sadece çok satanlarda
+        değil, doğru yüreklerde arıyoruz.
+      </p>
+      <div class="nav-panel-contact">
+        <a href="tel:+902163011213">+90-0216-301-1213</a>
+        <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>
+      </div>
+    </div>
+
+    <main class="site-shell">
+      <section class="cinema-scroll" id="top" aria-label="Yazardan Direkt tanıtım">
+        <div class="stage">
+          <div class="world">
+            <!-- Videobühne. Die Box nimmt für jeden Abschnitt Format, Maßstab
+                 und Versatz an (CLIP_FIT in script.js), denn die vier Clips
+                 sind auf verschiedene Ausschnitte gerendert. Dadurch steht das
+                 Buch über den Schnitt hinweg unverrückt an derselben Stelle;
+                 was sich ändert, ist nur der weiße Rand ringsum. -->
+            <div class="film" aria-hidden="true">
+              <video
+                class="film-video film-video-loop"
+                src="assets/video/loop.mp4"
+                autoplay
+                loop
+                muted
+                playsinline
+                preload="auto"
+              ></video>
+              <!-- Die vier Abschnitte liegen übereinander; sichtbar ist immer
+                   nur der, in dem die Scrollposition gerade steht. Die
+                   Schnittbilder sind deckungsgleich, der Wechsel fällt
+                   deshalb nicht auf. -->
+              <video class="film-video film-video-clip" src="assets/video/step1.mp4" muted playsinline preload="auto"></video>
+              <video class="film-video film-video-clip" src="assets/video/step2.mp4" muted playsinline preload="auto"></video>
+              <video class="film-video film-video-clip" src="assets/video/step3.mp4" muted playsinline preload="auto"></video>
+              <video class="film-video film-video-clip" src="assets/video/step4.mp4" muted playsinline preload="auto"></video>
+            </div>
+
+            <!-- Standbild des Schlussmoments (letztes Bild von step4,
+                 doppelt aufgelöst). Beginnt exakt auf dem Videoausschnitt und
+                 öffnet sich dann auf die ganze Bühne. -->
+            <div class="reveal" aria-hidden="true">
+              <img class="reveal-img" src="assets/video/step4_end.jpg" alt="" decoding="async" />
+            </div>
+
+            <!-- Logo-Auswahl auf dem Buchdeckel. Nur während des Halts bei
+                 Sekunde 15 sichtbar, Lage per Homographie auf das
+                 ausgemessene Lederfeld gerechnet (siehe script.js). -->
+            <section class="cover-pick" aria-label="Kapak tasarımı">
+              <!-- Färbt das Lederfeld ein. Liegt unter dem Logo und mischt
+                   sich farbig mit dem Video, damit die Lederstruktur
+                   durchscheint. -->
+              <div class="cover-tint cover-tint-front" aria-hidden="true"></div>
+              <div class="cover-tint cover-tint-spine" aria-hidden="true"></div>
+              <div class="cover-logo"><span class="cover-logo-text"></span></div>
+              <!-- Dasselbe Logo noch einmal quer auf dem Buchrücken. -->
+              <div class="cover-logo cover-logo-spine"><span class="cover-logo-text"></span></div>
+              <button class="cover-arrow cover-arrow-prev" type="button" aria-label="Önceki logo">‹</button>
+              <button class="cover-arrow cover-arrow-next" type="button" aria-label="Sonraki logo">›</button>
+
+              <div class="cover-panel">
+                <p class="cover-label" aria-live="polite">Yazardan Direkt</p>
+                <div class="cover-dots" aria-hidden="true"></div>
+                <div class="cover-groups">
+                  <div class="cover-group">
+                    <span class="cover-group-label">Deri</span>
+                    <div class="cover-swatches cover-swatches-leather" role="group" aria-label="Deri rengi"></div>
+                  </div>
+                  <div class="cover-group">
+                    <span class="cover-group-label">Yaldız</span>
+                    <div class="cover-swatches cover-swatches-foil" role="group" aria-label="Yaldız rengi"></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Markenviolett als Lichtstimmung. Liegt ÜBER dem Video und
+                 deckt die ganze Bühne, damit Video- und Seitenschwarz gleich
+                 eingefärbt werden -- sonst würde die Videokante wieder
+                 sichtbar. -->
+            <div class="bloom" aria-hidden="true"></div>
+
+            <div class="copy-scrim" aria-hidden="true"></div>
+            <div class="vignette" aria-hidden="true"></div>
+            <div class="grain" aria-hidden="true"></div>
+
+            <div class="copy-rail">
+              <article class="copy-block copy-block-lead" data-in="-500" data-out="1150">
+                <h1>STANDARTLARIN<br />ÖTESİNDE<br />YAYINCILIK</h1>
+                <p class="copy-lede">
+                  Her yazar, kendine ait bir ritimle ilerler. Yazardan Direkt, bu ritme kulak verir.
+                </p>
+              </article>
+
+              <article class="copy-block" id="hizmetler" data-in="1150" data-out="2400">
+                <p class="copy-index" aria-hidden="true">01</p>
+                <p class="copy-kicker">Yazar Danışmanlığı</p>
+                <h2>Kaleminizin Yanında, Hikâyenizin İçindeyiz.</h2>
+                <p class="copy-text">
+                  Yazarlık yolculuğunuzun ilk adımlarından itibaren yanınızdayız: fikrin şekillenmesinden yayın
+                  kararına kadar stratejik rehberlik, hedef kitle ve tür bütünlüğü danışmanlığı, birebir danışman
+                  ve bireysel geri bildirim.
+                </p>
+                <a class="copy-link" href="https://yazardandirekt.com/yazar-danismanligi.php">Devamını oku</a>
+              </article>
+
+              <article class="copy-block" data-in="2400" data-out="3750">
+                <p class="copy-index" aria-hidden="true">02</p>
+                <p class="copy-kicker">Editörlük Hizmeti</p>
+                <h2>Her zaman Yazarın Yanında, Okura Giden Yolda</h2>
+                <p class="copy-text">
+                  Editörlük bir metni değiştirmekten çok onun özünü parlatmaktır: yazım tutarlılığı, yapı ve akış
+                  iyileştirmesi, anlam bütünlüğü ve son okuma güvencesi — yazarın sesine saygı duyan bir yaklaşımla.
+                </p>
+                <a class="copy-link" href="https://yazardandirekt.com/editorluk-hizmetleri.php">Devamını oku</a>
+              </article>
+
+              <article class="copy-block" id="amazon" data-in="3750" data-out="5000">
+                <p class="copy-index" aria-hidden="true">03</p>
+                <p class="copy-kicker">Amazon'da Yayınla</p>
+                <h2>Bir Kitapla Başlar, Sınırları Aşan Her Yolculuk.</h2>
+                <p class="copy-text">
+                  İngilizceye çeviri ve Amazon desteğiyle kitabınız dünya raflarında yerini alsın. Kindle ve
+                  Print-on-Demand formatlarında küresel dağıtım; ISBN ve teknik gereklilikler bizde.
+                </p>
+                <a class="copy-link" href="https://yazardandirekt.com/yurtdisi-hizmetler.php">Devamını oku</a>
+              </article>
+
+              <article class="copy-block copy-block-outro" id="iletisim" data-in="5000" data-out="6300">
+                <p class="copy-index" aria-hidden="true">04</p>
+                <p class="copy-kicker">İletişim</p>
+                <h2>Kitabınızı birlikte yayına hazırlayalım.</h2>
+                <p class="copy-text">
+                  <a href="tel:+902163011213">+90-0216-301-1213</a><br />
+                  <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>
+                </p>
+              </article>
+            </div>
+
+            <div class="scroll-hint" aria-hidden="true">
+              <span class="scroll-hint-line"></span>
+              <span class="scroll-hint-label">KAYDIRIN</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
