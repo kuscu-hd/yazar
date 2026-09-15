@@ -4,57 +4,84 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Yazardan Direkt</title>
-    <meta name="description" content="Standartların ötesinde yayıncılık. Yazar danışmanlığı, editörlük hizmeti ve Amazon'da yayınlama." />
+    <meta name="description" content="Standartların ötesinde yayıncılık." />
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="styles.css" />
+    <!-- i18n.js MUSS vor script.js stehen: die Textspalte zerlegt die
+         Überschriften in Wörter, und dafür müssen die Sätze schon da sein.
+         Beide mit defer, die Reihenfolge bleibt dadurch erhalten. -->
+    <script src="i18n.js" defer></script>
     <script src="script.js" defer></script>
   </head>
   <body>
     <div class="scroll-progress" aria-hidden="true"><span class="scroll-progress-bar"></span></div>
 
     <header class="site-header">
-      <a class="brand" href="#top">
+      <a class="brand" href="#top" data-i18n-attr="aria-label:nav.brand">
         <img src="assets/yazar_logo.png" alt="Yazardan Direkt" />
       </a>
 
-      <nav class="nav-primary" aria-label="Ana menü">
-        <a href="#hizmetler">HİZMETLERİMİZ</a>
-        <a href="#amazon">AMAZONDA YAYINLA</a>
-        <a href="#iletisim">İLETİŞİM</a>
+      <nav class="nav-primary" data-i18n-attr="aria-label:nav.menu.main">
+        <a href="hizmetlerimiz.html" data-i18n="nav.services"></a>
+        <a href="hakkimizda.html" data-i18n="nav.about"></a>
+        <a href="yurtdisi.html" data-i18n="nav.global"></a>
+        <a href="iletisim.html" data-i18n="nav.contact"></a>
       </nav>
 
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Menüyü aç">
+      <div class="lang-switch" role="group" data-i18n-attr="aria-label:lang.label">
+        <button type="button" data-lang="tr" data-i18n-attr="title:lang.tr">TR</button>
+        <span class="lang-switch-sep" aria-hidden="true"></span>
+        <button type="button" data-lang="de" data-i18n-attr="title:lang.de">DE</button>
+      </div>
+
+      <button
+        class="nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="nav-panel"
+        data-i18n-attr="aria-label:nav.menu.open"
+      >
         <span class="nav-toggle-bar" aria-hidden="true"></span>
         <span class="nav-toggle-bar" aria-hidden="true"></span>
         <span class="nav-toggle-bar" aria-hidden="true"></span>
       </button>
     </header>
 
+    <!-- Die vollständige Tafel. Sie führt dieselben fünf Seiten wie die
+         Kopfzeile, nur mit den Sprungmarken darunter -- die sechs
+         Leistungen sind Abschnitte einer Seite, nicht eigene Seiten. -->
     <div class="nav-panel" id="nav-panel" hidden>
-      <nav class="nav-full" aria-label="Tüm menü">
-        <a href="#top">ANASAYFA</a>
+      <nav class="nav-full" data-i18n-attr="aria-label:nav.menu">
+        <a href="index.html" data-i18n="nav.home"></a>
         <div class="nav-branch">
-          <a href="https://yazardandirekt.com/hizmetlerimiz.php">HİZMETLERİMİZ</a>
+        <a href="hizmetlerimiz.html" data-i18n="nav.services"></a>
           <div class="nav-sub">
-            <a href="https://yazardandirekt.com/yazar-danismanligi.php">Yazar Danışmanlığı</a>
-            <a href="https://yazardandirekt.com/editorluk-hizmetleri.php">Editörlük Hizmetleri</a>
-            <a href="https://yazardandirekt.com/tasarim.php">Tasarım</a>
-            <a href="https://yazardandirekt.com/ceviri.php">Çeviri</a>
-            <a href="https://yazardandirekt.com/basim-dagitim.php">Basım-Dağıtım</a>
-            <a href="https://yazardandirekt.com/ekitap-formati.php">E-Kitap Formatı</a>
+            <a href="hizmetlerimiz.html#danismanlik" data-i18n="nav.sub.consult"></a>
+            <a href="hizmetlerimiz.html#editorluk" data-i18n="nav.sub.editing"></a>
+            <a href="hizmetlerimiz.html#tasarim" data-i18n="nav.sub.design"></a>
+            <a href="hizmetlerimiz.html#ceviri" data-i18n="nav.sub.translation"></a>
+            <a href="hizmetlerimiz.html#basim" data-i18n="nav.sub.print"></a>
+            <a href="hizmetlerimiz.html#ekitap" data-i18n="nav.sub.ebook"></a>
           </div>
         </div>
-        <a href="https://yazardandirekt.com/hakkimizda.php">HAKKIMIZDA</a>
-        <a href="https://yazardandirekt.com/yurtdisi-hizmetler.php">AMAZONDA YAYINLA</a>
-        <a href="https://yazardandirekt.com/">HERYERDEKİTAP – KİTAP SATIŞ</a>
-        <a href="https://yazardandirekt.com/">BLOG</a>
-        <a href="https://yazardandirekt.com/">YAZARLARIMIZ</a>
-        <a href="#iletisim">İLETİŞİM</a>
+        <div class="nav-branch">
+        <a href="hakkimizda.html" data-i18n="nav.about"></a>
+          <div class="nav-sub">
+            <a href="hakkimizda.html#ekip" data-i18n="nav.team"></a>
+            <a href="hakkimizda.html#yazarlarimiz" data-i18n="nav.authors"></a>
+          </div>
+        </div>
+        <a href="yurtdisi.html" data-i18n="nav.global"></a>
+        <div class="nav-branch">
+        <a href="iletisim.html" data-i18n="nav.contact"></a>
+          <div class="nav-sub">
+            <a href="iletisim.html#sss" data-i18n="nav.faq"></a>
+          </div>
+        </div>
+        <a href="https://yazardandirekt.com/" data-i18n="nav.shop"></a>
+        <a href="https://yazardandirekt.com/" data-i18n="nav.blog"></a>
       </nav>
-      <p class="nav-credo">
-        Üretimi yücelten, emeği kutsayan bir yerden bakıyoruz dünyaya. Sözün kıymetini sadece çok satanlarda
-        değil, doğru yüreklerde arıyoruz.
-      </p>
+      <p class="nav-credo" data-i18n="nav.credo"></p>
       <div class="nav-panel-contact">
         <a href="tel:+902163011213">+90-0216-301-1213</a>
         <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>
@@ -62,7 +89,7 @@
     </div>
 
     <main class="site-shell">
-      <section class="cinema-scroll" id="top" aria-label="Yazardan Direkt tanıtım">
+      <section class="cinema-scroll" id="top" data-i18n-attr="aria-label:cinema.label">
         <div class="stage">
           <div class="world">
             <!-- Videobühne. Die Box nimmt für jeden Abschnitt Format, Maßstab
@@ -97,32 +124,55 @@
               <img class="reveal-img" src="assets/video/step4_end.jpg" alt="" decoding="async" />
             </div>
 
-            <!-- Logo-Auswahl auf dem Buchdeckel. Nur während des Halts bei
-                 Sekunde 15 sichtbar, Lage per Homographie auf das
-                 ausgemessene Lederfeld gerechnet (siehe script.js). -->
-            <section class="cover-pick" aria-label="Kapak tasarımı">
+            <!-- Auswahl auf dem Buchdeckel. Nur während des Halts sichtbar,
+                 Lage per Homographie auf das ausgemessene Lederfeld gerechnet
+                 (siehe script.js). Die Prägung hat zwei Zustände: das Zeichen
+                 von Yazardan Direkt und ein leeres Feld für das eigene. Leder
+                 und Metall sind frei wählbar -- die Farben stehen als
+                 COVER_LEATHERS und COVER_FOILS in script.js. -->
+            <section class="cover-pick" data-i18n-attr="aria-label:cover.label">
               <!-- Färbt das Lederfeld ein. Liegt unter dem Logo und mischt
                    sich farbig mit dem Video, damit die Lederstruktur
-                   durchscheint. -->
+                   durchscheint. Bei Siyah ruht die Schicht (Stärke 0). -->
               <div class="cover-tint cover-tint-front" aria-hidden="true"></div>
               <div class="cover-tint cover-tint-spine" aria-hidden="true"></div>
               <div class="cover-logo"><span class="cover-logo-text"></span></div>
               <!-- Dasselbe Logo noch einmal quer auf dem Buchrücken. -->
               <div class="cover-logo cover-logo-spine"><span class="cover-logo-text"></span></div>
-              <button class="cover-arrow cover-arrow-prev" type="button" aria-label="Önceki logo">‹</button>
-              <button class="cover-arrow cover-arrow-next" type="button" aria-label="Sonraki logo">›</button>
+              <button
+                class="cover-arrow cover-arrow-prev"
+                type="button"
+                data-i18n-attr="aria-label:cover.prev"
+              >
+                ‹
+              </button>
+              <button
+                class="cover-arrow cover-arrow-next"
+                type="button"
+                data-i18n-attr="aria-label:cover.next"
+              >
+                ›
+              </button>
 
               <div class="cover-panel">
-                <p class="cover-label" aria-live="polite">Yazardan Direkt</p>
+                <p class="cover-label" aria-live="polite"></p>
                 <div class="cover-dots" aria-hidden="true"></div>
                 <div class="cover-groups">
                   <div class="cover-group">
-                    <span class="cover-group-label">Deri</span>
-                    <div class="cover-swatches cover-swatches-leather" role="group" aria-label="Deri rengi"></div>
+                    <span class="cover-group-label" data-i18n="cover.group.leather"></span>
+                    <div
+                      class="cover-swatches cover-swatches-leather"
+                      role="group"
+                      data-i18n-attr="aria-label:cover.group.leather"
+                    ></div>
                   </div>
                   <div class="cover-group">
-                    <span class="cover-group-label">Yaldız</span>
-                    <div class="cover-swatches cover-swatches-foil" role="group" aria-label="Yaldız rengi"></div>
+                    <span class="cover-group-label" data-i18n="cover.group.foil"></span>
+                    <div
+                      class="cover-swatches cover-swatches-foil"
+                      role="group"
+                      data-i18n-attr="aria-label:cover.group.foil"
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -140,50 +190,38 @@
 
             <div class="copy-rail">
               <article class="copy-block copy-block-lead" data-in="-500" data-out="1150">
-                <h1>STANDARTLARIN<br />ÖTESİNDE<br />YAYINCILIK</h1>
-                <p class="copy-lede">
-                  Her yazar, kendine ait bir ritimle ilerler. Yazardan Direkt, bu ritme kulak verir.
-                </p>
+                <h1 data-i18n-html="hero.h1"></h1>
+                <p class="copy-lede" data-i18n="hero.lede"></p>
               </article>
 
-              <article class="copy-block" id="hizmetler" data-in="1150" data-out="2400">
+              <article class="copy-block" data-in="1150" data-out="2400">
                 <p class="copy-index" aria-hidden="true">01</p>
-                <p class="copy-kicker">Yazar Danışmanlığı</p>
-                <h2>Kaleminizin Yanında, Hikâyenizin İçindeyiz.</h2>
-                <p class="copy-text">
-                  Yazarlık yolculuğunuzun ilk adımlarından itibaren yanınızdayız: fikrin şekillenmesinden yayın
-                  kararına kadar stratejik rehberlik, hedef kitle ve tür bütünlüğü danışmanlığı, birebir danışman
-                  ve bireysel geri bildirim.
-                </p>
-                <a class="copy-link" href="https://yazardandirekt.com/yazar-danismanligi.php">Devamını oku</a>
+                <p class="copy-kicker" data-i18n="step1.kicker"></p>
+                <h2 data-i18n="step1.h2"></h2>
+                <p class="copy-text" data-i18n="step1.text"></p>
+                <a class="copy-link" href="hizmetlerimiz.html#danismanlik" data-i18n="common.more"></a>
               </article>
 
               <article class="copy-block" data-in="2400" data-out="3750">
                 <p class="copy-index" aria-hidden="true">02</p>
-                <p class="copy-kicker">Editörlük Hizmeti</p>
-                <h2>Her zaman Yazarın Yanında, Okura Giden Yolda</h2>
-                <p class="copy-text">
-                  Editörlük bir metni değiştirmekten çok onun özünü parlatmaktır: yazım tutarlılığı, yapı ve akış
-                  iyileştirmesi, anlam bütünlüğü ve son okuma güvencesi — yazarın sesine saygı duyan bir yaklaşımla.
-                </p>
-                <a class="copy-link" href="https://yazardandirekt.com/editorluk-hizmetleri.php">Devamını oku</a>
+                <p class="copy-kicker" data-i18n="step2.kicker"></p>
+                <h2 data-i18n="step2.h2"></h2>
+                <p class="copy-text" data-i18n="step2.text"></p>
+                <a class="copy-link" href="hizmetlerimiz.html#editorluk" data-i18n="common.more"></a>
               </article>
 
-              <article class="copy-block" id="amazon" data-in="3750" data-out="5000">
+              <article class="copy-block" data-in="3750" data-out="5000">
                 <p class="copy-index" aria-hidden="true">03</p>
-                <p class="copy-kicker">Amazon'da Yayınla</p>
-                <h2>Bir Kitapla Başlar, Sınırları Aşan Her Yolculuk.</h2>
-                <p class="copy-text">
-                  İngilizceye çeviri ve Amazon desteğiyle kitabınız dünya raflarında yerini alsın. Kindle ve
-                  Print-on-Demand formatlarında küresel dağıtım; ISBN ve teknik gereklilikler bizde.
-                </p>
-                <a class="copy-link" href="https://yazardandirekt.com/yurtdisi-hizmetler.php">Devamını oku</a>
+                <p class="copy-kicker" data-i18n="step3.kicker"></p>
+                <h2 data-i18n="step3.h2"></h2>
+                <p class="copy-text" data-i18n="step3.text"></p>
+                <a class="copy-link" href="yurtdisi.html" data-i18n="common.more"></a>
               </article>
 
-              <article class="copy-block copy-block-outro" id="iletisim" data-in="5000" data-out="6300">
+              <article class="copy-block copy-block-outro" data-in="5000" data-out="6300">
                 <p class="copy-index" aria-hidden="true">04</p>
-                <p class="copy-kicker">İletişim</p>
-                <h2>Kitabınızı birlikte yayına hazırlayalım.</h2>
+                <p class="copy-kicker" data-i18n="step4.kicker"></p>
+                <h2 data-i18n="step4.h2"></h2>
                 <p class="copy-text">
                   <a href="tel:+902163011213">+90-0216-301-1213</a><br />
                   <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>
@@ -193,11 +231,102 @@
 
             <div class="scroll-hint" aria-hidden="true">
               <span class="scroll-hint-line"></span>
-              <span class="scroll-hint-label">KAYDIRIN</span>
+              <span class="scroll-hint-label" data-i18n="scroll.hint"></span>
             </div>
           </div>
         </div>
       </section>
+
+      <section class="band" aria-labelledby="signposts-h">
+        <div class="wrap">
+          <p class="kicker" data-i18n="signposts.kicker"></p>
+          <h2 class="band-h" id="signposts-h" data-i18n="signposts.h2"></h2>
+          <ul class="signposts">
+            <li>
+              <a class="signpost" href="hizmetlerimiz.html">
+                <h3 data-i18n="sign.services.title"></h3>
+                <p data-i18n="sign.services.text"></p>
+                <span data-i18n="common.goto"></span>
+              </a>
+            </li>
+            <li>
+              <a class="signpost" href="hakkimizda.html">
+                <h3 data-i18n="sign.about.title"></h3>
+                <p data-i18n="sign.about.text"></p>
+                <span data-i18n="common.goto"></span>
+              </a>
+            </li>
+            <li>
+              <a class="signpost" href="yurtdisi.html">
+                <h3 data-i18n="sign.global.title"></h3>
+                <p data-i18n="sign.global.text"></p>
+                <span data-i18n="common.goto"></span>
+              </a>
+            </li>
+            <li>
+              <a class="signpost" href="iletisim.html">
+                <h3 data-i18n="sign.contact.title"></h3>
+                <p data-i18n="sign.contact.text"></p>
+                <span data-i18n="common.goto"></span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Der kurze Abschluss jeder Seite. Die ausführliche Fassung mit
+           Formular und Fragen steht auf iletisim.html. -->
+      <section class="band band-dark" aria-labelledby="strip-h">
+        <div class="wrap">
+          <div class="contact-strip">
+            <div class="contact-strip-say">
+              <p class="kicker" data-i18n="strip.kicker"></p>
+              <h2 class="band-h" id="strip-h" data-i18n="strip.h2"></h2>
+            </div>
+            <div class="contact-strip-ways">
+              <a href="tel:+902163011213">+90-0216-301-1213</a>
+              <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>
+              <a class="copy-link" href="iletisim.html" data-i18n="strip.cta"></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <div class="wrap">
+          <div class="site-footer-top">
+            <div>
+              <img class="site-footer-logo" src="assets/yazar_logo.png" alt="Yazardan Direkt" />
+              <p class="site-footer-credo" data-i18n="footer.credo"></p>
+            </div>
+            <nav class="site-footer-nav" data-i18n-attr="aria-label:footer.services">
+              <p class="site-footer-head" data-i18n="footer.services"></p>
+              <a href="hizmetlerimiz.html#danismanlik" data-i18n="nav.sub.consult"></a>
+              <a href="hizmetlerimiz.html#editorluk" data-i18n="nav.sub.editing"></a>
+              <a href="hizmetlerimiz.html#tasarim" data-i18n="nav.sub.design"></a>
+              <a href="hizmetlerimiz.html#ceviri" data-i18n="nav.sub.translation"></a>
+              <a href="hizmetlerimiz.html#basim" data-i18n="nav.sub.print"></a>
+              <a href="hizmetlerimiz.html#ekitap" data-i18n="nav.sub.ebook"></a>
+            </nav>
+            <nav class="site-footer-nav" data-i18n-attr="aria-label:footer.company">
+              <p class="site-footer-head" data-i18n="footer.company"></p>
+              <a href="hakkimizda.html" data-i18n="footer.link.about"></a>
+              <a href="hakkimizda.html#ekip" data-i18n="footer.link.team"></a>
+              <a href="yurtdisi.html" data-i18n="footer.link.global"></a>
+              <a href="iletisim.html#sss" data-i18n="footer.link.faq"></a>
+            </nav>
+            <div class="site-footer-nav">
+              <p class="site-footer-head" data-i18n="footer.reach"></p>
+              <a href="tel:+902163011213">+90-0216-301-1213</a>
+              <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>
+            </div>
+          </div>
+          <div class="site-footer-base">
+            <p>© <span class="site-footer-year">2026</span> Yazardan Direkt. <span data-i18n="footer.rights"></span></p>
+            <a href="#top" data-i18n="footer.top"></a>
+          </div>
+        </div>
+      </footer>
     </main>
   </body>
 </html>

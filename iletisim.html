@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yazardan Direkt</title>
+    <meta name="description" content="Standartların ötesinde yayıncılık." />
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css" />
+    <!-- i18n.js MUSS vor script.js stehen: die Textspalte zerlegt die
+         Überschriften in Wörter, und dafür müssen die Sätze schon da sein.
+         Beide mit defer, die Reihenfolge bleibt dadurch erhalten. -->
+    <script src="i18n.js" defer></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html" data-i18n-attr="aria-label:nav.brand">
+        <img src="assets/yazar_logo.png" alt="Yazardan Direkt" />
+      </a>
+
+      <nav class="nav-primary" data-i18n-attr="aria-label:nav.menu.main">
+        <a href="hizmetlerimiz.html" data-i18n="nav.services"></a>
+        <a href="hakkimizda.html" data-i18n="nav.about"></a>
+        <a href="yurtdisi.html" data-i18n="nav.global"></a>
+        <a href="iletisim.html" data-i18n="nav.contact" aria-current="page"></a>
+      </nav>
+
+      <div class="lang-switch" role="group" data-i18n-attr="aria-label:lang.label">
+        <button type="button" data-lang="tr" data-i18n-attr="title:lang.tr">TR</button>
+        <span class="lang-switch-sep" aria-hidden="true"></span>
+        <button type="button" data-lang="de" data-i18n-attr="title:lang.de">DE</button>
+      </div>
+
+      <button
+        class="nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="nav-panel"
+        data-i18n-attr="aria-label:nav.menu.open"
+      >
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+      </button>
+    </header>
+
+    <!-- Die vollständige Tafel. Sie führt dieselben fünf Seiten wie die
+         Kopfzeile, nur mit den Sprungmarken darunter -- die sechs
+         Leistungen sind Abschnitte einer Seite, nicht eigene Seiten. -->
+    <div class="nav-panel" id="nav-panel" hidden>
+      <nav class="nav-full" data-i18n-attr="aria-label:nav.menu">
+        <a href="index.html" data-i18n="nav.home"></a>
+        <div class="nav-branch">
+        <a href="hizmetlerimiz.html" data-i18n="nav.services"></a>
+          <div class="nav-sub">
+            <a href="hizmetlerimiz.html#danismanlik" data-i18n="nav.sub.consult"></a>
+            <a href="hizmetlerimiz.html#editorluk" data-i18n="nav.sub.editing"></a>
+            <a href="hizmetlerimiz.html#tasarim" data-i18n="nav.sub.design"></a>
+            <a href="hizmetlerimiz.html#ceviri" data-i18n="nav.sub.translation"></a>
+            <a href="hizmetlerimiz.html#basim" data-i18n="nav.sub.print"></a>
+            <a href="hizmetlerimiz.html#ekitap" data-i18n="nav.sub.ebook"></a>
+          </div>
+        </div>
+        <div class="nav-branch">
+        <a href="hakkimizda.html" data-i18n="nav.about"></a>
+          <div class="nav-sub">
+            <a href="hakkimizda.html#ekip" data-i18n="nav.team"></a>
+            <a href="hakkimizda.html#yazarlarimiz" data-i18n="nav.authors"></a>
+          </div>
+        </div>
+        <a href="yurtdisi.html" data-i18n="nav.global"></a>
+        <div class="nav-branch">
+        <a href="iletisim.html" data-i18n="nav.contact" aria-current="page"></a>
+          <div class="nav-sub">
+            <a href="iletisim.html#sss" data-i18n="nav.faq"></a>
+          </div>
+        </div>
+        <a href="https://yazardandirekt.com/" data-i18n="nav.shop"></a>
+        <a href="https://yazardandirekt.com/" data-i18n="nav.blog"></a>
+      </nav>
+      <p class="nav-credo" data-i18n="nav.credo"></p>
+      <div class="nav-panel-contact">
+        <a href="tel:+902163011213">+90-0216-301-1213</a>
+        <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>
+      </div>
+    </div>
+
+    <main class="site-shell">
+      <section class="page-head" id="top">
+        <div class="wrap">
+          <p class="kicker" data-i18n="head.contact.kicker"></p>
+          <h1 data-i18n="head.contact.h1"></h1>
+          <p class="lede" data-i18n="head.contact.lede"></p>
+        </div>
+      </section>
+
+      <section class="band band-dark">
+        <div class="wrap">
+          <div class="contact">
+            <dl class="contact-list contact-list-lead">
+              <dt data-i18n="contact.phone.label"></dt>
+              <dd><a href="tel:+902163011213">+90-0216-301-1213</a></dd>
+              <dt data-i18n="contact.mail.label"></dt>
+              <dd><a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a></dd>
+              <dt data-i18n="contact.hours.label"></dt>
+              <dd data-i18n="contact.hours.value"></dd>
+            </dl>
+
+            <!-- Kein Server dahinter: script.js baut aus den Feldern einen
+                 mailto-Link. Sobald ein Endpunkt steht, bekommt das Formular
+                 action/method und der Zweig in script.js entfällt. -->
+            <form class="contact-form" data-i18n-attr="aria-label:contact.form.label" novalidate>
+              <input
+                type="text"
+                name="isim"
+                autocomplete="name"
+                required
+                data-i18n-attr="placeholder:contact.form.name;aria-label:contact.form.name"
+              />
+              <input
+                type="email"
+                name="email"
+                autocomplete="email"
+                required
+                data-i18n-attr="placeholder:contact.form.email;aria-label:contact.form.email"
+              />
+              <input
+                type="tel"
+                name="telefon"
+                autocomplete="tel"
+                data-i18n-attr="placeholder:contact.form.phone;aria-label:contact.form.phone"
+              />
+              <textarea
+                name="mesaj"
+                rows="4"
+                data-i18n-attr="placeholder:contact.form.message;aria-label:contact.form.message"
+              ></textarea>
+              <button type="submit" data-i18n="contact.form.send"></button>
+              <p class="note" data-i18n="contact.form.hint"></p>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section class="band" id="sss" aria-labelledby="faq-h">
+        <div class="wrap">
+          <div class="lede-grid">
+            <div class="lede-grid-head">
+              <p class="kicker" data-i18n="faq.kicker"></p>
+              <h2 class="band-h" id="faq-h" data-i18n="faq.h2"></h2>
+            </div>
+            <!-- <details> statt eigener Mechanik: Auf- und Zuklappen,
+                 Tastatur und Vorlesen kommen vom Browser. -->
+            <div class="lede-grid-body faq">
+              <details>
+                <summary data-i18n="faq.1.q"></summary>
+                <p data-i18n="faq.1.a"></p>
+              </details>
+              <details>
+                <summary data-i18n="faq.2.q"></summary>
+                <p data-i18n="faq.2.a"></p>
+              </details>
+              <details>
+                <summary data-i18n="faq.3.q"></summary>
+                <p data-i18n="faq.3.a"></p>
+              </details>
+              <details>
+                <summary data-i18n="faq.4.q"></summary>
+                <p data-i18n="faq.4.a"></p>
+              </details>
+              <details>
+                <summary data-i18n="faq.5.q"></summary>
+                <p data-i18n="faq.5.a"></p>
+              </details>
+              <details>
+                <summary data-i18n="faq.6.q"></summary>
+                <p data-i18n="faq.6.a"></p>
+              </details>
+              <details>
+                <summary data-i18n="faq.7.q"></summary>
+                <p data-i18n="faq.7.a"></p>
+              </details>
+              <details>
+                <summary data-i18n="faq.8.q"></summary>
+                <p data-i18n="faq.8.a"></p>
+              </details>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <div class="wrap">
+          <div class="site-footer-top">
+            <div>
+              <img class="site-footer-logo" src="assets/yazar_logo.png" alt="Yazardan Direkt" />
+              <p class="site-footer-credo" data-i18n="footer.credo"></p>
+            </div>
+            <nav class="site-footer-nav" data-i18n-attr="aria-label:footer.services">
+              <p class="site-footer-head" data-i18n="footer.services"></p>
+              <a href="hizmetlerimiz.html#danismanlik" data-i18n="nav.sub.consult"></a>
+              <a href="hizmetlerimiz.html#editorluk" data-i18n="nav.sub.editing"></a>
+              <a href="hizmetlerimiz.html#tasarim" data-i18n="nav.sub.design"></a>
+              <a href="hizmetlerimiz.html#ceviri" data-i18n="nav.sub.translation"></a>
+              <a href="hizmetlerimiz.html#basim" data-i18n="nav.sub.print"></a>
+              <a href="hizmetlerimiz.html#ekitap" data-i18n="nav.sub.ebook"></a>
+            </nav>
+            <nav class="site-footer-nav" data-i18n-attr="aria-label:footer.company">
+              <p class="site-footer-head" data-i18n="footer.company"></p>
+              <a href="hakkimizda.html" data-i18n="footer.link.about"></a>
+              <a href="hakkimizda.html#ekip" data-i18n="footer.link.team"></a>
+              <a href="yurtdisi.html" data-i18n="footer.link.global"></a>
+              <a href="iletisim.html#sss" data-i18n="footer.link.faq"></a>
+            </nav>
+            <div class="site-footer-nav">
+              <p class="site-footer-head" data-i18n="footer.reach"></p>
+              <a href="tel:+902163011213">+90-0216-301-1213</a>
+              <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>
+            </div>
+          </div>
+          <div class="site-footer-base">
+            <p>© <span class="site-footer-year">2026</span> Yazardan Direkt. <span data-i18n="footer.rights"></span></p>
+            <a href="#top" data-i18n="footer.top"></a>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </body>
+</html>

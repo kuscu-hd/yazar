@@ -174,7 +174,6 @@
      dort nicht an, deshalb bekommt er einen eigenen Vorfaktor. Viel höher
      als 3 darf er nicht werden -- dann tritt das Rauschen der fast schwarzen
      Fläche als Blockmuster hervor. */
-  const COVER_SPINE_LIFT = 3;
   const COVER_U = [0.15, 0.85]; // Anteil der Deckelbreite, den das Logo einnimmt
   const COVER_V = [0.41, 0.59];
   // Dieselbe Angabe für den Rücken: quer über seine Breite und ein Stück
@@ -190,43 +189,74 @@
   const COVER_IN = 2675;
   const COVER_OUT = 3475;
 
-  // Eigene Logos hier eintragen: PNG oder SVG mit Transparenz. Die Datei
-  // wird als Maske ueber einen Goldverlauf gelegt, die Farbe der Quelle ist
-  // also egal. { text: ... } statt { src: ... } setzt ein beschriftetes
-  // Platzhalterfeld.
+  const COVER_SPINE_LIFT = 3;
+
   /* Ledertöne. "hard-light" entscheidet anhand der Helligkeit des Tons, ob
      das Leder angehoben oder abgedunkelt wird -- deshalb steuert jede Zeile
      ihre Stärke selbst. Siyah = unverändert, also Stärke 0. */
   const COVER_LEATHERS = [
-    { name: "Siyah", swatch: "#1b1519", lift: "none", strength: 0 },
-    { name: "Kahve", swatch: "#6b4326", lift: "brightness(1.5) sepia(0.85) saturate(1.5) hue-rotate(-14deg)", strength: 1 },
-    { name: "Bordo", swatch: "#6b2029", lift: "brightness(1.35) sepia(0.85) saturate(2.2) hue-rotate(-40deg)", strength: 1 },
-    { name: "Lacivert", swatch: "#243d66", lift: "brightness(1.35) sepia(0.85) saturate(1.9) hue-rotate(180deg)", strength: 1 },
-    { name: "Zeytin", swatch: "#2c4834", lift: "brightness(1.24) sepia(0.85) saturate(1.15) hue-rotate(58deg)", strength: 1 },
+    { key: "leather.black", swatch: "#1b1519", lift: "none", strength: 0 },
+    { key: "leather.brown", swatch: "#6b4326", lift: "brightness(1.5) sepia(0.85) saturate(1.5) hue-rotate(-14deg)", strength: 1 },
+    { key: "leather.bordeaux", swatch: "#6b2029", lift: "brightness(1.35) sepia(0.85) saturate(2.2) hue-rotate(-40deg)", strength: 1 },
+    { key: "leather.navy", swatch: "#243d66", lift: "brightness(1.35) sepia(0.85) saturate(1.9) hue-rotate(180deg)", strength: 1 },
+    { key: "leather.olive", swatch: "#2c4834", lift: "brightness(1.24) sepia(0.85) saturate(1.15) hue-rotate(58deg)", strength: 1 },
   ];
 
-  const FOIL_STOPS = "0%, {b} 26%, {c} 42%, {d} 48%, {b} 62%, {a} 100%";
+  /* PRÄGUNGEN.  Jede Zeile bringt ihre eigene Stopfolge mit, alle auf
+     denselben Stellen: dunkel -- heller -- Glanzpunkt -- heller -- dunkel.
+     Genau dieser Verlauf wird über dem Wanderweg des Lichts (cover-sheen)
+     als Metall gelesen. Das Buch ist von Haus aus schwarz, deshalb trägt
+     Gold durchgehend gelbe Sättigung und läuft in seinem hellsten Punkt in
+     ein warmes Strohgelb statt in Weiß -- sonst kippt es auf dem dunklen
+     Leder nach Silber. Der dunkelste Ton liegt bewusst nicht am Anschlag,
+     sonst verschwinden die Enden des Zeichens im Leder.
+     RELIEF: der dunkle Saum setzt die Prägung vom Leder ab. Ohne ihn liegt
+     sie auf statt darin -- und eine farblose Prägung (Kabartma) wäre auf dem
+     Schirm überhaupt nicht zu sehen, sie braucht Grat und Schatten. */
+  const FOIL_RELIEF = "saturate(1.06) drop-shadow(0 1px 1px rgb(0 0 0 / 0.55))";
   const COVER_FOILS = [
-    { name: "Altın", swatch: "#c8a55e", a: "#8a6c33", b: "#c8a55e", c: "#f3e6bd", d: "#fffaea" },
-    { name: "Gümüş", swatch: "#b9bfc6", a: "#6f7379", b: "#b9bfc6", c: "#eef1f4", d: "#ffffff" },
-    { name: "Bakır", swatch: "#c07440", a: "#7a3f22", b: "#c07440", c: "#eeb98a", d: "#ffe0c4" },
     {
-      name: "Kabartma",
+      key: "foil.gold",
+      swatch: "#d9a527",
+      stops:
+        "#8a6012 0%, #a9781a 11%, #cf9c26 22%, #edc248 33%, #fbdd7b 43%, " +
+        "#fff2b4 48%, #f7d264 55%, #dfae30 67%, #b0801a 82%, #8a6012 100%",
+    },
+    {
+      key: "foil.silver",
+      swatch: "#b9bfc6",
+      stops:
+        "#7b7f85 0%, #9aa0a7 11%, #b9bfc6 22%, #d4d9de 33%, #eef1f4 43%, " +
+        "#ffffff 48%, #e7eaee 55%, #c6ccd2 67%, #9aa0a7 82%, #7b7f85 100%",
+    },
+    {
+      key: "foil.copper",
+      swatch: "#c07440",
+      stops:
+        "#8a4a28 0%, #a55d33 11%, #c07440 22%, #d79663 33%, #eeb98a 43%, " +
+        "#ffe0c4 48%, #f3c79c 55%, #cd8452 67%, #a55d33 82%, #8a4a28 100%",
+    },
+    {
+      key: "foil.blind",
       swatch: "#4a3f45",
-      a: "#2b2328",
-      b: "#463b42",
-      c: "#5d5058",
-      d: "#6a5c64",
-      relief: "drop-shadow(0 1px 0 rgba(255, 244, 224, 0.34)) drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.75))",
+      stops:
+        "#2b2328 0%, #392f35 11%, #463b42 22%, #52454c 33%, #5d5058 43%, " +
+        "#6a5c64 48%, #5d5058 55%, #4c4148 67%, #392f35 82%, #2b2328 100%",
+      relief:
+        "drop-shadow(0 1px 0 rgba(255, 244, 224, 0.34)) drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.75))",
     },
   ];
 
+  /* Die Praegung auf dem Deckel. Zwei Zustaende, nicht mehr: das eigene
+     Zeichen von Yazardan Direkt und ein leeres Feld, das zeigt, wo das
+     Zeichen des Autors hinkaeme. { text: ... } statt { src: ... } setzt
+     dieses Platzhalterfeld; bei { src: ... } wird die Datei als Maske ueber
+     den Goldverlauf gelegt, die Farbe der Quelle ist also gleichgueltig.
+     Leder- und Folienwahl sind entfallen: das Buch ist schwarz, und das
+     Gold steht als ein Ton in styles.css (--cover-foil). */
   const COVER_LOGOS = [
-    { src: "assets/yazar_logo.png", name: "Yazardan Direkt" },
-    { text: "Logonuz\nburada olabilir", name: "Sizin logonuz" },
-    { src: "assets/emblem-1.svg", name: "Kalem" },
-    { src: "assets/emblem-2.svg", name: "Nişan" },
-    { src: "assets/emblem-3.svg", name: "Pusula" },
+    { src: "assets/yazar_logo.png", key: "cover.logo.brand" },
+    { text: "cover.logo.own.text", key: "cover.logo.own" },
   ];
 
   let targetScroll = 0;
@@ -591,12 +621,8 @@
   function renderFoil() {
     const f = COVER_FOILS[activeFoil];
     if (!f) return;
-    root.style.setProperty(
-      "--cover-foil",
-      `linear-gradient(115deg, ${f.a} 0%, ${f.b} 26%, ${f.c} 42%, ${f.d} 48%, ${f.b} 62%, ${f.a} 100%)`
-    );
-    // "opacity(1)" statt "none", damit sich weitere Filter anhängen lassen.
-    root.style.setProperty("--cover-foil-relief", f.relief || "opacity(1)");
+    root.style.setProperty("--cover-foil", `linear-gradient(115deg, ${f.stops})`);
+    root.style.setProperty("--cover-foil-relief", f.relief || FOIL_RELIEF);
     markSwatches(".cover-swatches-foil", activeFoil);
   }
 
@@ -606,6 +632,8 @@
     Array.from(host.children).forEach((btn, i) => btn.classList.toggle("is-on", i === active));
   }
 
+  // Die Namen der Töne stehen als Schlüssel in den Listen, nicht als Text:
+  // das Feld, das beim Überfahren erscheint, muss die Sprache mitwechseln.
   function buildSwatches(selector, list, onPick) {
     const host = document.querySelector(selector);
     if (!host) return;
@@ -614,27 +642,35 @@
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "cover-swatch";
-        btn.style.setProperty("--swatch", entry.swatch || entry.color);
-        btn.setAttribute("aria-label", entry.name);
-        btn.title = entry.name;
+        btn.style.setProperty("--swatch", entry.swatch);
+        // Das Attribut bleibt am Knopf stehen, damit i18n.js die Namen bei
+        // jedem weiteren Sprachwechsel von allein nachzieht; für das erste
+        // Bild werden sie hier gleich mitgesetzt.
+        btn.dataset.i18nAttr = `aria-label:${entry.key};title:${entry.key}`;
+        btn.setAttribute("aria-label", coverText(entry.key));
+        btn.title = coverText(entry.key);
         btn.addEventListener("click", () => onPick(i));
         return btn;
       })
     );
   }
 
+  // Beschriftung und Platzhaltertext stehen als Schluessel in COVER_LOGOS und
+  // werden erst hier aufgeloest -- sonst blieben sie beim Sprachwechsel stehen.
+  const coverText = (key) => (window.yazarI18n ? window.yazarI18n.t(key) : key);
+
   function renderCoverLogo(immediate) {
     const entry = COVER_LOGOS[activeLogo];
     if (!entry) return;
     const swap = () => {
       if (entry.text) {
-        for (const el of coverLogoTexts) el.textContent = entry.text;
+        for (const el of coverLogoTexts) el.textContent = coverText(entry.text);
         for (const el of coverLogos) el.classList.add("is-text");
       } else {
         for (const el of coverLogos) el.classList.remove("is-text");
         root.style.setProperty("--cover-src", `url("${entry.src}")`);
       }
-      if (coverLabel) coverLabel.textContent = entry.name;
+      if (coverLabel) coverLabel.textContent = coverText(entry.key);
       root.style.setProperty("--cover-logo-opacity", "1");
     };
     if (coverDots) {
@@ -948,7 +984,7 @@
     if (!navPanel || !navToggle) return;
     navPanel.hidden = !open;
     navToggle.setAttribute("aria-expanded", String(open));
-    navToggle.setAttribute("aria-label", open ? "Menüyü kapat" : "Menüyü aç");
+    navToggle.setAttribute("aria-label", coverText(open ? "nav.menu.close" : "nav.menu.open"));
     document.body.style.overflow = open ? "hidden" : "";
   }
 
@@ -961,6 +997,72 @@
       if (event.key === "Escape" && !navPanel.hidden) setNavOpen(false);
     });
   }
+
+  /* ---------- Kopfzeile über dem Lesebereich ---------- */
+
+  // Auf der Bühne steht die Kopfzeile frei im Bild. Sobald der Lesebereich
+  // unter sie fährt, braucht sie einen eigenen Grund: die Bahnen wechseln
+  // zwischen hell und dunkel, und auf der dunklen verschwände die dunkle
+  // Schrift sonst.
+  const siteHeader = document.querySelector(".site-header");
+
+  function updateHeaderPark() {
+    if (!siteHeader) return;
+    const edge = siteHeader.offsetHeight || 88;
+    const past = section
+      ? window.scrollY + edge > section.offsetTop + section.offsetHeight
+      : window.scrollY > 40;
+    siteHeader.classList.toggle("is-parked", past);
+  }
+
+  window.addEventListener("scroll", updateHeaderPark, { passive: true });
+  window.addEventListener("resize", updateHeaderPark);
+  updateHeaderPark();
+
+  /* ---------- Sprachwechsel ---------- */
+
+  // Die Textspalte zerlegt ihre Überschriften in Wörter und gruppiert sie
+  // nach Zeilen. Die Umbrüche fallen in jeder Sprache anders, und i18n.js
+  // hat die Wortfelder gerade überschrieben -- also muss der Zwischenstand
+  // weg (dataset.raw) und die Zerlegung neu laufen.
+  document.addEventListener("yazar:lang", () => {
+    for (const block of copyBlocks) {
+      for (const child of block.children) delete child.dataset.raw;
+    }
+    prepareCopyReveal();
+    renderCoverLogo(true);
+    if (navPanel && navToggle) setNavOpen(!navPanel.hidden);
+    requestTick();
+  });
+
+  /* ---------- Kontaktformular ---------- */
+
+  // Hinter dem Formular steht kein Server. Statt die Eingaben ins Leere zu
+  // schicken, wird daraus eine fertige Mail: das E-Mail-Programm öffnet
+  // sich mit Betreff und Text. Sobald ein Endpunkt steht, bekommt das
+  // Formular action/method und dieser Zweig kann raus.
+  const contactForm = document.querySelector(".contact-form");
+  if (contactForm) {
+    contactForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!contactForm.reportValidity()) return;
+      const field = (name) => (contactForm.elements[name]?.value || "").trim();
+      const body = [
+        `${coverText("contact.form.name")}: ${field("isim")}`,
+        `${coverText("contact.form.email")}: ${field("email")}`,
+        `${coverText("contact.form.phone")}: ${field("telefon")}`,
+        "",
+        field("mesaj"),
+      ].join("\n");
+      const subject = `${coverText("contact.kicker")} — ${field("isim")}`;
+      window.location.href =
+        "mailto:info@yazardandirekt.com" +
+        `?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+  }
+
+  const footerYear = document.querySelector(".site-footer-year");
+  if (footerYear) footerYear.textContent = String(new Date().getFullYear());
 
   /* ---------- listeners ---------- */
 

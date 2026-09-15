@@ -71,6 +71,25 @@
     rgb(0 0 0 / 0) 100%
   );
 
+  /* Rückfallwert der Prägung, falls JavaScript nicht läuft: dasselbe Gold,
+     das COVER_FOILS[0] in script.js setzt. Dort stehen auch die anderen
+     Metalle und die Begründung für die Stopfolge. */
+  --cover-foil: linear-gradient(
+    115deg,
+    #8a6012 0%,
+    #a9781a 11%,
+    #cf9c26 22%,
+    #edc248 33%,
+    #fbdd7b 43%,
+    #fff2b4 48%,
+    #f7d264 55%,
+    #dfae30 67%,
+    #b0801a 82%,
+    #8a6012 100%
+  );
+  --cover-foil-relief: saturate(1.06)
+    drop-shadow(0 1px 1px rgb(0 0 0 / 0.55));
+
   --film-main-opacity: 0;
   --progress: 0;
   --hint-opacity: 1;
@@ -92,6 +111,20 @@
   --muted: rgba(22, 18, 26, 0.62);
   --faint: rgba(22, 18, 26, 0.4);
   --accent: #e2231a;
+  /* Das Gold der Prägung noch einmal als Textfarbe -- damit die dunklen
+     Bahnen weiter unten dieselbe Legierung tragen wie der Buchdeckel. */
+  --gold: #d9a527;
+  --gold-soft: rgb(217 165 39 / 0.22);
+  /* Gedeckte Bahn: nur so viel dunkler als der Grund, dass die Kante ohne
+     Linie zu sehen ist. */
+  --page-quiet: #e8e7e5;
+  --hair: rgb(22 18 26 / 0.12);
+  --hair-strong: rgb(22 18 26 / 0.2);
+  /* Auf dunklem Grund kehren sich die Textstufen um. */
+  --ink-on-dark: #f4f1ee;
+  --muted-on-dark: rgb(244 241 238 / 0.66);
+  --faint-on-dark: rgb(244 241 238 / 0.42);
+  --hair-on-dark: rgb(244 241 238 / 0.16);
 
   --sans: Inter, Satoshi, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
@@ -271,15 +304,35 @@ a {
 
 /* ---------- Menütafel ---------- */
 
+/* Die Tafel ist mittig, solange sie hineinpasst, und rollt, wenn nicht --
+   auf einem flachen Fenster ist die Liste länger als das Bild. Deshalb
+   Flexbox mit auto-Rändern am ersten und letzten Kind statt zentriertem
+   Grid: auto-Ränder werden zu 0, sobald kein Platz übrig ist, und der
+   Anfang der Liste bleibt erreichbar. Zentriertes Grid würde ihn oben
+   abschneiden, ohne dass man ihn erscrollen kann. */
 .nav-panel {
   position: fixed;
   z-index: 29;
   inset: 0;
-  display: grid;
-  align-content: center;
+  display: flex;
+  flex-direction: column;
   gap: clamp(28px, 4vh, 52px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: clamp(90px, 13vh, 150px) clamp(24px, 6vw, 96px) clamp(40px, 8vh, 90px);
   background: rgba(246, 246, 246, 0.99);
+}
+
+.nav-panel > * {
+  flex: none;
+}
+
+.nav-panel > :first-child {
+  margin-top: auto;
+}
+
+.nav-panel > :last-child {
+  margin-bottom: auto;
 }
 
 .nav-panel[hidden] {
@@ -507,11 +560,12 @@ a {
   height: var(--cover-h, 0px);
   transform: var(--cover-matrix, none);
   transform-origin: 0 0;
-  background: var(--cover-foil, linear-gradient(115deg, #8a6c33 0%, #c8a55e 26%, #f3e6bd 42%, #fffaea 48%, #c8a55e 62%, #8a6c33 100%));
+  background: var(--cover-foil);
   background-size: 240% 100%;
-  /* Für die Blindprägung: heller Grat oben, Schatten unten -- ohne Relief
-     wäre eine farblose Prägung auf dem Schirm schlicht nicht zu sehen. */
-  filter: var(--cover-foil-relief, opacity(1));
+  /* Ein Hauch Sättigung hält das Gold auch dort gelb, wo der Verlauf in
+     seinen hellsten Punkt läuft, und der dunkle Saum darunter setzt die
+     Prägung vom Leder ab -- ohne ihn liegt sie auf statt darin. */
+  filter: var(--cover-foil-relief);
   animation: cover-sheen 7s ease-in-out infinite;
   -webkit-mask-image: var(--cover-src);
   mask-image: var(--cover-src);
@@ -533,7 +587,7 @@ a {
   width: var(--cover-spine-logo-w, 0px);
   height: var(--cover-spine-logo-h, 0px);
   transform: var(--cover-spine-logo-matrix, none);
-  filter: brightness(0.62) var(--cover-foil-relief, opacity(1));
+  filter: brightness(0.66) var(--cover-foil-relief);
 }
 
 /* Liegt auf demselben Lederfeld wie das Logo, aber als ganze Fläche.
@@ -625,9 +679,9 @@ a {
   width: 100%;
   height: 100%;
   place-content: center;
-  border: 2px dashed rgba(206, 173, 105, 0.5);
+  border: 2px dashed rgb(229 181 58 / 0.62);
   border-radius: 5px;
-  color: #d3b878;
+  color: #e9c35c;
   font-size: var(--cover-fs, 16px);
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -693,6 +747,9 @@ a {
   text-align: center;
 }
 
+/* Zwei Reihen unter dem Buch: Leder und Prägung. Die Knöpfe bauen sich in
+   script.js aus COVER_LEATHERS und COVER_FOILS, ihre Namen kommen aus den
+   Sprachdateien. */
 .cover-groups {
   display: flex;
   align-items: center;
@@ -741,6 +798,8 @@ a {
   box-shadow: 0 0 0 2px var(--page), 0 0 0 3px var(--accent);
 }
 
+/* Anfassbar erst, wenn die Auswahl wirklich steht -- während der Blende
+   würde ein Klick ins Leere gehen. */
 .cover-pick.is-ready .cover-swatch {
   pointer-events: auto;
 }
@@ -1020,6 +1079,1001 @@ a {
   color: var(--faint);
 }
 
+/* ==================================================================
+   SPRACHUMSCHALTER
+   Zwei Schaltflächen, keine Auswahlliste: bei genau zwei Sprachen ist ein
+   Klick weniger Arbeit als ein Aufklappen, und man sieht ohne Umweg,
+   welche gerade läuft.
+   ================================================================== */
+
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--hair-strong);
+  border-radius: 999px;
+  background: rgb(var(--page-rgb) / 0.66);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.lang-switch button {
+  min-width: 38px;
+  height: 30px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: none;
+  color: rgb(22 18 26 / 0.5);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: background 200ms ease, color 200ms ease;
+}
+
+.lang-switch button:hover {
+  color: var(--ink);
+}
+
+.lang-switch button.is-on {
+  background: var(--ink);
+  color: #fff;
+}
+
+.lang-switch-sep {
+  width: 1px;
+  height: 14px;
+  background: var(--hair);
+}
+
+/* Der Umschalter sitzt auf der Bühne ohne Hintergrund; sobald die Seite
+   in den Lesebereich fährt, steht die Leiste auf dem Grund. */
+.site-header.is-parked .lang-switch {
+  background: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* Sobald die Bühne durchgescrollt ist, bekommt die Kopfzeile einen eigenen
+   Grund. Sie läuft von da an über hellen UND dunklen Bahnen -- ohne Grund
+   würde die dunkle Schrift auf der dunklen Bahn verschwinden. */
+.site-header::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-bottom: 1px solid transparent;
+  background: rgb(var(--page-rgb) / 0);
+  -webkit-backdrop-filter: blur(0px);
+  backdrop-filter: blur(0px);
+  opacity: 0;
+  transition: opacity 320ms ease;
+}
+
+.site-header.is-parked::before {
+  border-bottom-color: var(--hair);
+  background: rgb(var(--page-rgb) / 0.86);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  backdrop-filter: blur(16px) saturate(1.3);
+  opacity: 1;
+}
+
+/* ==================================================================
+   LESEBEREICH.  Ab hier steht die Seite still.
+   Jede Bahn trägt eine Grundfarbe; hell / gedeckt / dunkel gliedert die
+   Strecke, damit keine Trennlinien nötig sind.
+   ================================================================== */
+
+.band {
+  position: relative;
+  z-index: 1;
+  padding-block: clamp(76px, 10vh, 148px);
+  /* Die Kopfzeile steht fest über allem. Ohne diesen Abstand landet ein
+     Sprung auf einen Anker hinter ihr und verschluckt die erste Zeile. */
+  scroll-margin-top: clamp(84px, 11vh, 118px);
+  background: var(--page);
+}
+
+.band-quiet {
+  background: var(--page-quiet);
+}
+
+/* Leder und Gold des Buchs, noch einmal als Fläche. */
+.band-dark {
+  background: #14101a;
+  color: var(--ink-on-dark);
+}
+
+.band-dark .kicker {
+  color: var(--gold);
+}
+
+.band-dark .lede,
+.band-dark .prose,
+.band-dark .note {
+  color: var(--muted-on-dark);
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-inline: clamp(20px, 5vw, 96px);
+}
+
+.kicker {
+  margin: 0;
+  color: var(--faint);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.band-h {
+  margin: 16px 0 0;
+  max-width: 24ch;
+  font-family: var(--serif);
+  font-size: clamp(1.85rem, 3.1vw, 3rem);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.008em;
+}
+
+.lede {
+  margin: 0;
+  max-width: 62ch;
+  font-size: clamp(1.02rem, 1.15vw, 1.2rem);
+  line-height: 1.62;
+  color: var(--muted);
+}
+
+.prose {
+  margin: 18px 0 0;
+  max-width: 64ch;
+  font-size: 1rem;
+  line-height: 1.72;
+  color: var(--muted);
+}
+
+/* Der Schlusssatz eines Abschnitts bekommt einen Strich an die Seite --
+   er trägt die Haltung, nicht die Auskunft. */
+.prose-mark {
+  margin-top: 26px;
+  padding-left: 20px;
+  border-left: 2px solid var(--accent);
+  color: var(--ink);
+}
+
+.note {
+  margin: 18px 0 0;
+  max-width: 58ch;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--faint);
+}
+
+/* Überschrift links, Text rechts: der Blick findet den Einstieg an einer
+   Kante und liest dann in einer Spalte weiter. */
+.lede-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(28px, 5vw, 76px);
+  align-items: start;
+}
+
+.lede-grid-head {
+  position: sticky;
+  top: clamp(88px, 12vh, 130px);
+}
+
+/* ==================================================================
+   TITELKOPF DER UNTERSEITEN
+   Die Startseite hat die Videobühne, die Unterseiten haben diesen Kopf:
+   Rubrik, Titel, ein Satz. Nichts weiter -- der Titel soll wirken wie die
+   erste Seite eines Buchs, nicht wie ein Werbebanner.
+   ================================================================== */
+
+.page-head {
+  position: relative;
+  /* Oben so viel Luft, dass die feste Kopfzeile frei über dem Titel steht
+     und nicht auf ihm sitzt. */
+  padding-block: clamp(132px, 21vh, 210px) clamp(40px, 6vh, 76px);
+  background: var(--page);
+}
+
+.page-head .kicker {
+  margin-bottom: 20px;
+}
+
+.page-head h1 {
+  margin: 0;
+  max-width: 22ch;
+  font-family: var(--serif);
+  font-size: clamp(2.3rem, 4.6vw, 4rem);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.012em;
+}
+
+.page-head .lede {
+  margin-top: clamp(24px, 3.4vh, 36px);
+  max-width: 56ch;
+}
+
+/* Die erste Bahn nach dem Titelkopf braucht oben keinen zweiten Absatz --
+   der Kopf hat seinen Abstand schon mitgebracht. */
+.page-head + .band {
+  padding-top: clamp(26px, 4vh, 54px);
+}
+
+/* Eine dunkle Bahn direkt unter dem Kopf setzt schon durch den Farbwechsel
+   ab; ein Abstand darüber würde die Kante nur aufweichen. */
+.page-head + .band-dark {
+  padding-top: clamp(40px, 6vh, 76px);
+}
+
+/* Auf welcher Seite man ist, steht im Menü als aria-current -- daran hängt
+   auch die Markierung, statt an einer zweiten Klasse. */
+.nav-primary a[aria-current="page"] {
+  color: var(--ink);
+}
+
+.nav-primary a[aria-current="page"]::after {
+  transform: scaleX(1);
+  background: var(--ink);
+}
+
+.nav-full a[aria-current="page"],
+.nav-sub a[aria-current="page"] {
+  color: var(--accent);
+}
+
+/* ==================================================================
+   WEGWEISER
+   Steht nur auf der Startseite: vier Karten, die weiterführen. Sie tragen
+   je einen Satz, nicht den Inhalt der Zielseite -- sonst bräuchte man die
+   Zielseite nicht mehr.
+   ================================================================== */
+
+.signposts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(236px, 1fr));
+  gap: clamp(16px, 1.6vw, 24px);
+  margin: clamp(44px, 6vh, 80px) 0 0;
+  padding: 0;
+  counter-reset: signpost;
+  list-style: none;
+}
+
+.signposts li {
+  counter-increment: signpost;
+}
+
+/* Die ganze Karte ist der Link, nicht nur die Zeile am Fuß: ein größeres
+   Ziel trifft man mit dem Daumen zuverlässiger. */
+.signpost {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: clamp(22px, 2.2vw, 30px);
+  border: 1px solid var(--hair);
+  border-radius: 3px;
+  background: rgb(255 255 255 / 0.56);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 260ms ease, transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 300ms ease;
+}
+
+.signpost::before {
+  content: counter(signpost, decimal-leading-zero);
+  color: var(--faint);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.signpost h3 {
+  margin: 16px 0 0;
+  font-family: var(--serif);
+  font-size: 1.24rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.signpost p {
+  margin: 10px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.signpost span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 22px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.signpost span::after {
+  content: "→";
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.signpost:hover {
+  border-color: var(--hair-strong);
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px -28px rgb(22 18 26 / 0.45);
+}
+
+.signpost:hover span {
+  color: var(--accent);
+}
+
+.signpost:hover span::after {
+  transform: translateX(4px);
+}
+
+/* ==================================================================
+   KONTAKTZEILE
+   Der kurze Abschluss der Startseite. Die ausführliche Fassung steht auf
+   iletisim.html -- hier nur die zwei Wege und der Weiterklick.
+   ================================================================== */
+
+.contact-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(24px, 4vw, 64px);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contact-strip-say {
+  max-width: 34ch;
+}
+
+.contact-strip .band-h {
+  margin-top: 14px;
+  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+}
+
+.contact-strip-ways {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+
+.contact-strip-ways a:not(.copy-link) {
+  font-size: clamp(1.05rem, 1.5vw, 1.32rem);
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.contact-strip-ways a:not(.copy-link):hover {
+  color: var(--gold);
+}
+
+.contact-strip .copy-link {
+  margin-top: 10px;
+}
+
+/* Der Fließtext von hakkimizda. Eine Spalte, keine zwei: das Manifest ist
+   ein Stück Prosa und soll auch so gelesen werden. */
+.prose-column .prose:first-child {
+  margin-top: 0;
+}
+
+/* ---------- Zahlen ---------- */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: clamp(20px, 3vw, 48px);
+  margin: clamp(48px, 7vh, 88px) 0 0;
+  padding: clamp(28px, 4vh, 44px) 0 0;
+  border-top: 1px solid var(--hair);
+  list-style: none;
+}
+
+.stats li {
+  display: grid;
+  gap: 8px;
+}
+
+.stats-value {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.stats-label {
+  max-width: 22ch;
+  color: var(--faint);
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0.04em;
+}
+
+/* ---------- Haltung (dunkle Bahn) ---------- */
+
+.values {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(28px, 3.4vw, 52px);
+  margin: clamp(44px, 6vh, 76px) 0 0;
+  padding: 0;
+  counter-reset: value;
+  list-style: none;
+}
+
+.values li {
+  counter-increment: value;
+  padding-top: 22px;
+  border-top: 1px solid var(--hair-on-dark);
+}
+
+.values li::before {
+  content: counter(value, decimal-leading-zero);
+  display: block;
+  margin-bottom: 14px;
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.values h3 {
+  margin: 0 0 10px;
+  font-family: var(--serif);
+  font-size: 1.22rem;
+  font-weight: 400;
+  line-height: 1.24;
+}
+
+.values p {
+  margin: 0;
+  font-size: 0.94rem;
+  line-height: 1.66;
+  color: var(--muted-on-dark);
+}
+
+/* ---------- Die sechs Leistungen ---------- */
+
+/* Jede Leistung ist ein Abschnitt mit eigener Sprungmarke, keine Karte in
+   einem Gitter: das Menü zeigt sechs Einträge, und die müssen irgendwo
+   ankommen. Drei Spalten -- Zahl, Text, Stichpunkte -- halten die sechs
+   Reihen auf einer gemeinsamen Achse, ohne dass ein Kasten sie einfasst. */
+.services-list {
+  display: grid;
+}
+
+.service {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) minmax(0, 0.82fr);
+  gap: clamp(20px, 3vw, 56px);
+  align-items: start;
+  padding-block: clamp(30px, 4vh, 48px);
+  border-top: 1px solid var(--hair);
+  /* Die Kopfzeile steht fest über allem; ohne das landet ein Sprung aus
+     dem Menü hinter ihr. */
+  scroll-margin-top: clamp(84px, 11vh, 118px);
+}
+
+.service:last-child {
+  border-bottom: 1px solid var(--hair);
+}
+
+.service-index {
+  margin: 6px 0 0;
+  color: var(--faint);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.service h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.38rem, 2vw, 1.72rem);
+  font-weight: 400;
+  line-height: 1.16;
+}
+
+.service-say p {
+  margin: 14px 0 0;
+  max-width: 52ch;
+  font-size: 0.96rem;
+  line-height: 1.68;
+  color: var(--muted);
+}
+
+/* Haken als Pseudoelement statt als Zeichen im Text: der Vorlesemodus
+   liest dann die Leistung und nicht das Häkchen. */
+.ticks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ticks li {
+  position: relative;
+  padding: 8px 0 8px 22px;
+  border-top: 1px solid var(--hair);
+  font-size: 0.86rem;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+}
+
+.ticks li:first-child {
+  border-top: 0;
+  padding-top: 2px;
+}
+
+.ticks li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 15px;
+  width: 8px;
+  height: 4px;
+  border-left: 1.5px solid var(--accent);
+  border-bottom: 1.5px solid var(--accent);
+  transform: rotate(-45deg);
+}
+
+.ticks li:first-child::before {
+  top: 9px;
+}
+
+/* ---------- Ablauf ---------- */
+
+.steps {
+  display: grid;
+  /* 170px so gewaehlt, dass die fuenf Schritte des Ablaufs auf einem
+     breiten Fenster in EINE Reihe gehen -- bei 220px waeren es vier und
+     einer allein darunter, und die Strecke waere keine Strecke mehr. */
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: clamp(22px, 2.6vw, 36px);
+  margin: clamp(44px, 6vh, 76px) 0 0;
+  padding: 0;
+  counter-reset: step;
+  list-style: none;
+}
+
+.steps li {
+  position: relative;
+  counter-increment: step;
+  padding-top: 26px;
+  border-top: 1px solid var(--hair-strong);
+}
+
+/* Die Zahl sitzt auf der Linie und reitet sie -- dadurch liest sich die
+   Reihe als eine Strecke und nicht als vier Kästen. */
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  top: -11px;
+  left: 0;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-content: center;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.steps h3 {
+  margin: 0 0 8px;
+  font-size: 0.94rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.steps p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.64;
+  color: var(--muted);
+}
+
+/* ---------- Zwei Wege in die Welt ---------- */
+
+/* Keine Kästen, sondern zwei Spalten unter einem Strich. Die beiden Texte
+   sind verschieden lang; in gerahmten Karten gleicher Höhe stünde unter dem
+   kürzeren eine leere Fläche, und die liest man als Fehler. */
+.routes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(28px, 4vw, 72px);
+  align-items: start;
+}
+
+.route {
+  padding-top: 24px;
+  border-top: 1px solid var(--hair-strong);
+}
+
+.route-tag {
+  margin: 0 0 14px;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.route h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.4rem, 1.9vw, 1.75rem);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+/* ---------- Ekip ---------- */
+
+.people {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: clamp(24px, 2.8vw, 44px);
+  margin: clamp(48px, 7vh, 88px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.people li {
+  padding-top: 20px;
+  border-top: 1px solid var(--hair);
+}
+
+.people-role {
+  margin: 0 0 8px;
+  color: var(--faint);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.people h3 {
+  margin: 0 0 10px;
+  font-family: var(--serif);
+  font-size: 1.14rem;
+  font-weight: 400;
+}
+
+.people p:last-child {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.62;
+  color: var(--muted);
+}
+
+/* ---------- Stimmen ---------- */
+
+.voices {
+  /* Mauerwerk aus Spalten: die Zitate sind verschieden lang, in einem
+     Raster mit gleichen Zeilen bliebe unter den kurzen ein Loch. */
+  margin-top: clamp(48px, 7vh, 88px);
+  columns: 3 300px;
+  column-gap: clamp(22px, 2.6vw, 42px);
+}
+
+.voices figure {
+  margin: 0 0 clamp(22px, 2.6vw, 38px);
+  padding: 24px 0 0;
+  border-top: 1px solid var(--hair);
+  break-inside: avoid;
+}
+
+.voices blockquote {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.voices blockquote::before {
+  content: "“";
+  display: block;
+  margin-bottom: -18px;
+  color: var(--accent);
+  font-size: 2.4rem;
+  line-height: 1;
+}
+
+.voices figcaption {
+  margin-top: 16px;
+  color: var(--faint);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* ---------- Sık sorulan sorular ---------- */
+
+.faq details {
+  border-bottom: 1px solid var(--hair);
+}
+
+.faq details:first-child {
+  border-top: 1px solid var(--hair);
+}
+
+.faq summary {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 0;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  cursor: pointer;
+  list-style: none;
+  transition: color 200ms ease;
+}
+
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq summary:hover {
+  color: var(--accent);
+}
+
+/* Plus, das beim Aufklappen zum Minus wird: der eine Balken dreht sich
+   weg. Ein Zeichenwechsel würde springen. */
+.faq summary::after {
+  content: "";
+  position: relative;
+  top: 9px;
+  flex: none;
+  width: 11px;
+  height: 11px;
+  margin-left: auto;
+  background: currentColor;
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  -webkit-mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+  mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+  -webkit-mask-size: 100% 1.5px, 1.5px 100%;
+  mask-size: 100% 1.5px, 1.5px 100%;
+  -webkit-mask-position: center, center;
+  mask-position: center, center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.faq details[open] summary::after {
+  transform: rotate(90deg);
+  -webkit-mask-size: 100% 1.5px, 0 0;
+  mask-size: 100% 1.5px, 0 0;
+}
+
+.faq details p {
+  margin: 0;
+  max-width: 62ch;
+  padding: 0 40px 24px 0;
+  font-size: 0.94rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* ---------- İletişim ---------- */
+
+/* Links nur die drei Wege, rechts das Formular -- die Überschrift steht
+   im Titelkopf, deshalb ist die linke Spalte die schmalere. */
+.contact {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 6fr);
+  gap: clamp(36px, 5vw, 84px);
+  align-items: start;
+}
+
+.contact-list {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 10px clamp(20px, 3vw, 40px);
+  margin: clamp(30px, 4vh, 44px) 0 0;
+  padding-top: clamp(26px, 3.4vh, 36px);
+  border-top: 1px solid var(--hair-on-dark);
+  align-items: baseline;
+}
+
+/* Auf iletisim.html steht die Liste am Anfang der Spalte -- dort trennt
+   sie nichts ab, der Strich wäre eine Linie ins Leere. */
+.contact-list-lead {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.contact-list dt {
+  color: var(--faint-on-dark);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.contact-list dd {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.contact-list a {
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.contact-list a:hover {
+  color: var(--gold);
+}
+
+.contact-form {
+  display: grid;
+  gap: 12px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--hair-on-dark);
+  border-radius: 3px;
+  background: rgb(244 241 238 / 0.05);
+  color: var(--ink-on-dark);
+  font: inherit;
+  font-size: 0.95rem;
+  transition: border-color 200ms ease, background 200ms ease;
+}
+
+.contact-form textarea {
+  resize: vertical;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: var(--faint-on-dark);
+}
+
+.contact-form input:hover,
+.contact-form textarea:hover {
+  border-color: rgb(244 241 238 / 0.3);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: var(--gold);
+  background: rgb(244 241 238 / 0.08);
+  outline: none;
+}
+
+/* Das Feld, das beim Absenden auffällt, bleibt rot: dieselbe Schaltfläche
+   wie oben auf der Bühne. */
+.contact-form button {
+  justify-self: start;
+  min-height: 46px;
+  margin-top: 8px;
+  padding: 0 30px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), filter 200ms ease;
+}
+
+.contact-form button:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+.contact-form .note {
+  color: var(--faint-on-dark);
+}
+
+/* ---------- Alt bilgi ---------- */
+
+.site-footer {
+  padding-block: clamp(54px, 7vh, 88px) clamp(28px, 4vh, 40px);
+  background: #100d14;
+  color: var(--ink-on-dark);
+}
+
+.site-footer-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr));
+  gap: clamp(28px, 4vw, 64px);
+  padding-bottom: clamp(36px, 5vh, 56px);
+  border-bottom: 1px solid var(--hair-on-dark);
+}
+
+.site-footer-logo {
+  display: block;
+  height: 34px;
+  width: auto;
+  /* Die Datei ist eine Strichzeichnung für dunklen Grund und bleibt hier
+     also unverändert -- nur eine Spur heller, damit sie neben dem Gold
+     der Spaltenköpfe nicht zurückfällt. */
+  filter: brightness(1.28);
+}
+
+.site-footer-credo {
+  margin: 22px 0 0;
+  max-width: 40ch;
+  font-family: var(--serif);
+  font-size: 0.98rem;
+  line-height: 1.62;
+  color: var(--muted-on-dark);
+}
+
+.site-footer-nav {
+  display: grid;
+  gap: 11px;
+  align-content: start;
+}
+
+.site-footer-head {
+  margin: 0 0 4px;
+  color: var(--gold);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.site-footer-nav a {
+  color: var(--muted-on-dark);
+  font-size: 0.88rem;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.site-footer-nav a:hover {
+  color: var(--ink-on-dark);
+}
+
+.site-footer-base {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 24px;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: clamp(22px, 3vh, 30px);
+  color: var(--faint-on-dark);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+}
+
+.site-footer-base p {
+  margin: 0;
+}
+
+.site-footer-base a {
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.site-footer-base a:hover {
+  color: var(--gold);
+}
+
 /* ---------- responsive ---------- */
 
 @media (max-width: 900px) {
@@ -1068,6 +2122,57 @@ a {
   .scroll-hint {
     display: none;
   }
+
+  /* Der Kopf der Bahn darf nicht mehr stehen bleiben: gestapelt steht er
+     sonst über seinem eigenen Text. */
+  .lede-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lede-grid-head {
+    position: static;
+  }
+
+  .contact {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .site-footer-top {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .voices {
+    columns: 2 260px;
+  }
+
+  /* Zahl, Text und Stichpunkte übereinander -- in drei Spalten bleibt für
+     die Stichpunkte sonst nur noch eine Wortbreite. */
+  .service {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .service-index {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .band {
+    padding-block: clamp(56px, 8vh, 84px);
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .voices {
+    columns: 1;
+  }
+
+  .faq details p {
+    padding-right: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1090,6 +2195,12 @@ a {
   .nav-full a,
   .copy-link {
     transition: color 200ms ease;
+  }
+
+  .signpost,
+  .signpost:hover,
+  .contact-form button:hover {
+    transform: none;
   }
 }
 

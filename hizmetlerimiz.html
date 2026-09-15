@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yazardan Direkt</title>
+    <meta name="description" content="Standartların ötesinde yayıncılık." />
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css" />
+    <!-- i18n.js MUSS vor script.js stehen: die Textspalte zerlegt die
+         Überschriften in Wörter, und dafür müssen die Sätze schon da sein.
+         Beide mit defer, die Reihenfolge bleibt dadurch erhalten. -->
+    <script src="i18n.js" defer></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html" data-i18n-attr="aria-label:nav.brand">
+        <img src="assets/yazar_logo.png" alt="Yazardan Direkt" />
+      </a>
+
+      <nav class="nav-primary" data-i18n-attr="aria-label:nav.menu.main">
+        <a href="hizmetlerimiz.html" data-i18n="nav.services" aria-current="page"></a>
+        <a href="hakkimizda.html" data-i18n="nav.about"></a>
+        <a href="yurtdisi.html" data-i18n="nav.global"></a>
+        <a href="iletisim.html" data-i18n="nav.contact"></a>
+      </nav>
+
+      <div class="lang-switch" role="group" data-i18n-attr="aria-label:lang.label">
+        <button type="button" data-lang="tr" data-i18n-attr="title:lang.tr">TR</button>
+        <span class="lang-switch-sep" aria-hidden="true"></span>
+        <button type="button" data-lang="de" data-i18n-attr="title:lang.de">DE</button>
+      </div>
+
+      <button
+        class="nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="nav-panel"
+        data-i18n-attr="aria-label:nav.menu.open"
+      >
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+      </button>
+    </header>
+
+    <!-- Die vollständige Tafel. Sie führt dieselben fünf Seiten wie die
+         Kopfzeile, nur mit den Sprungmarken darunter -- die sechs
+         Leistungen sind Abschnitte einer Seite, nicht eigene Seiten. -->
+    <div class="nav-panel" id="nav-panel" hidden>
+      <nav class="nav-full" data-i18n-attr="aria-label:nav.menu">
+        <a href="index.html" data-i18n="nav.home"></a>
+        <div class="nav-branch">
+        <a href="hizmetlerimiz.html" data-i18n="nav.services" aria-current="page"></a>
+          <div class="nav-sub">
+            <a href="hizmetlerimiz.html#danismanlik" data-i18n="nav.sub.consult"></a>
+            <a href="hizmetlerimiz.html#editorluk" data-i18n="nav.sub.editing"></a>
+            <a href="hizmetlerimiz.html#tasarim" data-i18n="nav.sub.design"></a>
+            <a href="hizmetlerimiz.html#ceviri" data-i18n="nav.sub.translation"></a>
+            <a href="hizmetlerimiz.html#basim" data-i18n="nav.sub.print"></a>
+            <a href="hizmetlerimiz.html#ekitap" data-i18n="nav.sub.ebook"></a>
+          </div>
+        </div>
+        <div class="nav-branch">
+        <a href="hakkimizda.html" data-i18n="nav.about"></a>
+          <div class="nav-sub">
+            <a href="hakkimizda.html#ekip" data-i18n="nav.team"></a>
+            <a href="hakkimizda.html#yazarlarimiz" data-i18n="nav.authors"></a>
+          </div>
+        </div>
+        <a href="yurtdisi.html" data-i18n="nav.global"></a>
+        <div class="nav-branch">
+        <a href="iletisim.html" data-i18n="nav.contact"></a>
+          <div class="nav-sub">
+            <a href="iletisim.html#sss" data-i18n="nav.faq"></a>
+          </div>
+        </div>
+        <a href="https://yazardandirekt.com/" data-i18n="nav.shop"></a>
+        <a href="https://yazardandirekt.com/" data-i18n="nav.blog"></a>
+      </nav>
+      <p class="nav-credo" data-i18n="nav.credo"></p>
+      <div class="nav-panel-contact">
+        <a href="tel:+902163011213">+90-0216-301-1213</a>
+        <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>
+      </div>
+    </div>
+
+    <main class="site-shell">
+      <section class="page-head" id="top">
+        <div class="wrap">
+          <p class="kicker" data-i18n="head.services.kicker"></p>
+          <h1 data-i18n="head.services.h1"></h1>
+          <p class="lede" data-i18n="head.services.lede"></p>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="wrap">
+          <div class="services-list">
+            <article class="service" id="danismanlik">
+              <p class="service-index" aria-hidden="true">01</p>
+              <div class="service-say">
+                <h2 data-i18n="svc.consult.name"></h2>
+                <p data-i18n="svc.consult.text"></p>
+              </div>
+              <ul class="ticks">
+                <li data-i18n="svc.consult.1"></li>
+                <li data-i18n="svc.consult.2"></li>
+                <li data-i18n="svc.consult.3"></li>
+                <li data-i18n="svc.consult.4"></li>
+                <li data-i18n="svc.consult.5"></li>
+              </ul>
+            </article>
+
+            <article class="service" id="editorluk">
+              <p class="service-index" aria-hidden="true">02</p>
+              <div class="service-say">
+                <h2 data-i18n="svc.editing.name"></h2>
+                <p data-i18n="svc.editing.text"></p>
+              </div>
+              <ul class="ticks">
+                <li data-i18n="svc.editing.1"></li>
+                <li data-i18n="svc.editing.2"></li>
+                <li data-i18n="svc.editing.3"></li>
+                <li data-i18n="svc.editing.4"></li>
+                <li data-i18n="svc.editing.5"></li>
+              </ul>
+            </article>
+
+            <article class="service" id="tasarim">
+              <p class="service-index" aria-hidden="true">03</p>
+              <div class="service-say">
+                <h2 data-i18n="svc.design.name"></h2>
+                <p data-i18n="svc.design.text"></p>
+              </div>
+              <ul class="ticks">
+                <li data-i18n="svc.design.1"></li>
+                <li data-i18n="svc.design.2"></li>
+                <li data-i18n="svc.design.3"></li>
+                <li data-i18n="svc.design.4"></li>
+                <li data-i18n="svc.design.5"></li>
+              </ul>
+            </article>
+
+            <article class="service" id="ceviri">
+              <p class="service-index" aria-hidden="true">04</p>
+              <div class="service-say">
+                <h2 data-i18n="svc.translation.name"></h2>
+                <p data-i18n="svc.translation.text"></p>
+              </div>
+              <ul class="ticks">
+                <li data-i18n="svc.translation.1"></li>
+                <li data-i18n="svc.translation.2"></li>
+                <li data-i18n="svc.translation.3"></li>
+                <li data-i18n="svc.translation.4"></li>
+                <li data-i18n="svc.translation.5"></li>
+              </ul>
+            </article>
+
+            <article class="service" id="basim">
+              <p class="service-index" aria-hidden="true">05</p>
+              <div class="service-say">
+                <h2 data-i18n="svc.print.name"></h2>
+                <p data-i18n="svc.print.text"></p>
+              </div>
+              <ul class="ticks">
+                <li data-i18n="svc.print.1"></li>
+                <li data-i18n="svc.print.2"></li>
+                <li data-i18n="svc.print.3"></li>
+                <li data-i18n="svc.print.4"></li>
+                <li data-i18n="svc.print.5"></li>
+              </ul>
+            </article>
+
+            <article class="service" id="ekitap">
+              <p class="service-index" aria-hidden="true">06</p>
+              <div class="service-say">
+                <h2 data-i18n="svc.ebook.name"></h2>
+                <p data-i18n="svc.ebook.text"></p>
+              </div>
+              <ul class="ticks">
+                <li data-i18n="svc.ebook.1"></li>
+                <li data-i18n="svc.ebook.2"></li>
+                <li data-i18n="svc.ebook.3"></li>
+                <li data-i18n="svc.ebook.4"></li>
+                <li data-i18n="svc.ebook.5"></li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="band band-quiet" aria-labelledby="process-h">
+        <div class="wrap">
+          <p class="kicker" data-i18n="process.kicker"></p>
+          <h2 class="band-h" id="process-h" data-i18n="process.h2"></h2>
+          <ol class="steps">
+            <li>
+              <h3 data-i18n="process.1.title"></h3>
+              <p data-i18n="process.1.text"></p>
+            </li>
+            <li>
+              <h3 data-i18n="process.2.title"></h3>
+              <p data-i18n="process.2.text"></p>
+            </li>
+            <li>
+              <h3 data-i18n="process.3.title"></h3>
+              <p data-i18n="process.3.text"></p>
+            </li>
+            <li>
+              <h3 data-i18n="process.4.title"></h3>
+              <p data-i18n="process.4.text"></p>
+            </li>
+            <li>
+              <h3 data-i18n="process.5.title"></h3>
+              <p data-i18n="process.5.text"></p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Der kurze Abschluss jeder Seite. Die ausführliche Fassung mit
+           Formular und Fragen steht auf iletisim.html. -->
+      <section class="band band-dark" aria-labelledby="strip-h">
+        <div class="wrap">
+          <div class="contact-strip">
+            <div class="contact-strip-say">
+              <p class="kicker" data-i18n="strip.kicker"></p>
+              <h2 class="band-h" id="strip-h" data-i18n="strip.h2"></h2>
+            </div>
+            <div class="contact-strip-ways">
+              <a href="tel:+902163011213">+90-0216-301-1213</a>
+              <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>
+              <a class="copy-link" href="iletisim.html" data-i18n="strip.cta"></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <div class="wrap">
+          <div class="site-footer-top">
+            <div>
+              <img class="site-footer-logo" src="assets/yazar_logo.png" alt="Yazardan Direkt" />
+              <p class="site-footer-credo" data-i18n="footer.credo"></p>
+            </div>
+            <nav class="site-footer-nav" data-i18n-attr="aria-label:footer.services">
+              <p class="site-footer-head" data-i18n="footer.services"></p>
+              <a href="hizmetlerimiz.html#danismanlik" data-i18n="nav.sub.consult"></a>
+              <a href="hizmetlerimiz.html#editorluk" data-i18n="nav.sub.editing"></a>
+              <a href="hizmetlerimiz.html#tasarim" data-i18n="nav.sub.design"></a>
+              <a href="hizmetlerimiz.html#ceviri" data-i18n="nav.sub.translation"></a>
+              <a href="hizmetlerimiz.html#basim" data-i18n="nav.sub.print"></a>
+              <a href="hizmetlerimiz.html#ekitap" data-i18n="nav.sub.ebook"></a>
+            </nav>
+            <nav class="site-footer-nav" data-i18n-attr="aria-label:footer.company">
+              <p class="site-footer-head" data-i18n="footer.company"></p>
+              <a href="hakkimizda.html" data-i18n="footer.link.about"></a>
+              <a href="hakkimizda.html#ekip" data-i18n="footer.link.team"></a>
+              <a href="yurtdisi.html" data-i18n="footer.link.global"></a>
+              <a href="iletisim.html#sss" data-i18n="footer.link.faq"></a>
+            </nav>
+            <div class="site-footer-nav">
+              <p class="site-footer-head" data-i18n="footer.reach"></p>
+              <a href="tel:+902163011213">+90-0216-301-1213</a>
+              <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>
+            </div>
+          </div>
+          <div class="site-footer-base">
+            <p>© <span class="site-footer-year">2026</span> Yazardan Direkt. <span data-i18n="footer.rights"></span></p>
+            <a href="#top" data-i18n="footer.top"></a>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </body>
+</html>
