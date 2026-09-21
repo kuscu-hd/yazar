@@ -1081,9 +1081,10 @@ a {
 
 /* ==================================================================
    SPRACHUMSCHALTER
-   Zwei Schaltflächen, keine Auswahlliste: bei genau zwei Sprachen ist ein
-   Klick weniger Arbeit als ein Aufklappen, und man sieht ohne Umweg,
-   welche gerade läuft.
+   Zwei Links, keine Auswahlliste: bei genau zwei Sprachen ist ein Klick
+   weniger Arbeit als ein Aufklappen, und man sieht ohne Umweg, welche
+   gerade läuft. Jeder Link führt auf dieselbe Seite in der anderen
+   Sprache -- es gibt keine Umschaltung im Browser.
    ================================================================== */
 
 .lang-switch {
@@ -1098,7 +1099,9 @@ a {
   backdrop-filter: blur(8px);
 }
 
-.lang-switch button {
+.lang-switch a {
+  display: inline-grid;
+  place-content: center;
   min-width: 38px;
   height: 30px;
   padding: 0 9px;
@@ -1108,15 +1111,15 @@ a {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.1em;
-  cursor: pointer;
+  text-decoration: none;
   transition: background 200ms ease, color 200ms ease;
 }
 
-.lang-switch button:hover {
+.lang-switch a:hover {
   color: var(--ink);
 }
 
-.lang-switch button.is-on {
+.lang-switch a.is-on {
   background: var(--ink);
   color: #fff;
 }
@@ -1316,11 +1319,16 @@ a {
 
 /* Auf welcher Seite man ist, steht im Menü als aria-current -- daran hängt
    auch die Markierung, statt an einer zweiten Klasse. */
-.nav-primary a[aria-current="page"] {
+/* aria-current steht nur am Link auf genau diese Seite. Eine Unterseite
+   (etwa eine einzelne Leistung) markiert ihren Bereich mit .is-active --
+   aria-current="page" wäre dort eine falsche Auskunft. */
+.nav-primary a[aria-current="page"],
+.nav-primary a.is-active {
   color: var(--ink);
 }
 
-.nav-primary a[aria-current="page"]::after {
+.nav-primary a[aria-current="page"]::after,
+.nav-primary a.is-active::after {
   transform: scaleX(1);
   background: var(--ink);
 }
@@ -1596,6 +1604,49 @@ a {
   color: var(--muted);
 }
 
+.service h2 a {
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.service h2 a:hover {
+  color: var(--accent);
+}
+
+.service-more,
+.route-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.service-more::after,
+.route-link::after {
+  content: "→";
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.service-more:hover,
+.route-link:hover {
+  color: var(--accent);
+}
+
+.service-more:hover::after,
+.route-link:hover::after {
+  transform: translateX(4px);
+}
+
+.route-link {
+  margin-top: 18px;
+}
+
 /* Haken als Pseudoelement statt als Zeichen im Text: der Vorlesemodus
    liest dann die Leistung und nicht das Häkchen. */
 .ticks {
@@ -1632,6 +1683,105 @@ a {
 
 .ticks li:first-child::before {
   top: 9px;
+}
+
+/* ---------- Eine Leistung auf eigener Seite ---------- */
+
+/* Die Rubrik über dem Titel führt zurück auf die Übersicht. */
+.kicker-link {
+  display: inline-block;
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.kicker-link:hover {
+  color: var(--accent);
+}
+
+/* Die fünf Stichpunkte stehen hier allein, nicht neben einem Text --
+   zwei Spalten, damit die Liste nicht als schmaler Streifen hängt. */
+.ticks-wide {
+  columns: 2 260px;
+  column-gap: clamp(24px, 4vw, 64px);
+}
+
+.ticks-wide li {
+  break-inside: avoid;
+}
+
+/* In zwei Spalten beginnt die zweite mit einem Strich -- also bekommt die
+   erste ihren auch, sonst stehen die Spalten versetzt. */
+.ticks-wide li:first-child {
+  padding-top: 8px;
+  border-top: 1px solid var(--hair);
+}
+
+.ticks-wide li:first-child::before {
+  top: 15px;
+}
+
+/* Alle sechs Leistungen als Wegweiser; die aktuelle ist markiert und
+   nicht anklickbar hervorgehoben. */
+.service-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0 clamp(20px, 3vw, 44px);
+  margin: clamp(28px, 4vh, 44px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.service-links a {
+  display: block;
+  padding: 14px 0;
+  border-top: 1px solid var(--hair);
+  font-family: var(--serif);
+  font-size: 1.12rem;
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.service-links a:hover {
+  color: var(--accent);
+}
+
+.service-links a[aria-current="page"] {
+  color: var(--faint);
+}
+
+/* Der Leitsatz der alten Seite steht als zweite Zeile unter dem Titel --
+   der Titel nennt die Leistung, der Leitsatz sagt, worum es geht. */
+.page-tagline {
+  margin: clamp(14px, 2vh, 20px) 0 0;
+  max-width: 30ch;
+  font-family: var(--serif);
+  font-size: clamp(1.3rem, 2.1vw, 1.8rem);
+  line-height: 1.24;
+  color: var(--muted);
+}
+
+/* Text der alten Seite links, die fünf Stichpunkte daneben. */
+.service-body {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  gap: clamp(28px, 5vw, 80px);
+  align-items: start;
+}
+
+.service-prose .prose:first-child {
+  margin-top: 0;
+}
+
+/* Hinweis unter den Fragen auf /amazonda-yayinla. */
+.callout {
+  margin: clamp(32px, 5vh, 52px) 0 0;
+  max-width: 62ch;
+  padding: 16px 20px;
+  border-left: 2px solid var(--accent);
+  background: rgb(255 255 255 / 0.56);
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.55;
 }
 
 /* ---------- Ablauf ---------- */
@@ -2045,6 +2195,33 @@ a {
   transition: color 200ms ease;
 }
 
+/* WhatsApp als eigene Schaltfläche, wie in der Fußzeile der alten Seite --
+   in der Farbe des Dienstes, weil man ihn daran erkennt. */
+.site-footer-nav a.whatsapp-link {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: 10px;
+  margin-top: 6px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: #1f9d55;
+  color: #fff;
+  font-weight: 600;
+  transition: background 200ms ease;
+}
+
+.site-footer-nav a.whatsapp-link:hover {
+  background: #25d366;
+  color: #fff;
+}
+
+.whatsapp-icon {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
 .site-footer-nav a:hover {
   color: var(--ink-on-dark);
 }
@@ -2134,6 +2311,10 @@ a {
   }
 
   .contact {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .service-body {
     grid-template-columns: minmax(0, 1fr);
   }
 

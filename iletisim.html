@@ -1,43 +1,48 @@
 <!DOCTYPE html>
 <html lang="tr">
   <head>
+    <!-- shell:head -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Yazardan Direkt</title>
-    <meta name="description" content="Standartların ötesinde yayıncılık." />
+    <title>İletişim | Yazardan Direkt</title>
+    <meta name="description" content="Eserinizi bize ulaştırın: +90-0216-301-1213, info@yazardandirekt.com, hafta içi 09:00–18:00. Ön değerlendirmenin ardından danışmanınız size ulaşır." />
+    <link rel="canonical" href="https://yazardandirekt.com/iletisim" />
+    <link rel="alternate" hreflang="tr" href="https://yazardandirekt.com/iletisim" />
+    <link rel="alternate" hreflang="de" href="https://yazardandirekt.com/de/kontakt" />
+    <link rel="alternate" hreflang="x-default" href="https://yazardandirekt.com/iletisim" />
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="styles.css" />
-    <!-- i18n.js MUSS vor script.js stehen: die Textspalte zerlegt die
-         Überschriften in Wörter, und dafür müssen die Sätze schon da sein.
-         Beide mit defer, die Reihenfolge bleibt dadurch erhalten. -->
-    <script src="i18n.js" defer></script>
-    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/script.js" defer></script>
+    <!-- /shell:head -->
   </head>
   <body>
+    <!-- shell:header -->
     <header class="site-header">
-      <a class="brand" href="index.html" data-i18n-attr="aria-label:nav.brand">
-        <img src="assets/yazar_logo.png" alt="Yazardan Direkt" />
+      <a class="brand" href="/" aria-label="Yazardan Direkt">
+        <img src="/assets/yazar_logo.png" alt="Yazardan Direkt" />
       </a>
 
-      <nav class="nav-primary" data-i18n-attr="aria-label:nav.menu.main">
-        <a href="hizmetlerimiz.html" data-i18n="nav.services"></a>
-        <a href="hakkimizda.html" data-i18n="nav.about"></a>
-        <a href="yurtdisi.html" data-i18n="nav.global"></a>
-        <a href="iletisim.html" data-i18n="nav.contact" aria-current="page"></a>
+      <nav class="nav-primary" aria-label="Ana menü">
+        <a href="/hizmetlerimiz">HİZMETLERİMİZ</a>
+        <a href="/hakkimizda">HAKKIMIZDA</a>
+        <a href="/amazonda-yayinla">AMAZONDA YAYINLA</a>
+        <a href="/iletisim" aria-current="page">İLETİŞİM</a>
       </nav>
 
-      <div class="lang-switch" role="group" data-i18n-attr="aria-label:lang.label">
-        <button type="button" data-lang="tr" data-i18n-attr="title:lang.tr">TR</button>
+      <nav class="lang-switch" aria-label="Dil seçimi">
+        <a href="/iletisim" hreflang="tr" title="Türkçe" class="is-on" aria-current="true">TR</a>
         <span class="lang-switch-sep" aria-hidden="true"></span>
-        <button type="button" data-lang="de" data-i18n-attr="title:lang.de">DE</button>
-      </div>
+        <a href="/de/kontakt" hreflang="de" title="Almanca">DE</a>
+      </nav>
 
       <button
         class="nav-toggle"
         type="button"
         aria-expanded="false"
         aria-controls="nav-panel"
-        data-i18n-attr="aria-label:nav.menu.open"
+        aria-label="Menüyü aç"
+        data-label-open="Menüyü aç"
+        data-label-close="Menüyü kapat"
       >
         <span class="nav-toggle-bar" aria-hidden="true"></span>
         <span class="nav-toggle-bar" aria-hidden="true"></span>
@@ -45,53 +50,59 @@
       </button>
     </header>
 
-    <!-- Die vollständige Tafel. Sie führt dieselben fünf Seiten wie die
-         Kopfzeile, nur mit den Sprungmarken darunter -- die sechs
-         Leistungen sind Abschnitte einer Seite, nicht eigene Seiten. -->
+    <!-- Die vollständige Tafel, in der Reihenfolge des Menüs der alten Seite.
+         Heryerdekitap, Blog und Yazarlarımız führen wie dort nach
+         heryerdekitap.com. -->
     <div class="nav-panel" id="nav-panel" hidden>
-      <nav class="nav-full" data-i18n-attr="aria-label:nav.menu">
-        <a href="index.html" data-i18n="nav.home"></a>
+      <nav class="nav-full" aria-label="Tüm menü">
+        <a href="/">ANASAYFA</a>
         <div class="nav-branch">
-        <a href="hizmetlerimiz.html" data-i18n="nav.services"></a>
+          <a href="/hizmetlerimiz">HİZMETLERİMİZ</a>
           <div class="nav-sub">
-            <a href="hizmetlerimiz.html#danismanlik" data-i18n="nav.sub.consult"></a>
-            <a href="hizmetlerimiz.html#editorluk" data-i18n="nav.sub.editing"></a>
-            <a href="hizmetlerimiz.html#tasarim" data-i18n="nav.sub.design"></a>
-            <a href="hizmetlerimiz.html#ceviri" data-i18n="nav.sub.translation"></a>
-            <a href="hizmetlerimiz.html#basim" data-i18n="nav.sub.print"></a>
-            <a href="hizmetlerimiz.html#ekitap" data-i18n="nav.sub.ebook"></a>
+              <a href="/yazar-danismanligi">Yazar Danışmanlığı</a>
+              <a href="/editorluk-hizmetleri">Editörlük Hizmetleri</a>
+              <a href="/tasarim">Tasarım</a>
+              <a href="/ceviri">Çeviri</a>
+              <a href="/basim-dagitim">Basım-Dağıtım</a>
+              <a href="/ekitap-formati">E-Kitap Formatı</a>
           </div>
         </div>
         <div class="nav-branch">
-        <a href="hakkimizda.html" data-i18n="nav.about"></a>
+          <a href="/hakkimizda">HAKKIMIZDA</a>
           <div class="nav-sub">
-            <a href="hakkimizda.html#ekip" data-i18n="nav.team"></a>
-            <a href="hakkimizda.html#yazarlarimiz" data-i18n="nav.authors"></a>
+              <a href="/hakkimizda#ekip">EKİBİMİZ</a>
           </div>
         </div>
-        <a href="yurtdisi.html" data-i18n="nav.global"></a>
         <div class="nav-branch">
-        <a href="iletisim.html" data-i18n="nav.contact" aria-current="page"></a>
+          <a href="/amazonda-yayinla">AMAZONDA YAYINLA</a>
           <div class="nav-sub">
-            <a href="iletisim.html#sss" data-i18n="nav.faq"></a>
+              <a href="/yurtdisi-hizmetler">Sınırların Ötesi</a>
           </div>
         </div>
-        <a href="https://yazardandirekt.com/" data-i18n="nav.shop"></a>
-        <a href="https://yazardandirekt.com/" data-i18n="nav.blog"></a>
+        <a href="https://heryerdekitap.com">HERYERDEKİTAP – KİTAP SATIŞ</a>
+        <a href="https://heryerdekitap.com/her-yerde-kitap-blog-ve-haberler">BLOG</a>
+        <a href="https://heryerdekitap.com/brand">YAZARLARIMIZ</a>
+        <div class="nav-branch">
+          <a href="/iletisim" aria-current="page">İLETİŞİM</a>
+          <div class="nav-sub">
+              <a href="/iletisim#sss">SIK SORULAN SORULAR</a>
+          </div>
+        </div>
       </nav>
-      <p class="nav-credo" data-i18n="nav.credo"></p>
+      <p class="nav-credo">Üretimi yücelten, emeği kutsayan bir yerden bakıyoruz dünyaya. Sözün kıymetini sadece çok satanlarda değil, doğru yüreklerde arıyoruz.</p>
       <div class="nav-panel-contact">
         <a href="tel:+902163011213">+90-0216-301-1213</a>
         <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>
       </div>
     </div>
+    <!-- /shell:header -->
 
     <main class="site-shell">
       <section class="page-head" id="top">
         <div class="wrap">
-          <p class="kicker" data-i18n="head.contact.kicker"></p>
-          <h1 data-i18n="head.contact.h1"></h1>
-          <p class="lede" data-i18n="head.contact.lede"></p>
+          <p class="kicker">İletişim</p>
+          <h1>Eserinizi Bize Ulaştırın, Süreci Birlikte Başlatalım</h1>
+          <p class="lede">Dosyanız bize ulaştığı andan itibaren süreç başlar. Ön değerlendirmenin ardından size özel bir danışman sizinle iletişime geçer.</p>
         </div>
       </section>
 
@@ -99,45 +110,52 @@
         <div class="wrap">
           <div class="contact">
             <dl class="contact-list contact-list-lead">
-              <dt data-i18n="contact.phone.label"></dt>
+              <dt>Telefon</dt>
               <dd><a href="tel:+902163011213">+90-0216-301-1213</a></dd>
-              <dt data-i18n="contact.mail.label"></dt>
+              <!-- PROVISIONAL: number not yet confirmed -->
+              <dt>Cep telefonu</dt>
+              <dd><a href="tel:+905333568256">+90 533 356 8256</a></dd>
+              <dt>E-posta</dt>
               <dd><a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a></dd>
-              <dt data-i18n="contact.hours.label"></dt>
-              <dd data-i18n="contact.hours.value"></dd>
+              <dt>Çalışma saatleri</dt>
+              <dd>Hafta içi 09:00 – 18:00</dd>
             </dl>
 
             <!-- Kein Server dahinter: script.js baut aus den Feldern einen
                  mailto-Link. Sobald ein Endpunkt steht, bekommt das Formular
                  action/method und der Zweig in script.js entfällt. -->
-            <form class="contact-form" data-i18n-attr="aria-label:contact.form.label" novalidate>
+            <form class="contact-form" data-mail-subject="İletişim" aria-label="İletişim formu" novalidate>
               <input
                 type="text"
                 name="isim"
                 autocomplete="name"
                 required
-                data-i18n-attr="placeholder:contact.form.name;aria-label:contact.form.name"
+                placeholder="İsim-Soyisim"
+                aria-label="İsim-Soyisim"
               />
               <input
                 type="email"
                 name="email"
                 autocomplete="email"
                 required
-                data-i18n-attr="placeholder:contact.form.email;aria-label:contact.form.email"
+                placeholder="E-posta adresiniz"
+                aria-label="E-posta adresiniz"
               />
               <input
                 type="tel"
                 name="telefon"
                 autocomplete="tel"
-                data-i18n-attr="placeholder:contact.form.phone;aria-label:contact.form.phone"
+                placeholder="Telefon numaranız"
+                aria-label="Telefon numaranız"
               />
               <textarea
                 name="mesaj"
                 rows="4"
-                data-i18n-attr="placeholder:contact.form.message;aria-label:contact.form.message"
+                placeholder="Eseriniz hakkında kısa bir not"
+                aria-label="Eseriniz hakkında kısa bir not"
               ></textarea>
-              <button type="submit" data-i18n="contact.form.send"></button>
-              <p class="note" data-i18n="contact.form.hint"></p>
+              <button type="submit">Gönder</button>
+              <p class="note">Gönder'e bastığınızda e-posta programınız açılır ve mesajınız hazır olarak gelir.</p>
             </form>
           </div>
         </div>
@@ -147,84 +165,97 @@
         <div class="wrap">
           <div class="lede-grid">
             <div class="lede-grid-head">
-              <p class="kicker" data-i18n="faq.kicker"></p>
-              <h2 class="band-h" id="faq-h" data-i18n="faq.h2"></h2>
+              <p class="kicker">Sık sorulan sorular</p>
+              <h2 class="band-h" id="faq-h">Merak Edilenler</h2>
             </div>
             <!-- <details> statt eigener Mechanik: Auf- und Zuklappen,
                  Tastatur und Vorlesen kommen vom Browser. -->
             <div class="lede-grid-body faq">
               <details>
-                <summary data-i18n="faq.1.q"></summary>
-                <p data-i18n="faq.1.a"></p>
+                <summary>Tüm bu hizmetlerden ayrı ayrı mı yoksa bir paket olarak mı yararlanabilirim?</summary>
+                <p>Hizmetlerimiz modüler yapıdadır. İhtiyacınıza göre sadece bir adımı seçebilir ya da tüm süreci birlikte yürütebiliriz.</p>
               </details>
               <details>
-                <summary data-i18n="faq.2.q"></summary>
-                <p data-i18n="faq.2.a"></p>
+                <summary>Hazır bir dosyam yoksa da başvurabilir miyim?</summary>
+                <p>Elbette. Henüz fikir aşamasındaki çalışmalarınız için de danışmanlık ve yönlendirme desteği veriyoruz.</p>
               </details>
               <details>
-                <summary data-i18n="faq.3.q"></summary>
-                <p data-i18n="faq.3.a"></p>
+                <summary>Sürecin her adımında birebir iletişimde olur muyuz?</summary>
+                <p>Evet. Size özel danışmanınız sürecin başından sonuna kadar birebir eşlik eder ve ihtiyaçlarınıza göre yönlendirir.</p>
               </details>
               <details>
-                <summary data-i18n="faq.4.q"></summary>
-                <p data-i18n="faq.4.a"></p>
+                <summary>Editörlük yalnızca yazım ve dil bilgisi düzeltmesini mi kapsar?</summary>
+                <p>Hayır. Dil bilgisinin yanı sıra anlatım bütünlüğü, ton uyumu ve içerik akışı da değerlendirilir. Dosyanızın editörüyle tüm süreç boyunca düzenli iletişim kurabilirsiniz.</p>
               </details>
               <details>
-                <summary data-i18n="faq.5.q"></summary>
-                <p data-i18n="faq.5.a"></p>
+                <summary>Kapak tasarımında onayım alınıyor mu?</summary>
+                <p>Tüm adımlar yazarın onayıyla ilerler. Eserin niteliğine göre bir ana tasarım sunulur, gerekli durumlarda alternatifler değerlendirilir ve revize hakkı tanınır.</p>
               </details>
               <details>
-                <summary data-i18n="faq.6.q"></summary>
-                <p data-i18n="faq.6.a"></p>
+                <summary>Kaç adet basılıyor ve kitabımı kendim de satabilir miyim?</summary>
+                <p>Adet talebe göre belirlenir; genellikle düşük adetli, esnek baskı (print on demand) tercih edilir. Basılan kitapların bir kısmı yazara teslim edilir, yazar kişisel olarak satış yapabilir.</p>
               </details>
               <details>
-                <summary data-i18n="faq.7.q"></summary>
-                <p data-i18n="faq.7.a"></p>
+                <summary>E-kitap hangi formatta hazırlanıyor ve hangi platformlarda yayımlanıyor?</summary>
+                <p>Genellikle EPUB ve MOBI formatlarında hazırlanır, PDF alternatifi de sunulur. Amazon Kindle, Google Books, Kobo ve İdefix gibi global ve yerel platformlara uygun hâle getirilir.</p>
               </details>
               <details>
-                <summary data-i18n="faq.8.q"></summary>
-                <p data-i18n="faq.8.a"></p>
+                <summary>Hangi dillerde çeviri hizmeti veriliyor?</summary>
+                <p>İngilizce başta olmak üzere talebe göre farklı dillerde çeviri desteği sunulmaktadır. Süre, metnin uzunluğuna ve diline göre değişir; ortalama süre değerlendirme sonrası bildirilir.</p>
               </details>
             </div>
           </div>
         </div>
       </section>
+    </main>
 
-      <footer class="site-footer">
-        <div class="wrap">
-          <div class="site-footer-top">
-            <div>
-              <img class="site-footer-logo" src="assets/yazar_logo.png" alt="Yazardan Direkt" />
-              <p class="site-footer-credo" data-i18n="footer.credo"></p>
-            </div>
-            <nav class="site-footer-nav" data-i18n-attr="aria-label:footer.services">
-              <p class="site-footer-head" data-i18n="footer.services"></p>
-              <a href="hizmetlerimiz.html#danismanlik" data-i18n="nav.sub.consult"></a>
-              <a href="hizmetlerimiz.html#editorluk" data-i18n="nav.sub.editing"></a>
-              <a href="hizmetlerimiz.html#tasarim" data-i18n="nav.sub.design"></a>
-              <a href="hizmetlerimiz.html#ceviri" data-i18n="nav.sub.translation"></a>
-              <a href="hizmetlerimiz.html#basim" data-i18n="nav.sub.print"></a>
-              <a href="hizmetlerimiz.html#ekitap" data-i18n="nav.sub.ebook"></a>
-            </nav>
-            <nav class="site-footer-nav" data-i18n-attr="aria-label:footer.company">
-              <p class="site-footer-head" data-i18n="footer.company"></p>
-              <a href="hakkimizda.html" data-i18n="footer.link.about"></a>
-              <a href="hakkimizda.html#ekip" data-i18n="footer.link.team"></a>
-              <a href="yurtdisi.html" data-i18n="footer.link.global"></a>
-              <a href="iletisim.html#sss" data-i18n="footer.link.faq"></a>
-            </nav>
-            <div class="site-footer-nav">
-              <p class="site-footer-head" data-i18n="footer.reach"></p>
-              <a href="tel:+902163011213">+90-0216-301-1213</a>
-              <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>
-            </div>
+    <!-- shell:footer -->
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="site-footer-top">
+          <div>
+            <img class="site-footer-logo" src="/assets/yazar_logo.png" alt="Yazardan Direkt" />
+            <p class="site-footer-credo">Gücün yazarda, anlamın okurda olduğuna inanıyoruz. Bir kitabın raflarda yer alması değil, bir kalpte yer bulması önemlidir.</p>
           </div>
-          <div class="site-footer-base">
-            <p>© <span class="site-footer-year">2026</span> Yazardan Direkt. <span data-i18n="footer.rights"></span></p>
-            <a href="#top" data-i18n="footer.top"></a>
+          <nav class="site-footer-nav" aria-label="Hizmetler">
+            <p class="site-footer-head">Hizmetler</p>
+            <a href="/yazar-danismanligi">Yazar Danışmanlığı</a>
+            <a href="/editorluk-hizmetleri">Editörlük Hizmetleri</a>
+            <a href="/tasarim">Tasarım</a>
+            <a href="/ceviri">Çeviri</a>
+            <a href="/basim-dagitim">Basım-Dağıtım</a>
+            <a href="/ekitap-formati">E-Kitap Formatı</a>
+          </nav>
+          <nav class="site-footer-nav" aria-label="Kurum">
+            <p class="site-footer-head">Kurum</p>
+            <a href="/hakkimizda">Hakkımızda</a>
+            <a href="/hakkimizda#ekip">Ekibimiz</a>
+            <a href="/amazonda-yayinla">Amazon'da Yayınla</a>
+            <a href="/yurtdisi-hizmetler">Sınırların Ötesi</a>
+            <a href="https://heryerdekitap.com">HeryerdeKitap – Kitap Satış</a>
+            <a href="https://heryerdekitap.com/her-yerde-kitap-blog-ve-haberler">Blog</a>
+            <a href="https://heryerdekitap.com/brand">Yazarlarımız</a>
+            <a href="/iletisim#sss">Sık sorulan sorular</a>
+          </nav>
+          <div class="site-footer-nav">
+            <p class="site-footer-head">Bize ulaşın</p>
+            <a href="tel:+902163011213">+90-0216-301-1213</a>
+            <!-- PROVISIONAL: number not yet confirmed -->
+            <a href="tel:+905333568256">+90 533 356 8256</a>
+            <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>
+            <!-- PROVISIONAL: number not yet confirmed -->
+            <a class="whatsapp-link" href="https://wa.me/905398225698?text=Merhaba%2C%20destek%20almak%20istiyorum." rel="noopener">
+              <svg class="whatsapp-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              <span>WhatsApp Desteği</span>
+            </a>
           </div>
         </div>
-      </footer>
-    </main>
+        <div class="site-footer-base">
+          <p>© <span class="site-footer-year">2026</span> Yazardan Direkt. <span>Tüm hakları saklıdır.</span></p>
+          <a href="#top">Başa dön</a>
+        </div>
+      </div>
+    </footer>
+    <!-- /shell:footer -->
   </body>
 </html>
