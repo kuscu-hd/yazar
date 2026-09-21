@@ -53,6 +53,10 @@ export const PAGES = [
   // Dankeseite nach dem Absenden: kein Menüpunkt, und noindex -- sie soll
   // nicht in der Suche auftauchen.
   { id: "thanks", section: null, noindex: true, tr: ["tesekkurler.html", "/tesekkurler"], de: ["de/danke.html", "/de/danke"] },
+  // Rechtstexte. "only" nennt die Sprachen, die es schon gibt -- solange nur
+  // eine dasteht, entfällt hreflang und der Umschalter zeigt nur sie.
+  { id: "kvkk", section: null, only: ["tr"], tr: ["aydinlatma-metni.html", "/aydinlatma-metni"], de: ["de/datenschutzhinweise.html", "/de/datenschutzhinweise"] },
+  { id: "privacy", section: null, only: ["tr"], tr: ["gizlilik-ve-guvenlik-politikasi.html", "/gizlilik-ve-guvenlik-politikasi"], de: ["de/datenschutz-und-sicherheit.html", "/de/datenschutz-und-sicherheit"] },
 ];
 
 const LANGS = ["tr", "de"];
@@ -126,6 +130,18 @@ const META = {
       "İngilizce eserleriniz için Amazon, Türkçe kitaplarınız için İstanbul Books: eserinizi istek üzerine basımla dünyanın dört bir yanındaki okurlarla buluşturuyoruz."],
     de: ["Amazon und İstanbul Books | Yazardan Direkt",
       "Amazon für Ihre englischsprachigen Werke, İstanbul Books für Ihre türkischsprachigen Bücher: per Print-on-Demand zu Lesenden in aller Welt."],
+  },
+  kvkk: {
+    tr: ["Aydınlatma Metni | Yazardan Direkt",
+      "6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında kişisel verilerin işlenmesine ilişkin aydınlatma metni."],
+    de: ["Datenschutzhinweise | Yazardan Direkt",
+      "Hinweise zur Verarbeitung personenbezogener Daten nach dem türkischen Gesetz Nr. 6698 (KVKK), übersetzt aus dem Türkischen."],
+  },
+  privacy: {
+    tr: ["Gizlilik ve Güvenlik Politikası | Yazardan Direkt",
+      "Yazardan Direkt'in gizlilik ve güvenlik politikası: kişisel bilgilerin kullanımı, paylaşımı, güvenliği ve çerezler."],
+    de: ["Datenschutz und Sicherheit | Yazardan Direkt",
+      "Die Datenschutz- und Sicherheitsrichtlinie von Yazardan Direkt: Umgang mit persönlichen Daten, Weitergabe, Sicherheit und Cookies."],
   },
   thanks: {
     tr: ["Teşekkürler | Yazardan Direkt",
@@ -297,9 +313,15 @@ function head(page, lang) {
     `<meta name="description" content="${attr(description)}" />`,
     ...(page.noindex ? [`<meta name="robots" content="noindex" />`] : []),
     `<link rel="canonical" href="${abs(lang)}" />`,
-    `<link rel="alternate" hreflang="tr" href="${abs("tr")}" />`,
-    `<link rel="alternate" hreflang="de" href="${abs("de")}" />`,
-    `<link rel="alternate" hreflang="x-default" href="${abs("tr")}" />`,
+    // Solange es die Seite nur in einer Sprache gibt, wäre hreflang eine
+    // Auskunft über eine Seite, die es nicht gibt.
+    ...(page.only
+      ? []
+      : [
+          `<link rel="alternate" hreflang="tr" href="${abs("tr")}" />`,
+          `<link rel="alternate" hreflang="de" href="${abs("de")}" />`,
+          `<link rel="alternate" hreflang="x-default" href="${abs("tr")}" />`,
+        ]),
     `<link rel="icon" href="data:," />`,
     `<link rel="stylesheet" href="/styles.css" />`,
     `<script src="/script.js" defer></script>`,
@@ -308,6 +330,7 @@ function head(page, lang) {
 
 function header(page, lang) {
   const t = TEXT[lang];
+  const langs = page.only || LANGS;
   const here = page[lang][1];
   const other = lang === "tr" ? "de" : "tr";
   const home = page.id === "home" ? "#top" : url("home", lang);
@@ -323,7 +346,7 @@ function header(page, lang) {
   });
 
   // Umschalter: ein Link auf dieselbe Seite in der anderen Sprache.
-  const switcher = ["tr", "de"].map((l) => {
+  const switcher = langs.map((l) => {
     const on = l === lang;
     const cls = on ? ' class="is-on"' : "";
     const cur = on ? ' aria-current="true"' : "";
@@ -333,6 +356,7 @@ function header(page, lang) {
   const sub = (href, text) => `          ${link(href, text, here)}`;
   const services = SERVICE_IDS.map((id) => sub(url(id, lang), t.service[id]));
 
+  const sep = switcher.length > 1 ? [`    <span class="lang-switch-sep" aria-hidden="true"></span>`] : [];
   return [
     `<header class="site-header">`,
     `  <a class="brand" href="${home}" aria-label="${attr(t.brand)}">`,
@@ -345,8 +369,8 @@ function header(page, lang) {
     ``,
     `  <nav class="lang-switch" aria-label="${attr(t.langLabel)}">`,
     switcher[0],
-    `    <span class="lang-switch-sep" aria-hidden="true"></span>`,
-    switcher[1],
+    ...sep,
+    ...switcher.slice(1),
     `  </nav>`,
     ``,
     `  <button`,
@@ -482,7 +506,7 @@ function fill(html, name, lines, file) {
 let changed = 0;
 let checked = 0;
 for (const page of PAGES) {
-  for (const lang of LANGS) {
+  for (const lang of page.only || LANGS) {
     const file = page[lang][0];
     const path = join(ROOT, file);
     if (!existsSync(path)) throw new Error(`${file} fehlt`);
