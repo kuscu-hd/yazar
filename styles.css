@@ -1749,6 +1749,41 @@ a {
   color: var(--faint);
 }
 
+/* Der Leitsatz der alten Seite steht als zweite Zeile unter dem Titel --
+   der Titel nennt die Leistung, der Leitsatz sagt, worum es geht. */
+.page-tagline {
+  margin: clamp(14px, 2vh, 20px) 0 0;
+  max-width: 30ch;
+  font-family: var(--serif);
+  font-size: clamp(1.3rem, 2.1vw, 1.8rem);
+  line-height: 1.24;
+  color: var(--muted);
+}
+
+/* Text der alten Seite links, die fünf Stichpunkte daneben. */
+.service-body {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  gap: clamp(28px, 5vw, 80px);
+  align-items: start;
+}
+
+.service-prose .prose:first-child {
+  margin-top: 0;
+}
+
+/* Hinweis unter den Fragen auf /amazonda-yayinla. */
+.callout {
+  margin: clamp(32px, 5vh, 52px) 0 0;
+  max-width: 62ch;
+  padding: 16px 20px;
+  border-left: 2px solid var(--accent);
+  background: rgb(255 255 255 / 0.56);
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
 /* ---------- Ablauf ---------- */
 
 .steps {
@@ -2276,6 +2311,10 @@ a {
   }
 
   .contact {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .service-body {
     grid-template-columns: minmax(0, 1fr);
   }
 
