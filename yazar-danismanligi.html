@@ -1,43 +1,44 @@
 <!DOCTYPE html>
 <html lang="tr">
   <head>
+    <!-- shell:head -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Yazardan Direkt</title>
-    <meta name="description" content="Standartların ötesinde yayıncılık." />
+    <title>Yazardan Direkt — Standartların Ötesinde Yayıncılık</title>
+    <meta name="description" content="Standartların ötesinde yayıncılık. Yazar danışmanlığı, editörlük, tasarım, çeviri, basım-dağıtım ve Amazon'da yayınlama." />
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="/styles.css" />
-    <!-- i18n.js MUSS vor script.js stehen: die Textspalte zerlegt die
-         Überschriften in Wörter, und dafür müssen die Sätze schon da sein.
-         Beide mit defer, die Reihenfolge bleibt dadurch erhalten. -->
-    <script src="/i18n.js" defer></script>
     <script src="/script.js" defer></script>
+    <!-- /shell:head -->
   </head>
   <body>
+    <!-- shell:header -->
     <header class="site-header">
-      <a class="brand" href="/" data-i18n-attr="aria-label:nav.brand">
+      <a class="brand" href="/" aria-label="Yazardan Direkt">
         <img src="/assets/yazar_logo.png" alt="Yazardan Direkt" />
       </a>
 
-      <nav class="nav-primary" data-i18n-attr="aria-label:nav.menu.main">
-        <a href="/hizmetlerimiz" data-i18n="nav.services" class="is-active"></a>
-        <a href="/hakkimizda" data-i18n="nav.about"></a>
-        <a href="/amazonda-yayinla" data-i18n="nav.global"></a>
-        <a href="/iletisim" data-i18n="nav.contact"></a>
+      <nav class="nav-primary" aria-label="Ana menü">
+        <a href="/hizmetlerimiz" class="is-active">HİZMETLERİMİZ</a>
+        <a href="/hakkimizda">HAKKIMIZDA</a>
+        <a href="/amazonda-yayinla">AMAZONDA YAYINLA</a>
+        <a href="/iletisim">İLETİŞİM</a>
       </nav>
 
-      <div class="lang-switch" role="group" data-i18n-attr="aria-label:lang.label">
-        <button type="button" data-lang="tr" data-i18n-attr="title:lang.tr">TR</button>
+      <nav class="lang-switch" aria-label="Dil seçimi">
+        <a href="/yazar-danismanligi" hreflang="tr" title="Türkçe" class="is-on" aria-current="true">TR</a>
         <span class="lang-switch-sep" aria-hidden="true"></span>
-        <button type="button" data-lang="de" data-i18n-attr="title:lang.de">DE</button>
-      </div>
+        <a href="/de/autorenberatung" hreflang="de" title="Almanca">DE</a>
+      </nav>
 
       <button
         class="nav-toggle"
         type="button"
         aria-expanded="false"
         aria-controls="nav-panel"
-        data-i18n-attr="aria-label:nav.menu.open"
+        aria-label="Menüyü aç"
+        data-label-open="Menüyü aç"
+        data-label-close="Menüyü kapat"
       >
         <span class="nav-toggle-bar" aria-hidden="true"></span>
         <span class="nav-toggle-bar" aria-hidden="true"></span>
@@ -49,65 +50,66 @@
          Heryerdekitap, Blog und Yazarlarımız führen wie dort nach
          heryerdekitap.com. -->
     <div class="nav-panel" id="nav-panel" hidden>
-      <nav class="nav-full" data-i18n-attr="aria-label:nav.menu">
-        <a href="/" data-i18n="nav.home"></a>
+      <nav class="nav-full" aria-label="Tüm menü">
+        <a href="/">ANASAYFA</a>
         <div class="nav-branch">
-          <a href="/hizmetlerimiz" data-i18n="nav.services"></a>
+          <a href="/hizmetlerimiz">HİZMETLERİMİZ</a>
           <div class="nav-sub">
-            <a href="/yazar-danismanligi" data-i18n="nav.sub.consult" aria-current="page"></a>
-            <a href="/editorluk-hizmetleri" data-i18n="nav.sub.editing"></a>
-            <a href="/tasarim" data-i18n="nav.sub.design"></a>
-            <a href="/ceviri" data-i18n="nav.sub.translation"></a>
-            <a href="/basim-dagitim" data-i18n="nav.sub.print"></a>
-            <a href="/ekitap-formati" data-i18n="nav.sub.ebook"></a>
+              <a href="/yazar-danismanligi" aria-current="page">Yazar Danışmanlığı</a>
+              <a href="/editorluk-hizmetleri">Editörlük Hizmetleri</a>
+              <a href="/tasarim">Tasarım</a>
+              <a href="/ceviri">Çeviri</a>
+              <a href="/basim-dagitim">Basım-Dağıtım</a>
+              <a href="/ekitap-formati">E-Kitap Formatı</a>
           </div>
         </div>
         <div class="nav-branch">
-          <a href="/hakkimizda" data-i18n="nav.about"></a>
+          <a href="/hakkimizda">HAKKIMIZDA</a>
           <div class="nav-sub">
-            <a href="/hakkimizda#ekip" data-i18n="nav.team"></a>
+              <a href="/hakkimizda#ekip">EKİBİMİZ</a>
           </div>
         </div>
         <div class="nav-branch">
-          <a href="/amazonda-yayinla" data-i18n="nav.global"></a>
+          <a href="/amazonda-yayinla">AMAZONDA YAYINLA</a>
           <div class="nav-sub">
-            <a href="/yurtdisi-hizmetler" data-i18n="sign.global.title"></a>
+              <a href="/yurtdisi-hizmetler">Sınırların Ötesi</a>
           </div>
         </div>
-        <a href="https://heryerdekitap.com" data-i18n="nav.shop"></a>
-        <a href="https://heryerdekitap.com/her-yerde-kitap-blog-ve-haberler" data-i18n="nav.blog"></a>
-        <a href="https://heryerdekitap.com/brand" data-i18n="nav.authors"></a>
+        <a href="https://heryerdekitap.com">HERYERDEKİTAP – KİTAP SATIŞ</a>
+        <a href="https://heryerdekitap.com/her-yerde-kitap-blog-ve-haberler">BLOG</a>
+        <a href="https://heryerdekitap.com/brand">YAZARLARIMIZ</a>
         <div class="nav-branch">
-          <a href="/iletisim" data-i18n="nav.contact"></a>
+          <a href="/iletisim">İLETİŞİM</a>
           <div class="nav-sub">
-            <a href="/iletisim#sss" data-i18n="nav.faq"></a>
+              <a href="/iletisim#sss">SIK SORULAN SORULAR</a>
           </div>
         </div>
       </nav>
-      <p class="nav-credo" data-i18n="nav.credo"></p>
+      <p class="nav-credo">Üretimi yücelten, emeği kutsayan bir yerden bakıyoruz dünyaya. Sözün kıymetini sadece çok satanlarda değil, doğru yüreklerde arıyoruz.</p>
       <div class="nav-panel-contact">
         <a href="tel:+902163011213">+90-0216-301-1213</a>
         <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>
       </div>
     </div>
+    <!-- /shell:header -->
 
     <main class="site-shell">
       <section class="page-head" id="top">
         <div class="wrap">
-          <a class="kicker kicker-link" href="/hizmetlerimiz" data-i18n="head.services.kicker"></a>
-          <h1 data-i18n="svc.consult.name"></h1>
-          <p class="lede" data-i18n="svc.consult.text"></p>
+          <a class="kicker kicker-link" href="/hizmetlerimiz">Hizmetlerimiz</a>
+          <h1>Yazar Danışmanlığı</h1>
+          <p class="lede">Fikrinizin şekillenme sürecinden yayın kararı aşamasına kadar, yazma deneyiminize stratejik bir bakışla eşlik ediyoruz. Hedef kitle, tür ve içerik bütünlüğü, başlık seçimi, zamanlama ve yayın modeli gibi konularda kişiye özel yönlendirme sunuyoruz.</p>
         </div>
       </section>
 
       <section class="band">
         <div class="wrap">
           <ul class="ticks ticks-wide">
-            <li data-i18n="svc.consult.1"></li>
-            <li data-i18n="svc.consult.2"></li>
-            <li data-i18n="svc.consult.3"></li>
-            <li data-i18n="svc.consult.4"></li>
-            <li data-i18n="svc.consult.5"></li>
+            <li>Kişiye özel hizmet planı</li>
+            <li>Yayın öncesi hazırlık</li>
+            <li>Hedefe uygun rehberlik</li>
+            <li>Yayın sürecine eşlik</li>
+            <li>Sonuç odaklı yol haritası</li>
           </ul>
         </div>
       </section>
@@ -116,14 +118,14 @@
            den Leistungsseiten der alten Seite. -->
       <section class="band band-quiet" aria-labelledby="more-h">
         <div class="wrap">
-          <h2 class="band-h" id="more-h" data-i18n="head.services.kicker"></h2>
+          <h2 class="band-h" id="more-h">Hizmetlerimiz</h2>
           <ul class="service-links">
-            <li><a href="/yazar-danismanligi" data-i18n="svc.consult.name" aria-current="page"></a></li>
-            <li><a href="/editorluk-hizmetleri" data-i18n="svc.editing.name"></a></li>
-            <li><a href="/tasarim" data-i18n="svc.design.name"></a></li>
-            <li><a href="/ceviri" data-i18n="svc.translation.name"></a></li>
-            <li><a href="/basim-dagitim" data-i18n="svc.print.name"></a></li>
-            <li><a href="/ekitap-formati" data-i18n="svc.ebook.name"></a></li>
+            <li><a href="/yazar-danismanligi" aria-current="page">Yazar Danışmanlığı</a></li>
+            <li><a href="/editorluk-hizmetleri">Editörlük Hizmetleri</a></li>
+            <li><a href="/tasarim">Tasarım</a></li>
+            <li><a href="/ceviri">Çeviri</a></li>
+            <li><a href="/basim-dagitim">Basım-Dağıtım</a></li>
+            <li><a href="/ekitap-formati">E-Kitap Formatı</a></li>
           </ul>
         </div>
       </section>
@@ -134,48 +136,49 @@
         <div class="wrap">
           <div class="contact-strip">
             <div class="contact-strip-say">
-              <p class="kicker" data-i18n="strip.kicker"></p>
-              <h2 class="band-h" id="strip-h" data-i18n="strip.h2"></h2>
+              <p class="kicker">İlk adım</p>
+              <h2 class="band-h" id="strip-h">Kitabınızı birlikte yayına hazırlayalım.</h2>
             </div>
             <div class="contact-strip-ways">
               <a href="tel:+902163011213">+90-0216-301-1213</a>
               <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>
-              <a class="copy-link" href="/iletisim" data-i18n="strip.cta"></a>
+              <a class="copy-link" href="/iletisim">İletişime geçin</a>
             </div>
           </div>
         </div>
       </section>
     </main>
 
+    <!-- shell:footer -->
     <footer class="site-footer">
       <div class="wrap">
         <div class="site-footer-top">
           <div>
             <img class="site-footer-logo" src="/assets/yazar_logo.png" alt="Yazardan Direkt" />
-            <p class="site-footer-credo" data-i18n="footer.credo"></p>
+            <p class="site-footer-credo">Gücün yazarda, anlamın okurda olduğuna inanıyoruz. Bir kitabın raflarda yer alması değil, bir kalpte yer bulması önemlidir.</p>
           </div>
-          <nav class="site-footer-nav" data-i18n-attr="aria-label:footer.services">
-            <p class="site-footer-head" data-i18n="footer.services"></p>
-            <a href="/yazar-danismanligi" data-i18n="nav.sub.consult" aria-current="page"></a>
-            <a href="/editorluk-hizmetleri" data-i18n="nav.sub.editing"></a>
-            <a href="/tasarim" data-i18n="nav.sub.design"></a>
-            <a href="/ceviri" data-i18n="nav.sub.translation"></a>
-            <a href="/basim-dagitim" data-i18n="nav.sub.print"></a>
-            <a href="/ekitap-formati" data-i18n="nav.sub.ebook"></a>
+          <nav class="site-footer-nav" aria-label="Hizmetler">
+            <p class="site-footer-head">Hizmetler</p>
+            <a href="/yazar-danismanligi" aria-current="page">Yazar Danışmanlığı</a>
+            <a href="/editorluk-hizmetleri">Editörlük Hizmetleri</a>
+            <a href="/tasarim">Tasarım</a>
+            <a href="/ceviri">Çeviri</a>
+            <a href="/basim-dagitim">Basım-Dağıtım</a>
+            <a href="/ekitap-formati">E-Kitap Formatı</a>
           </nav>
-          <nav class="site-footer-nav" data-i18n-attr="aria-label:footer.company">
-            <p class="site-footer-head" data-i18n="footer.company"></p>
-            <a href="/hakkimizda" data-i18n="footer.link.about"></a>
-            <a href="/hakkimizda#ekip" data-i18n="footer.link.team"></a>
-            <a href="/amazonda-yayinla" data-i18n="footer.link.global"></a>
-            <a href="/yurtdisi-hizmetler" data-i18n="sign.global.title"></a>
-            <a href="https://heryerdekitap.com" data-i18n="footer.link.shop"></a>
-            <a href="https://heryerdekitap.com/her-yerde-kitap-blog-ve-haberler" data-i18n="footer.link.blog"></a>
-            <a href="https://heryerdekitap.com/brand" data-i18n="footer.link.authors"></a>
-            <a href="/iletisim#sss" data-i18n="footer.link.faq"></a>
+          <nav class="site-footer-nav" aria-label="Kurum">
+            <p class="site-footer-head">Kurum</p>
+            <a href="/hakkimizda">Hakkımızda</a>
+            <a href="/hakkimizda#ekip">Ekibimiz</a>
+            <a href="/amazonda-yayinla">Amazon'da Yayınla</a>
+            <a href="/yurtdisi-hizmetler">Sınırların Ötesi</a>
+            <a href="https://heryerdekitap.com">HeryerdeKitap – Kitap Satış</a>
+            <a href="https://heryerdekitap.com/her-yerde-kitap-blog-ve-haberler">Blog</a>
+            <a href="https://heryerdekitap.com/brand">Yazarlarımız</a>
+            <a href="/iletisim#sss">Sık sorulan sorular</a>
           </nav>
           <div class="site-footer-nav">
-            <p class="site-footer-head" data-i18n="footer.reach"></p>
+            <p class="site-footer-head">Bize ulaşın</p>
             <a href="tel:+902163011213">+90-0216-301-1213</a>
             <!-- PROVISIONAL: number not yet confirmed -->
             <a href="tel:+905333568256">+90 533 356 8256</a>
@@ -183,15 +186,16 @@
             <!-- PROVISIONAL: number not yet confirmed -->
             <a class="whatsapp-link" href="https://wa.me/905398225698?text=Merhaba%2C%20destek%20almak%20istiyorum." rel="noopener">
               <svg class="whatsapp-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-              <span data-i18n="footer.whatsapp"></span>
+              <span>WhatsApp Desteği</span>
             </a>
           </div>
         </div>
         <div class="site-footer-base">
-          <p>© <span class="site-footer-year">2026</span> Yazardan Direkt. <span data-i18n="footer.rights"></span></p>
-          <a href="#top" data-i18n="footer.top"></a>
+          <p>© <span class="site-footer-year">2026</span> Yazardan Direkt. <span>Tüm hakları saklıdır.</span></p>
+          <a href="#top">Başa dön</a>
         </div>
       </div>
     </footer>
+    <!-- /shell:footer -->
   </body>
 </html>

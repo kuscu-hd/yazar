@@ -16,7 +16,6 @@
   const coverDots = document.querySelector(".cover-dots");
   // Zwei Stück: eines auf dem Deckel, eines quer auf dem Rücken.
   const coverLogos = Array.from(document.querySelectorAll(".cover-logo"));
-  const coverLogoTexts = Array.from(document.querySelectorAll(".cover-logo-text"));
 
   /* Scroll-Fahrplan in Pixeln Scrollstrecke (max. 8200, siehe
      .cinema-scroll in styles.css). */
@@ -193,13 +192,16 @@
 
   /* Ledertöne. "hard-light" entscheidet anhand der Helligkeit des Tons, ob
      das Leder angehoben oder abgedunkelt wird -- deshalb steuert jede Zeile
-     ihre Stärke selbst. Siyah = unverändert, also Stärke 0. */
+     ihre Stärke selbst. Siyah = unverändert, also Stärke 0.
+     Name und Feldfarbe jedes Tons stehen als Knopf im HTML (in jeder
+     Sprache eigens); die Reihenfolge hier MUSS der Reihenfolge der Knöpfe
+     in .cover-swatches-leather entsprechen. */
   const COVER_LEATHERS = [
-    { key: "leather.black", swatch: "#1b1519", lift: "none", strength: 0 },
-    { key: "leather.brown", swatch: "#6b4326", lift: "brightness(1.5) sepia(0.85) saturate(1.5) hue-rotate(-14deg)", strength: 1 },
-    { key: "leather.bordeaux", swatch: "#6b2029", lift: "brightness(1.35) sepia(0.85) saturate(2.2) hue-rotate(-40deg)", strength: 1 },
-    { key: "leather.navy", swatch: "#243d66", lift: "brightness(1.35) sepia(0.85) saturate(1.9) hue-rotate(180deg)", strength: 1 },
-    { key: "leather.olive", swatch: "#2c4834", lift: "brightness(1.24) sepia(0.85) saturate(1.15) hue-rotate(58deg)", strength: 1 },
+    { lift: "none", strength: 0 }, // Siyah
+    { lift: "brightness(1.5) sepia(0.85) saturate(1.5) hue-rotate(-14deg)", strength: 1 }, // Kahve
+    { lift: "brightness(1.35) sepia(0.85) saturate(2.2) hue-rotate(-40deg)", strength: 1 }, // Bordo
+    { lift: "brightness(1.35) sepia(0.85) saturate(1.9) hue-rotate(180deg)", strength: 1 }, // Lacivert
+    { lift: "brightness(1.24) sepia(0.85) saturate(1.15) hue-rotate(58deg)", strength: 1 }, // Zeytin
   ];
 
   /* PRÄGUNGEN.  Jede Zeile bringt ihre eigene Stopfolge mit, alle auf
@@ -210,35 +212,33 @@
      ein warmes Strohgelb statt in Weiß -- sonst kippt es auf dem dunklen
      Leder nach Silber. Der dunkelste Ton liegt bewusst nicht am Anschlag,
      sonst verschwinden die Enden des Zeichens im Leder.
+     Wie bei den Ledertönen stehen Name und Feldfarbe als Knopf im HTML;
+     die Reihenfolge hier entspricht der in .cover-swatches-foil.
      RELIEF: der dunkle Saum setzt die Prägung vom Leder ab. Ohne ihn liegt
      sie auf statt darin -- und eine farblose Prägung (Kabartma) wäre auf dem
      Schirm überhaupt nicht zu sehen, sie braucht Grat und Schatten. */
   const FOIL_RELIEF = "saturate(1.06) drop-shadow(0 1px 1px rgb(0 0 0 / 0.55))";
   const COVER_FOILS = [
     {
-      key: "foil.gold",
-      swatch: "#d9a527",
+      // Altın
       stops:
         "#8a6012 0%, #a9781a 11%, #cf9c26 22%, #edc248 33%, #fbdd7b 43%, " +
         "#fff2b4 48%, #f7d264 55%, #dfae30 67%, #b0801a 82%, #8a6012 100%",
     },
     {
-      key: "foil.silver",
-      swatch: "#b9bfc6",
+      // Gümüş
       stops:
         "#7b7f85 0%, #9aa0a7 11%, #b9bfc6 22%, #d4d9de 33%, #eef1f4 43%, " +
         "#ffffff 48%, #e7eaee 55%, #c6ccd2 67%, #9aa0a7 82%, #7b7f85 100%",
     },
     {
-      key: "foil.copper",
-      swatch: "#c07440",
+      // Bakır
       stops:
         "#8a4a28 0%, #a55d33 11%, #c07440 22%, #d79663 33%, #eeb98a 43%, " +
         "#ffe0c4 48%, #f3c79c 55%, #cd8452 67%, #a55d33 82%, #8a4a28 100%",
     },
     {
-      key: "foil.blind",
-      swatch: "#4a3f45",
+      // Kabartma
       stops:
         "#2b2328 0%, #392f35 11%, #463b42 22%, #52454c 33%, #5d5058 43%, " +
         "#6a5c64 48%, #5d5058 55%, #4c4148 67%, #392f35 82%, #2b2328 100%",
@@ -249,14 +249,14 @@
 
   /* Die Praegung auf dem Deckel. Zwei Zustaende, nicht mehr: das eigene
      Zeichen von Yazardan Direkt und ein leeres Feld, das zeigt, wo das
-     Zeichen des Autors hinkaeme. { text: ... } statt { src: ... } setzt
-     dieses Platzhalterfeld; bei { src: ... } wird die Datei als Maske ueber
-     den Goldverlauf gelegt, die Farbe der Quelle ist also gleichgueltig.
-     Leder- und Folienwahl sind entfallen: das Buch ist schwarz, und das
-     Gold steht als ein Ton in styles.css (--cover-foil). */
+     Zeichen des Autors hinkaeme. { text: true } setzt dieses Platzhalterfeld
+     (sein Text steht fest in .cover-logo-text); bei { src: ... } wird die
+     Datei als Maske ueber das Metall gelegt, die Farbe der Quelle ist also
+     gleichgueltig. "label" nennt das data-Attribut an .cover-pick, in dem
+     die Beschriftung in der Sprache der Seite steht. */
   const COVER_LOGOS = [
-    { src: "/assets/yazar_logo.png", key: "cover.logo.brand" },
-    { text: "cover.logo.own.text", key: "cover.logo.own" },
+    { src: "/assets/yazar_logo.png", label: "labelBrand" },
+    { text: true, label: "labelOwn" },
   ];
 
   let targetScroll = 0;
@@ -632,45 +632,27 @@
     Array.from(host.children).forEach((btn, i) => btn.classList.toggle("is-on", i === active));
   }
 
-  // Die Namen der Töne stehen als Schlüssel in den Listen, nicht als Text:
-  // das Feld, das beim Überfahren erscheint, muss die Sprache mitwechseln.
-  function buildSwatches(selector, list, onPick) {
+  // Die Knöpfe stehen fertig im HTML, mit Namen und Farbe in der Sprache
+  // der Seite. Hier kommt nur das Verhalten dazu.
+  function bindSwatches(selector, onPick) {
     const host = document.querySelector(selector);
     if (!host) return;
-    host.replaceChildren(
-      ...list.map((entry, i) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "cover-swatch";
-        btn.style.setProperty("--swatch", entry.swatch);
-        // Das Attribut bleibt am Knopf stehen, damit i18n.js die Namen bei
-        // jedem weiteren Sprachwechsel von allein nachzieht; für das erste
-        // Bild werden sie hier gleich mitgesetzt.
-        btn.dataset.i18nAttr = `aria-label:${entry.key};title:${entry.key}`;
-        btn.setAttribute("aria-label", coverText(entry.key));
-        btn.title = coverText(entry.key);
-        btn.addEventListener("click", () => onPick(i));
-        return btn;
-      })
-    );
+    Array.from(host.children).forEach((btn, i) => btn.addEventListener("click", () => onPick(i)));
   }
-
-  // Beschriftung und Platzhaltertext stehen als Schluessel in COVER_LOGOS und
-  // werden erst hier aufgeloest -- sonst blieben sie beim Sprachwechsel stehen.
-  const coverText = (key) => (window.yazarI18n ? window.yazarI18n.t(key) : key);
 
   function renderCoverLogo(immediate) {
     const entry = COVER_LOGOS[activeLogo];
     if (!entry) return;
     const swap = () => {
       if (entry.text) {
-        for (const el of coverLogoTexts) el.textContent = coverText(entry.text);
         for (const el of coverLogos) el.classList.add("is-text");
       } else {
         for (const el of coverLogos) el.classList.remove("is-text");
         root.style.setProperty("--cover-src", `url("${entry.src}")`);
       }
-      if (coverLabel) coverLabel.textContent = coverText(entry.key);
+      // Die Beschriftung wechselt mit der Auswahl -- ein Zustand der
+      // Bedienung, kein Inhalt. Beide Fassungen stehen im HTML.
+      if (coverLabel && coverPick) coverLabel.textContent = coverPick.dataset[entry.label] || "";
       root.style.setProperty("--cover-logo-opacity", "1");
     };
     if (coverDots) {
@@ -984,7 +966,8 @@
     if (!navPanel || !navToggle) return;
     navPanel.hidden = !open;
     navToggle.setAttribute("aria-expanded", String(open));
-    navToggle.setAttribute("aria-label", coverText(open ? "nav.menu.close" : "nav.menu.open"));
+    // Beide Beschriftungen stehen am Knopf, in der Sprache der Seite.
+    navToggle.setAttribute("aria-label", open ? navToggle.dataset.labelClose : navToggle.dataset.labelOpen);
     document.body.style.overflow = open ? "hidden" : "";
   }
 
@@ -1019,22 +1002,6 @@
   window.addEventListener("resize", updateHeaderPark);
   updateHeaderPark();
 
-  /* ---------- Sprachwechsel ---------- */
-
-  // Die Textspalte zerlegt ihre Überschriften in Wörter und gruppiert sie
-  // nach Zeilen. Die Umbrüche fallen in jeder Sprache anders, und i18n.js
-  // hat die Wortfelder gerade überschrieben -- also muss der Zwischenstand
-  // weg (dataset.raw) und die Zerlegung neu laufen.
-  document.addEventListener("yazar:lang", () => {
-    for (const block of copyBlocks) {
-      for (const child of block.children) delete child.dataset.raw;
-    }
-    prepareCopyReveal();
-    renderCoverLogo(true);
-    if (navPanel && navToggle) setNavOpen(!navPanel.hidden);
-    requestTick();
-  });
-
   /* ---------- Kontaktformular ---------- */
 
   // Hinter dem Formular steht kein Server. Statt die Eingaben ins Leere zu
@@ -1046,15 +1013,18 @@
     contactForm.addEventListener("submit", (event) => {
       event.preventDefault();
       if (!contactForm.reportValidity()) return;
+      // Beschriftung und Betreff kommen aus dem Formular selbst -- dort
+      // stehen sie in der Sprache der Seite.
       const field = (name) => (contactForm.elements[name]?.value || "").trim();
+      const label = (name) => contactForm.elements[name]?.getAttribute("aria-label") || name;
       const body = [
-        `${coverText("contact.form.name")}: ${field("isim")}`,
-        `${coverText("contact.form.email")}: ${field("email")}`,
-        `${coverText("contact.form.phone")}: ${field("telefon")}`,
+        `${label("isim")}: ${field("isim")}`,
+        `${label("email")}: ${field("email")}`,
+        `${label("telefon")}: ${field("telefon")}`,
         "",
         field("mesaj"),
       ].join("\n");
-      const subject = `${coverText("contact.kicker")} — ${field("isim")}`;
+      const subject = `${contactForm.dataset.mailSubject || ""} — ${field("isim")}`;
       window.location.href =
         "mailto:info@yazardandirekt.com" +
         `?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -1111,11 +1081,11 @@
   }
   document.querySelector(".cover-arrow-prev")?.addEventListener("click", () => cycleLogo(-1));
   document.querySelector(".cover-arrow-next")?.addEventListener("click", () => cycleLogo(1));
-  buildSwatches(".cover-swatches-leather", COVER_LEATHERS, (i) => {
+  bindSwatches(".cover-swatches-leather", (i) => {
     activeLeather = i;
     renderLeather();
   });
-  buildSwatches(".cover-swatches-foil", COVER_FOILS, (i) => {
+  bindSwatches(".cover-swatches-foil", (i) => {
     activeFoil = i;
     renderFoil();
   });

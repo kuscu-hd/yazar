@@ -1081,9 +1081,10 @@ a {
 
 /* ==================================================================
    SPRACHUMSCHALTER
-   Zwei Schaltflächen, keine Auswahlliste: bei genau zwei Sprachen ist ein
-   Klick weniger Arbeit als ein Aufklappen, und man sieht ohne Umweg,
-   welche gerade läuft.
+   Zwei Links, keine Auswahlliste: bei genau zwei Sprachen ist ein Klick
+   weniger Arbeit als ein Aufklappen, und man sieht ohne Umweg, welche
+   gerade läuft. Jeder Link führt auf dieselbe Seite in der anderen
+   Sprache -- es gibt keine Umschaltung im Browser.
    ================================================================== */
 
 .lang-switch {
@@ -1098,7 +1099,9 @@ a {
   backdrop-filter: blur(8px);
 }
 
-.lang-switch button {
+.lang-switch a {
+  display: inline-grid;
+  place-content: center;
   min-width: 38px;
   height: 30px;
   padding: 0 9px;
@@ -1108,15 +1111,15 @@ a {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.1em;
-  cursor: pointer;
+  text-decoration: none;
   transition: background 200ms ease, color 200ms ease;
 }
 
-.lang-switch button:hover {
+.lang-switch a:hover {
   color: var(--ink);
 }
 
-.lang-switch button.is-on {
+.lang-switch a.is-on {
   background: var(--ink);
   color: #fff;
 }
