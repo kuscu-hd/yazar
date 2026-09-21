@@ -50,6 +50,9 @@ export const PAGES = [
   { id: "about", section: "about", tr: ["hakkimizda.html", "/hakkimizda"], de: ["de/ueber-uns.html", "/de/ueber-uns"] },
   { id: "global", section: "amazon", tr: ["yurtdisi-hizmetler.html", "/yurtdisi-hizmetler"], de: ["de/international.html", "/de/international"] },
   { id: "contact", section: "contact", tr: ["iletisim.html", "/iletisim"], de: ["de/kontakt.html", "/de/kontakt"] },
+  // Dankeseite nach dem Absenden: kein Menüpunkt, und noindex -- sie soll
+  // nicht in der Suche auftauchen.
+  { id: "thanks", section: null, noindex: true, tr: ["tesekkurler.html", "/tesekkurler"], de: ["de/danke.html", "/de/danke"] },
 ];
 
 const LANGS = ["tr", "de"];
@@ -123,6 +126,12 @@ const META = {
       "İngilizce eserleriniz için Amazon, Türkçe kitaplarınız için İstanbul Books: eserinizi istek üzerine basımla dünyanın dört bir yanındaki okurlarla buluşturuyoruz."],
     de: ["Amazon und İstanbul Books | Yazardan Direkt",
       "Amazon für Ihre englischsprachigen Werke, İstanbul Books für Ihre türkischsprachigen Bücher: per Print-on-Demand zu Lesenden in aller Welt."],
+  },
+  thanks: {
+    tr: ["Teşekkürler | Yazardan Direkt",
+      "Mesajınız bize ulaştı. Ön değerlendirmenin ardından size özel bir danışman sizinle iletişime geçer."],
+    de: ["Vielen Dank | Yazardan Direkt",
+      "Ihre Nachricht ist bei uns angekommen. Nach der ersten Sichtung meldet sich eine persönliche Ansprechperson bei Ihnen."],
   },
   contact: {
     tr: ["İletişim | Yazardan Direkt",
@@ -286,6 +295,7 @@ function head(page, lang) {
     ...(lang === "de" ? [`<!-- DE: unreviewed -->`] : []),
     `<title>${esc(title)}</title>`,
     `<meta name="description" content="${attr(description)}" />`,
+    ...(page.noindex ? [`<meta name="robots" content="noindex" />`] : []),
     `<link rel="canonical" href="${abs(lang)}" />`,
     `<link rel="alternate" hreflang="tr" href="${abs("tr")}" />`,
     `<link rel="alternate" hreflang="de" href="${abs("de")}" />`,
