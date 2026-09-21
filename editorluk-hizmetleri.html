@@ -20,10 +20,10 @@
       </a>
 
       <nav class="nav-primary" data-i18n-attr="aria-label:nav.menu.main">
-        <a href="/hizmetlerimiz" data-i18n="nav.services"></a>
+        <a href="/hizmetlerimiz" data-i18n="nav.services" class="is-active"></a>
         <a href="/hakkimizda" data-i18n="nav.about"></a>
         <a href="/amazonda-yayinla" data-i18n="nav.global"></a>
-        <a href="/iletisim" data-i18n="nav.contact" aria-current="page"></a>
+        <a href="/iletisim" data-i18n="nav.contact"></a>
       </nav>
 
       <div class="lang-switch" role="group" data-i18n-attr="aria-label:lang.label">
@@ -55,7 +55,7 @@
           <a href="/hizmetlerimiz" data-i18n="nav.services"></a>
           <div class="nav-sub">
             <a href="/yazar-danismanligi" data-i18n="nav.sub.consult"></a>
-            <a href="/editorluk-hizmetleri" data-i18n="nav.sub.editing"></a>
+            <a href="/editorluk-hizmetleri" data-i18n="nav.sub.editing" aria-current="page"></a>
             <a href="/tasarim" data-i18n="nav.sub.design"></a>
             <a href="/ceviri" data-i18n="nav.sub.translation"></a>
             <a href="/basim-dagitim" data-i18n="nav.sub.print"></a>
@@ -78,7 +78,7 @@
         <a href="https://heryerdekitap.com/her-yerde-kitap-blog-ve-haberler" data-i18n="nav.blog"></a>
         <a href="https://heryerdekitap.com/brand" data-i18n="nav.authors"></a>
         <div class="nav-branch">
-          <a href="/iletisim" data-i18n="nav.contact" aria-current="page"></a>
+          <a href="/iletisim" data-i18n="nav.contact"></a>
           <div class="nav-sub">
             <a href="/iletisim#sss" data-i18n="nav.faq"></a>
           </div>
@@ -94,105 +94,53 @@
     <main class="site-shell">
       <section class="page-head" id="top">
         <div class="wrap">
-          <p class="kicker" data-i18n="head.contact.kicker"></p>
-          <h1 data-i18n="head.contact.h1"></h1>
-          <p class="lede" data-i18n="head.contact.lede"></p>
+          <a class="kicker kicker-link" href="/hizmetlerimiz" data-i18n="head.services.kicker"></a>
+          <h1 data-i18n="svc.editing.name"></h1>
+          <p class="lede" data-i18n="svc.editing.text"></p>
         </div>
       </section>
 
-      <section class="band band-dark">
+      <section class="band">
         <div class="wrap">
-          <div class="contact">
-            <dl class="contact-list contact-list-lead">
-              <dt data-i18n="contact.phone.label"></dt>
-              <dd><a href="tel:+902163011213">+90-0216-301-1213</a></dd>
-              <!-- PROVISIONAL: number not yet confirmed -->
-              <dt data-i18n="contact.mobile.label"></dt>
-              <dd><a href="tel:+905333568256">+90 533 356 8256</a></dd>
-              <dt data-i18n="contact.mail.label"></dt>
-              <dd><a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a></dd>
-              <dt data-i18n="contact.hours.label"></dt>
-              <dd data-i18n="contact.hours.value"></dd>
-            </dl>
-
-            <!-- Kein Server dahinter: script.js baut aus den Feldern einen
-                 mailto-Link. Sobald ein Endpunkt steht, bekommt das Formular
-                 action/method und der Zweig in script.js entfällt. -->
-            <form class="contact-form" data-i18n-attr="aria-label:contact.form.label" novalidate>
-              <input
-                type="text"
-                name="isim"
-                autocomplete="name"
-                required
-                data-i18n-attr="placeholder:contact.form.name;aria-label:contact.form.name"
-              />
-              <input
-                type="email"
-                name="email"
-                autocomplete="email"
-                required
-                data-i18n-attr="placeholder:contact.form.email;aria-label:contact.form.email"
-              />
-              <input
-                type="tel"
-                name="telefon"
-                autocomplete="tel"
-                data-i18n-attr="placeholder:contact.form.phone;aria-label:contact.form.phone"
-              />
-              <textarea
-                name="mesaj"
-                rows="4"
-                data-i18n-attr="placeholder:contact.form.message;aria-label:contact.form.message"
-              ></textarea>
-              <button type="submit" data-i18n="contact.form.send"></button>
-              <p class="note" data-i18n="contact.form.hint"></p>
-            </form>
-          </div>
+          <ul class="ticks ticks-wide">
+            <li data-i18n="svc.editing.1"></li>
+            <li data-i18n="svc.editing.2"></li>
+            <li data-i18n="svc.editing.3"></li>
+            <li data-i18n="svc.editing.4"></li>
+            <li data-i18n="svc.editing.5"></li>
+          </ul>
         </div>
       </section>
 
-      <section class="band" id="sss" aria-labelledby="faq-h">
+      <!-- Alle sechs Leistungen, die aktuelle markiert -- wie das Raster auf
+           den Leistungsseiten der alten Seite. -->
+      <section class="band band-quiet" aria-labelledby="more-h">
         <div class="wrap">
-          <div class="lede-grid">
-            <div class="lede-grid-head">
-              <p class="kicker" data-i18n="faq.kicker"></p>
-              <h2 class="band-h" id="faq-h" data-i18n="faq.h2"></h2>
+          <h2 class="band-h" id="more-h" data-i18n="head.services.kicker"></h2>
+          <ul class="service-links">
+            <li><a href="/yazar-danismanligi" data-i18n="svc.consult.name"></a></li>
+            <li><a href="/editorluk-hizmetleri" data-i18n="svc.editing.name" aria-current="page"></a></li>
+            <li><a href="/tasarim" data-i18n="svc.design.name"></a></li>
+            <li><a href="/ceviri" data-i18n="svc.translation.name"></a></li>
+            <li><a href="/basim-dagitim" data-i18n="svc.print.name"></a></li>
+            <li><a href="/ekitap-formati" data-i18n="svc.ebook.name"></a></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Der kurze Abschluss jeder Seite. Die ausführliche Fassung mit
+           Formular und Fragen steht auf /iletisim. -->
+      <section class="band band-dark" aria-labelledby="strip-h">
+        <div class="wrap">
+          <div class="contact-strip">
+            <div class="contact-strip-say">
+              <p class="kicker" data-i18n="strip.kicker"></p>
+              <h2 class="band-h" id="strip-h" data-i18n="strip.h2"></h2>
             </div>
-            <!-- <details> statt eigener Mechanik: Auf- und Zuklappen,
-                 Tastatur und Vorlesen kommen vom Browser. -->
-            <div class="lede-grid-body faq">
-              <details>
-                <summary data-i18n="faq.1.q"></summary>
-                <p data-i18n="faq.1.a"></p>
-              </details>
-              <details>
-                <summary data-i18n="faq.2.q"></summary>
-                <p data-i18n="faq.2.a"></p>
-              </details>
-              <details>
-                <summary data-i18n="faq.3.q"></summary>
-                <p data-i18n="faq.3.a"></p>
-              </details>
-              <details>
-                <summary data-i18n="faq.4.q"></summary>
-                <p data-i18n="faq.4.a"></p>
-              </details>
-              <details>
-                <summary data-i18n="faq.5.q"></summary>
-                <p data-i18n="faq.5.a"></p>
-              </details>
-              <details>
-                <summary data-i18n="faq.6.q"></summary>
-                <p data-i18n="faq.6.a"></p>
-              </details>
-              <details>
-                <summary data-i18n="faq.7.q"></summary>
-                <p data-i18n="faq.7.a"></p>
-              </details>
-              <details>
-                <summary data-i18n="faq.8.q"></summary>
-                <p data-i18n="faq.8.a"></p>
-              </details>
+            <div class="contact-strip-ways">
+              <a href="tel:+902163011213">+90-0216-301-1213</a>
+              <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>
+              <a class="copy-link" href="/iletisim" data-i18n="strip.cta"></a>
             </div>
           </div>
         </div>
@@ -209,7 +157,7 @@
           <nav class="site-footer-nav" data-i18n-attr="aria-label:footer.services">
             <p class="site-footer-head" data-i18n="footer.services"></p>
             <a href="/yazar-danismanligi" data-i18n="nav.sub.consult"></a>
-            <a href="/editorluk-hizmetleri" data-i18n="nav.sub.editing"></a>
+            <a href="/editorluk-hizmetleri" data-i18n="nav.sub.editing" aria-current="page"></a>
             <a href="/tasarim" data-i18n="nav.sub.design"></a>
             <a href="/ceviri" data-i18n="nav.sub.translation"></a>
             <a href="/basim-dagitim" data-i18n="nav.sub.print"></a>

@@ -367,6 +367,11 @@
       "world.3.text":
         "Kitabınız Amazon'un tüm dünyadaki platformlarında satışa açılır; Türkçe eserler için aynı yolu İstanbul Books üzerinden kurarız.",
       /* ---------- Alt bilgi ---------- */
+      "contact.mobile.label": "Cep telefonu",
+      "footer.whatsapp": "WhatsApp Desteği",
+      "footer.link.shop": "HeryerdeKitap – Kitap Satış",
+      "footer.link.blog": "Blog",
+      "footer.link.authors": "Yazarlarımız",
       "footer.link.about": "Hakkımızda",
       "footer.link.team": "Ekibimiz",
       "footer.link.global": "Amazon'da Yayınla",
@@ -726,6 +731,11 @@
       "world.3.text":
         "Ihr Buch wird auf allen Amazon-Plattformen weltweit verkäuflich; für türkischsprachige Werke bauen wir denselben Weg über İstanbul Books.",
       /* ---------- Fußzeile ---------- */
+      "contact.mobile.label": "Mobil",
+      "footer.whatsapp": "WhatsApp",
+      "footer.link.shop": "HeryerdeKitap – Buchverkauf",
+      "footer.link.blog": "Blog",
+      "footer.link.authors": "Unsere Autorinnen & Autoren",
       "footer.link.about": "Über uns",
       "footer.link.team": "Unser Team",
       "footer.link.global": "Auf Amazon veröffentlichen",

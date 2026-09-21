@@ -255,7 +255,7 @@
      Leder- und Folienwahl sind entfallen: das Buch ist schwarz, und das
      Gold steht als ein Ton in styles.css (--cover-foil). */
   const COVER_LOGOS = [
-    { src: "assets/yazar_logo.png", key: "cover.logo.brand" },
+    { src: "/assets/yazar_logo.png", key: "cover.logo.brand" },
     { text: "cover.logo.own.text", key: "cover.logo.own" },
   ];
 
