@@ -53,6 +53,84 @@ export const PAGES = [
 ];
 
 const LANGS = ["tr", "de"];
+const ORIGIN = "https://yazardandirekt.com";
+
+/* TITEL UND BESCHREIBUNG je Seite und Sprache. Titel eindeutig, höchstens
+   etwa 60 Zeichen; Beschreibung etwa 120 bis 160 Zeichen. */
+const META = {
+  home: {
+    tr: ["Yazardan Direkt | Standartların Ötesinde Yayıncılık",
+      "Standartların ötesinde yayıncılık. Yazar danışmanlığı, editörlük, tasarım, çeviri, basım-dağıtım ve Amazon'da yayınlama."],
+    de: ["Yazardan Direkt | Verlagsarbeit jenseits des Üblichen",
+      "Verlagsarbeit jenseits des Üblichen. Autorenberatung, Lektorat, Gestaltung, Übersetzung, Druck und Vertrieb sowie Veröffentlichung auf Amazon."],
+  },
+  services: {
+    tr: ["Hizmetlerimiz | Yazardan Direkt",
+      "Yazar danışmanlığı, editörlük, tasarım, çeviri, basım-dağıtım ve e-kitap: modüler hizmetlerle tek bir adımı ya da tüm yayın sürecini birlikte yürütüyoruz."],
+    de: ["Leistungen für Autorinnen und Autoren | Yazardan Direkt",
+      "Autorenberatung, Lektorat, Gestaltung, Übersetzung, Druck und Vertrieb, E-Book-Format – modular: ein einzelner Schritt oder der ganze Weg zum Buch."],
+  },
+  consult: {
+    tr: ["Yazar Danışmanlığı | Yazardan Direkt",
+      "Fikrinizin şekillenmesinden yayın kararına kadar kişiye özel, stratejik yazar danışmanlığı: hedef kitle, tür, başlık, zamanlama ve yayın modeli."],
+    de: ["Autorenberatung | Yazardan Direkt",
+      "Persönliche, strategische Beratung von der Idee bis zur Entscheidung über die Veröffentlichung: Zielgruppe, Genre, Titel, Zeitplanung und Modell."],
+  },
+  editing: {
+    tr: ["Editörlük Hizmetleri | Yazardan Direkt",
+      "Editörlük bir metni değiştirmekten çok onun özünü parlatmaktır: yazım tutarlılığı, anlatım dili, yapı ve akışta yazarın sesine saygılı editörlük."],
+    de: ["Lektorat | Yazardan Direkt",
+      "Lektorat heißt, den Kern eines Textes zum Leuchten zu bringen: sprachliche Stimmigkeit, Ausdruck, Aufbau und Fluss – mit Achtung vor Ihrer Stimme."],
+  },
+  design: {
+    tr: ["Kitap Kapağı ve Sayfa Tasarımı | Yazardan Direkt",
+      "Kapaktan sayfa yerleşimine, tipografiden illüstrasyona: kitabınızın ruhunu yansıtan, baskıya ve dijital formatlara uygun kitap tasarımı."],
+    de: ["Buchgestaltung: Umschlag und Satz | Yazardan Direkt",
+      "Vom Umschlag bis zum Seitenlayout, von der Typografie bis zur Illustration: Buchgestaltung, die den Geist Ihres Werkes trägt – für Druck und Bildschirm."],
+  },
+  translation: {
+    tr: ["Kitap Çevirisi | Yazardan Direkt",
+      "Anlamı korumak, kültürü aktarmak: alanında yetkin çevirmenler, iki aşamalı kontrol ve editörle uyumlu bir süreçle, İngilizce başta olmak üzere kitap çevirisi."],
+    de: ["Buchübersetzung | Yazardan Direkt",
+      "Den Sinn bewahren, die Kultur vermitteln: Buchübersetzung durch fachkundige Übersetzerinnen und Übersetzer, zweistufig geprüft und mit dem Lektorat abgestimmt."],
+  },
+  print: {
+    tr: ["Basım ve Dağıtım | Yazardan Direkt",
+      "İstek üzerine basımdan yüksek tirajlara, kitabevi ağından Her Yerde Kitap'a: kitabınızın okura ulaşması için baskı ve dağıtım süreci."],
+    de: ["Druck und Vertrieb | Yazardan Direkt",
+      "Von Print-on-Demand bis zu hohen Auflagen, vom Buchhandel bis zu Her Yerde Kitap: Druck und Vertrieb, damit Ihr Buch seine Lesenden erreicht."],
+  },
+  ebook: {
+    tr: ["E-Kitap Formatı: ePub ve Mobi | Yazardan Direkt",
+      "Eserinizi tüm dijital platformlara uygun ePub ve Mobi dosyalarına dönüştürüyoruz: içindekiler, bağlantılar, görsel düzen ve dosya kontrolü dahil."],
+    de: ["E-Book-Format: ePub und Mobi | Yazardan Direkt",
+      "Wir machen Ihr Werk zu ePub- und Mobi-Dateien für alle digitalen Plattformen – mit Inhaltsverzeichnis, Verlinkungen, stimmigem Layout und Dateiprüfung."],
+  },
+  amazon: {
+    tr: ["Amazon'da Yayınla | Yazardan Direkt",
+      "Kitabınızı İngilizceye çevirip Amazon'da Kindle ve Print-on-Demand olarak yayımlayın. Amazon ve İstanbul Books hakkında sık sorulan sorular."],
+    de: ["Auf Amazon veröffentlichen | Yazardan Direkt",
+      "Ihr Buch ins Englische übersetzt und auf Amazon als Kindle-E-Book und Print-on-Demand veröffentlicht. Häufige Fragen zu Amazon und İstanbul Books."],
+  },
+  about: {
+    tr: ["Hakkımızda | Yazardan Direkt",
+      "Üretimi yücelten, emeği kutsayan bir yayınevi: Yazardan Direkt'in yayıncılık anlayışı, ekibi ve yazarlarımızın anlattıkları."],
+    de: ["Über uns | Yazardan Direkt",
+      "Ein Verlag, der das Schaffen erhöht und die Arbeit achtet: die Haltung von Yazardan Direkt, das Team und was unsere Autorinnen und Autoren sagen."],
+  },
+  global: {
+    tr: ["Yurt Dışında Yayın: Amazon ve İstanbul Books | Yazardan Direkt",
+      "İngilizce eserleriniz için Amazon, Türkçe kitaplarınız için İstanbul Books: eserinizi istek üzerine basımla dünyanın dört bir yanındaki okurlarla buluşturuyoruz."],
+    de: ["Amazon und İstanbul Books | Yazardan Direkt",
+      "Amazon für Ihre englischsprachigen Werke, İstanbul Books für Ihre türkischsprachigen Bücher: per Print-on-Demand zu Lesenden in aller Welt."],
+  },
+  contact: {
+    tr: ["İletişim | Yazardan Direkt",
+      "Eserinizi bize ulaştırın: +90-0216-301-1213, info@yazardandirekt.com, hafta içi 09:00–18:00. Ön değerlendirmenin ardından danışmanınız size ulaşır."],
+    de: ["Kontakt | Yazardan Direkt",
+      "Senden Sie uns Ihr Werk: +90-0216-301-1213, info@yazardandirekt.com, Montag bis Freitag 9–18 Uhr. Nach der Sichtung meldet sich Ihre Ansprechperson."],
+  },
+};
 
 const SERVICE_IDS = ["consult", "editing", "design", "translation", "print", "ebook"];
 const url = (id, lang) => PAGES.find((p) => p.id === id)[lang][1];
@@ -122,11 +200,6 @@ const TEXT = {
       faq: "Sık sorulan sorular",
       whatsapp: "WhatsApp Desteği",
     },
-    meta: {
-      title: "Yazardan Direkt — Standartların Ötesinde Yayıncılık",
-      description:
-        "Standartların ötesinde yayıncılık. Yazar danışmanlığı, editörlük, tasarım, çeviri, basım-dağıtım ve Amazon'da yayınlama.",
-    },
   },
 
   /* Deutsch: die Texte aus der früheren i18n.js, unverändert übernommen.
@@ -181,11 +254,6 @@ const TEXT = {
       faq: "Häufige Fragen",
       whatsapp: "WhatsApp",
     },
-    meta: {
-      title: "Yazardan Direkt — Verlagsarbeit jenseits des Üblichen",
-      description:
-        "Verlagsarbeit jenseits des Üblichen. Autorenberatung, Lektorat, Gestaltung, Übersetzung, Druck und Vertrieb sowie Veröffentlichung auf Amazon.",
-    },
   },
 };
 
@@ -206,13 +274,22 @@ function link(href, text, here, extra = "") {
   return `<a href="${attr(href)}"${extra}${current}>${esc(text)}</a>`;
 }
 
+/* Jede Seite nennt sich selbst als kanonisch und verweist per hreflang
+   auf beide Fassungen, sich selbst eingeschlossen. x-default ist die
+   türkische Fassung -- die Seite ist türkisch, Deutsch ist die Übersetzung. */
 function head(page, lang) {
-  const t = TEXT[lang];
+  const [title, description] = META[page.id][lang];
+  const abs = (l) => ORIGIN + page[l][1];
   return [
     `<meta charset="UTF-8" />`,
     `<meta name="viewport" content="width=device-width, initial-scale=1.0" />`,
-    `<title>${esc(t.meta.title)}</title>`,
-    `<meta name="description" content="${attr(t.meta.description)}" />`,
+    ...(lang === "de" ? [`<!-- DE: unreviewed -->`] : []),
+    `<title>${esc(title)}</title>`,
+    `<meta name="description" content="${attr(description)}" />`,
+    `<link rel="canonical" href="${abs(lang)}" />`,
+    `<link rel="alternate" hreflang="tr" href="${abs("tr")}" />`,
+    `<link rel="alternate" hreflang="de" href="${abs("de")}" />`,
+    `<link rel="alternate" hreflang="x-default" href="${abs("tr")}" />`,
     `<link rel="icon" href="data:," />`,
     `<link rel="stylesheet" href="/styles.css" />`,
     `<script src="/script.js" defer></script>`,
