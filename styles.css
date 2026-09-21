@@ -2391,6 +2391,20 @@ a {
   transition: color 200ms ease;
 }
 
+/* Die Rechtstexte stehen in der untersten Zeile, zwischen Jahr und
+   "Nach oben" -- dort sucht man sie. */
+.site-footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+  margin-right: auto;
+  margin-left: clamp(0px, 4vw, 48px);
+}
+
+.site-footer-legal a[aria-current="page"] {
+  color: var(--ink-on-dark);
+}
+
 .site-footer-base a:hover {
   color: var(--gold);
 }
