@@ -52,8 +52,7 @@ export const PAGES = [
   { id: "contact", section: "contact", tr: ["iletisim.html", "/iletisim"], de: ["de/kontakt.html", "/de/kontakt"] },
 ];
 
-// Sprachen, deren Seiten schon existieren.
-const LANGS = ["tr"];
+const LANGS = ["tr", "de"];
 
 const SERVICE_IDS = ["consult", "editing", "design", "translation", "print", "ebook"];
 const url = (id, lang) => PAGES.find((p) => p.id === id)[lang][1];
@@ -127,6 +126,65 @@ const TEXT = {
       title: "Yazardan Direkt — Standartların Ötesinde Yayıncılık",
       description:
         "Standartların ötesinde yayıncılık. Yazar danışmanlığı, editörlük, tasarım, çeviri, basım-dağıtım ve Amazon'da yayınlama.",
+    },
+  },
+
+  /* Deutsch: die Texte aus der früheren i18n.js, unverändert übernommen.
+     Neu ist nur "WhatsApp" (die türkische Fassung "WhatsApp Desteği"
+     stammt von der alten Seite) -- in den Seiten als unreviewed markiert. */
+  de: {
+    brand: "Yazardan Direkt",
+    menuMain: "Hauptmenü",
+    menuAll: "Gesamtes Menü",
+    menuOpen: "Menü öffnen",
+    menuClose: "Menü schließen",
+    langLabel: "Sprachwahl",
+    langName: { tr: "Türkisch", de: "Deutsch" },
+    nav: {
+      home: "STARTSEITE",
+      services: "LEISTUNGEN",
+      about: "ÜBER UNS",
+      amazon: "AUF AMAZON VERÖFFENTLICHEN",
+      contact: "KONTAKT",
+      team: "UNSER TEAM",
+      global: "Über die Grenzen",
+      faq: "HÄUFIGE FRAGEN",
+      shop: "HERYERDEKİTAP – BUCHVERKAUF",
+      blog: "BLOG",
+      authors: "UNSERE AUTORINNEN & AUTOREN",
+    },
+    service: {
+      consult: "Autorenberatung",
+      editing: "Lektorat",
+      design: "Gestaltung",
+      translation: "Übersetzung",
+      print: "Druck und Vertrieb",
+      ebook: "E-Book-Format",
+    },
+    credo:
+      "Wir sehen die Welt von einem Ort aus, der das Schaffen erhöht und die Arbeit achtet. Den Wert des Wortes suchen wir nicht allein in Bestsellerlisten, sondern in den richtigen Herzen.",
+    footer: {
+      credo:
+        "Wir glauben, dass die Kraft bei den Schreibenden und der Sinn bei den Lesenden liegt. Nicht dass ein Buch im Regal steht, ist wichtig, sondern dass es in einem Herzen Platz findet.",
+      services: "Leistungen",
+      company: "Verlag",
+      reach: "Erreichen Sie uns",
+      rights: "Alle Rechte vorbehalten.",
+      top: "Nach oben",
+      about: "Über uns",
+      team: "Unser Team",
+      amazon: "Auf Amazon veröffentlichen",
+      global: "Über die Grenzen",
+      shop: "HeryerdeKitap – Buchverkauf",
+      blog: "Blog",
+      authors: "Unsere Autorinnen & Autoren",
+      faq: "Häufige Fragen",
+      whatsapp: "WhatsApp",
+    },
+    meta: {
+      title: "Yazardan Direkt — Verlagsarbeit jenseits des Üblichen",
+      description:
+        "Verlagsarbeit jenseits des Üblichen. Autorenberatung, Lektorat, Gestaltung, Übersetzung, Druck und Vertrieb sowie Veröffentlichung auf Amazon.",
     },
   },
 };
@@ -297,6 +355,7 @@ function footer(page, lang) {
     `        <a href="tel:${MOBILE.tel}">${MOBILE.show}</a>`,
     `        <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>`,
     `        ${PROVISIONAL}`,
+    ...(lang === "de" ? [`        <!-- DE: unreviewed -->`] : []),
     `        <a class="whatsapp-link" href="${attr(WHATSAPP)}" rel="noopener">`,
     `          ${WA_ICON}`,
     `          <span>${esc(f.whatsapp)}</span>`,
