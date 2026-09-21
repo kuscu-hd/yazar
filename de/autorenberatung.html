@@ -171,20 +171,62 @@
         </div>
       </section>
 
-      <!-- Der kurze Abschluss jeder Seite. Die ausführliche Fassung mit
-           Formular und Fragen steht auf /de/kontakt. -->
-      <section class="band band-dark" aria-labelledby="strip-h">
+      <!-- Kontaktformular wie auf den Leistungsseiten der alten Seite. Es
+           heißt wie das auf /iletisim, damit alle Anfragen in einer Liste
+           landen; "sayfa" sagt, von welcher Seite sie kam. -->
+      <section class="band band-dark" aria-labelledby="form-h">
         <div class="wrap">
-          <div class="contact-strip">
-            <div class="contact-strip-say">
-              <p class="kicker">Der erste Schritt</p>
-              <h2 class="band-h" id="strip-h">Bringen wir Ihr Buch gemeinsam zur Veröffentlichung.</h2>
+          <div class="contact">
+            <div>
+              <p class="kicker">Kontakt</p>
+              <!-- DE: unreviewed -->
+              <h2 class="band-h" id="form-h">Nehmen Sie Kontakt mit uns auf</h2>
+              <dl class="contact-list">
+                <dt>Telefon</dt>
+                <dd><a href="tel:+902163011213">+90-0216-301-1213</a></dd>
+                <dt>E-Mail</dt>
+                <dd><a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a></dd>
+              </dl>
             </div>
-            <div class="contact-strip-ways">
-              <a href="tel:+902163011213">+90-0216-301-1213</a>
-              <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>
-              <a class="copy-link" href="/de/kontakt">Kontakt aufnehmen</a>
-            </div>
+
+            <!-- DE: unreviewed -->
+            <form
+              class="contact-form"
+              name="iletisim"
+              method="POST"
+              action="/de/danke"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              data-msg-required="Bitte füllen Sie dieses Feld aus."
+              data-msg-email="Bitte geben Sie eine gültige E-Mail-Adresse ein."
+              data-msg-consent="Bitte setzen Sie das Häkchen, um fortzufahren."
+            >
+              <input type="hidden" name="sayfa" value="/de/autorenberatung" />
+              <p class="form-honeypot" aria-hidden="true">
+                <label>Dieses Feld bitte leer lassen: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+              </p>
+              <label class="field">
+                <span class="field-label">Vor- und Nachname</span>
+                <input type="text" name="isim" autocomplete="name" required />
+              </label>
+              <label class="field">
+                <span class="field-label">Ihre E-Mail-Adresse</span>
+                <input type="email" name="email" autocomplete="email" required />
+              </label>
+              <label class="field">
+                <span class="field-label">Ihre Telefonnummer</span>
+                <input type="tel" name="telefon" autocomplete="tel" />
+              </label>
+              <label class="field">
+                <span class="field-label">Eine kurze Notiz zu Ihrem Werk</span>
+                <textarea name="mesaj" rows="4"></textarea>
+              </label>
+              <label class="consent">
+                <input type="checkbox" name="onay" value="evet" required />
+                <span>Ich habe die Datenschutzhinweise gelesen und bin einverstanden, dass meine Angaben zur Beantwortung meiner Anfrage verarbeitet werden.</span>
+              </label>
+              <button type="submit">Absenden</button>
+            </form>
           </div>
         </div>
       </section>

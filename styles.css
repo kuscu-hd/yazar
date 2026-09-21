@@ -2078,7 +2078,7 @@ a {
   gap: 12px;
 }
 
-.contact-form input,
+.contact-form input:not([type="checkbox"]):not([type="radio"]),
 .contact-form textarea {
   width: 100%;
   padding: 14px 16px;
@@ -2100,12 +2100,12 @@ a {
   color: var(--faint-on-dark);
 }
 
-.contact-form input:hover,
+.contact-form input:not([type="checkbox"]):not([type="radio"]):hover,
 .contact-form textarea:hover {
   border-color: rgb(244 241 238 / 0.3);
 }
 
-.contact-form input:focus,
+.contact-form input:not([type="checkbox"]):not([type="radio"]):focus,
 .contact-form textarea:focus {
   border-color: var(--gold);
   background: rgb(244 241 238 / 0.08);
@@ -2135,6 +2135,100 @@ a {
 
 .contact-form .note {
   color: var(--faint-on-dark);
+}
+
+/* ---------- Beschriftungen und Gruppen im Formular ---------- */
+
+/* Sichtbare Beschriftung über jedem Feld statt eines Platzhalters: ein
+   Platzhalter verschwindet beim Tippen, die Beschriftung bleibt. */
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.field-label,
+.contact-form legend {
+  color: var(--faint-on-dark);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Anzahl und Sprachen: die Auswahl steht in einer Gruppe mit eigener
+   Überschrift, damit der Vorlesemodus die Frage mitliest. */
+.choice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  align-items: center;
+  margin: 6px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.choice legend {
+  float: left;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 0;
+}
+
+.choice label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+
+.contact-form input[type="checkbox"],
+.contact-form input[type="radio"] {
+  flex: none;
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  accent-color: var(--gold);
+}
+
+.form-note {
+  flex-basis: 100%;
+  margin: 4px 0 0;
+  color: var(--faint-on-dark);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.consent {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--muted-on-dark);
+}
+
+.consent input {
+  margin-top: 2px;
+}
+
+.consent a {
+  color: var(--ink-on-dark);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.consent a:hover {
+  color: var(--gold);
+}
+
+/* Die Falle für Einsendeprogramme: für Augen und Vorlesemodus weg, aber
+   nicht display:none -- das überspringen viele davon. */
+.form-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 
 /* ---------- Alt bilgi ---------- */

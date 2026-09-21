@@ -141,24 +141,77 @@
               </details>
             </div>
           </div>
-          <p class="callout">NOT: Amazon Amerika'da Türkçe Kitap Yayınlanamıyor</p>
         </div>
       </section>
 
-      <!-- Der kurze Abschluss jeder Seite. Die ausführliche Fassung mit
-           Formular und Fragen steht auf /iletisim. -->
-      <section class="band band-dark" aria-labelledby="strip-h">
+      <!-- Bewerbung für Amazon und İstanbul Books, mit den Feldern und
+           Optionen des Formulars der alten Seite. -->
+      <section class="band band-dark" aria-labelledby="form-h">
         <div class="wrap">
-          <div class="contact-strip">
-            <div class="contact-strip-say">
-              <p class="kicker">İlk adım</p>
-              <h2 class="band-h" id="strip-h">Kitabınızı birlikte yayına hazırlayalım.</h2>
+          <div class="contact">
+            <div>
+              <p class="kicker">İngilizce + Global</p>
+              <h2 class="band-h" id="form-h">Eserinizi Bize Ulaştırın, Süreci Birlikte Başlatalım</h2>
+              <dl class="contact-list">
+                <dt>Telefon</dt>
+                <dd><a href="tel:+902163011213">+90-0216-301-1213</a></dd>
+                <dt>E-posta</dt>
+                <dd><a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a></dd>
+              </dl>
             </div>
-            <div class="contact-strip-ways">
-              <a href="tel:+902163011213">+90-0216-301-1213</a>
-              <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>
-              <a class="copy-link" href="/iletisim">İletişime geçin</a>
-            </div>
+
+            <form
+              class="contact-form"
+              name="kitap-basvurusu"
+              method="POST"
+              action="/tesekkurler"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              data-msg-required="Lütfen bu alanı doldurun."
+              data-msg-email="Lütfen geçerli bir e-posta adresi girin."
+              data-msg-consent="Devam etmek için lütfen onay kutusunu işaretleyin."
+            >
+              <input type="hidden" name="sayfa" value="/amazonda-yayinla" />
+              <p class="form-honeypot" aria-hidden="true">
+                <label>Bu alanı boş bırakın: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+              </p>
+              <label class="field">
+                <span class="field-label">İsim-Soyisim</span>
+                <input type="text" name="isim" autocomplete="name" required />
+              </label>
+              <label class="field">
+                <span class="field-label">E-Posta Adresiniz</span>
+                <input type="email" name="email" autocomplete="email" required />
+              </label>
+              <label class="field">
+                <span class="field-label">Telefon Numaranız</span>
+                <input type="tel" name="telefon" autocomplete="tel" required />
+              </label>
+              <label class="field">
+                <span class="field-label">Oturduğunuz İl</span>
+                <input type="text" name="ilce" autocomplete="address-level1" required />
+              </label>
+              <fieldset class="choice" data-msg="Lütfen bir seçenek seçin.">
+                <legend class="field-label">Kaç Tane Kitabınız Var *</legend>
+                <label><input type="radio" name="kitap_sayisi" value="1" required /> 1</label>
+                <label><input type="radio" name="kitap_sayisi" value="2" /> 2</label>
+                <label><input type="radio" name="kitap_sayisi" value="3" /> 3</label>
+                <label><input type="radio" name="kitap_sayisi" value="4" /> 4</label>
+                <label><input type="radio" name="kitap_sayisi" value="5+" /> 5+</label>
+              </fieldset>
+              <fieldset class="choice" data-require-one data-msg="Lütfen kitabınızın yazıldığı en az bir dili seçin!">
+                <legend class="field-label">Kitabınız Hangi Dillerde Yazılı *</legend>
+                <label><input type="checkbox" name="kitap_dilleri[]" value="İngilizce" /> İngilizce</label>
+                <label><input type="checkbox" name="kitap_dilleri[]" value="Türkçe" /> Türkçe</label>
+                <label><input type="checkbox" name="kitap_dilleri[]" value="Diğer" /> Diğer</label>
+                <p class="form-note">NOT: Amazon Amerika'da Türkçe Kitap Yayınlanamıyor</p>
+              </fieldset>
+              <label class="consent">
+                <input type="checkbox" name="onay" value="evet" required />
+                <span>Aydınlatma Metni'ni okudum ve kişisel verilerimin talebimin yanıtlanması amacıyla işlenmesini kabul ediyorum.</span>
+              </label>
+              <button type="submit">Hemen Başvur</button>
+            </form>
           </div>
         </div>
       </section>
