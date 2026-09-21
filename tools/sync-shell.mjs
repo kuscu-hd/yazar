@@ -65,7 +65,7 @@ const META = {
       "Verlagsarbeit jenseits des Üblichen. Autorenberatung, Lektorat, Gestaltung, Übersetzung, Druck und Vertrieb sowie Veröffentlichung auf Amazon."],
   },
   services: {
-    tr: ["Hizmetlerimiz | Yazardan Direkt",
+    tr: ["Yayıncılık Hizmetleri | Yazardan Direkt",
       "Yazar danışmanlığı, editörlük, tasarım, çeviri, basım-dağıtım ve e-kitap: modüler hizmetlerle tek bir adımı ya da tüm yayın sürecini birlikte yürütüyoruz."],
     de: ["Leistungen für Autorinnen und Autoren | Yazardan Direkt",
       "Autorenberatung, Lektorat, Gestaltung, Übersetzung, Druck und Vertrieb, E-Book-Format – modular: ein einzelner Schritt oder der ganze Weg zum Buch."],
@@ -77,7 +77,7 @@ const META = {
       "Persönliche, strategische Beratung von der Idee bis zur Entscheidung über die Veröffentlichung: Zielgruppe, Genre, Titel, Zeitplanung und Modell."],
   },
   editing: {
-    tr: ["Editörlük Hizmetleri | Yazardan Direkt",
+    tr: ["Kitap Editörlüğü | Yazardan Direkt",
       "Editörlük bir metni değiştirmekten çok onun özünü parlatmaktır: yazım tutarlılığı, anlatım dili, yapı ve akışta yazarın sesine saygılı editörlük."],
     de: ["Lektorat | Yazardan Direkt",
       "Lektorat heißt, den Kern eines Textes zum Leuchten zu bringen: sprachliche Stimmigkeit, Ausdruck, Aufbau und Fluss – mit Achtung vor Ihrer Stimme."],
