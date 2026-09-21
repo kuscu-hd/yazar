@@ -53,10 +53,9 @@ export const PAGES = [
   // Dankeseite nach dem Absenden: kein Menüpunkt, und noindex -- sie soll
   // nicht in der Suche auftauchen.
   { id: "thanks", section: null, noindex: true, tr: ["tesekkurler.html", "/tesekkurler"], de: ["de/danke.html", "/de/danke"] },
-  // Rechtstexte. "only" nennt die Sprachen, die es schon gibt -- solange nur
-  // eine dasteht, entfällt hreflang und der Umschalter zeigt nur sie.
-  { id: "kvkk", section: null, only: ["tr"], tr: ["aydinlatma-metni.html", "/aydinlatma-metni"], de: ["de/datenschutzhinweise.html", "/de/datenschutzhinweise"] },
-  { id: "privacy", section: null, only: ["tr"], tr: ["gizlilik-ve-guvenlik-politikasi.html", "/gizlilik-ve-guvenlik-politikasi"], de: ["de/datenschutz-und-sicherheit.html", "/de/datenschutz-und-sicherheit"] },
+  // Rechtstexte.
+  { id: "kvkk", section: null, tr: ["aydinlatma-metni.html", "/aydinlatma-metni"], de: ["de/datenschutzhinweise.html", "/de/datenschutzhinweise"] },
+  { id: "privacy", section: null, tr: ["gizlilik-ve-guvenlik-politikasi.html", "/gizlilik-ve-guvenlik-politikasi"], de: ["de/datenschutz-und-sicherheit.html", "/de/datenschutz-und-sicherheit"] },
 ];
 
 const LANGS = ["tr", "de"];
