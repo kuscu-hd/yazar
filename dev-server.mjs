@@ -4,7 +4,8 @@ import { createServer } from "node:http";
 import { createReadStream, statSync } from "node:fs";
 import { extname, join, normalize } from "node:path";
 
-const ROOT = process.argv[2] || process.cwd();
+// Ausgeliefert wird, was Netlify ausliefert: der Ordner public/.
+const ROOT = process.argv[2] || join(process.cwd(), "public");
 const PORT = Number(process.argv[3] || 8732);
 const TYPES = {
   ".html": "text/html; charset=utf-8",

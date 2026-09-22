@@ -1,0 +1,12 @@
+# =====================================================================
+# Netlify veröffentlicht ausschließlich public/. Alles andere im
+# Repository -- tools/, dev-server.mjs, Notizen -- bleibt damit außen vor,
+# und zwar auch alles, was später dazukommt.
+#
+# Kein Bauschritt: die Dateien in public/ gehen so raus, wie sie hier
+# liegen. _redirects, _headers, robots.txt, sitemap.xml und 404.html
+# müssen deshalb IN public/ liegen, sonst greifen sie nicht.
+# =====================================================================
+
+[build]
+  publish = "public"

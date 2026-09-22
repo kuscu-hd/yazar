@@ -22,7 +22,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ORIGIN, PAGES, langsOf } from "./pages.mjs";
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "public");
 const OUT = join(ROOT, "sitemap.xml");
 const CHECK = process.argv.includes("--check");
 

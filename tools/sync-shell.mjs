@@ -21,8 +21,8 @@
    Menü oder Fußzeile ändern: hier ändern, Skript laufen lassen, die
    geänderten Seiten mit einchecken.
 
-   Kein Teil der ausgelieferten Seite -- wird in der Deploy-Phase vom
-   Veröffentlichen ausgenommen.
+   Dieses Skript liegt außerhalb von public/ und wird deshalb nicht
+   veröffentlicht; es schreibt nur in die Seiten dort.
    ===================================================================== */
 
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
@@ -30,7 +30,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ORIGIN, LANGS, PAGES, SERVICE_IDS, url, langsOf } from "./pages.mjs";
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "public");
 const CHECK = process.argv.includes("--check");
 
 /* TITEL UND BESCHREIBUNG je Seite und Sprache. Titel eindeutig, höchstens
