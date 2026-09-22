@@ -1052,6 +1052,28 @@
     form.addEventListener("change", reset);
   }
 
+  /* ---------- Ekip: Lebenslauf öffnen ---------- */
+
+  // Die Lebensläufe stehen als <dialog> im HTML. Das Skript öffnet und
+  // schließt sie, nichts weiter -- Text setzt es keinen.
+  // Enter und Leertaste kommen vom <button>, Escape und die Rückgabe des
+  // Fokus vom <dialog> selbst.
+  for (const opener of document.querySelectorAll(".team-open[aria-controls]")) {
+    const dialog = document.getElementById(opener.getAttribute("aria-controls"));
+    if (!dialog) continue;
+    opener.addEventListener("click", () => {
+      if (typeof dialog.showModal === "function") dialog.showModal();
+    });
+  }
+
+  for (const dialog of document.querySelectorAll(".team-dialog")) {
+    dialog.querySelector(".team-dialog-close")?.addEventListener("click", () => dialog.close());
+    // Ein Klick auf die Fläche neben dem Dialog schließt ihn ebenfalls.
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  }
+
   const footerYear = document.querySelector(".site-footer-year");
   if (footerYear) footerYear.textContent = String(new Date().getFullYear());
 

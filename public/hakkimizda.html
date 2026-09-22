@@ -206,50 +206,499 @@
             </div>
           </div>
 
-          <ul class="people">
-            <li>
-              <p class="people-role">Genel Koordinatör</p>
-              <h3>Bihter Şahin</h3>
-              <p>Yayın sürecinin tüm aşamalarını titizlikle yöneten, vizyoner bir koordinasyonla ilerler.</p>
+          <!-- Akkordeon: alle Aufnahmen nebeneinander, die überfahrene oder
+               mit der Tastatur angewählte wird breit. Der Effekt steckt in
+               styles.css, das Skript öffnet nur die Lebensläufe. -->
+          <ul class="team-row">
+            <li class="team-strip">
+              <button
+                class="team-open"
+                type="button"
+                aria-haspopup="dialog"
+                aria-controls="bio-bihter-sahin"
+                aria-labelledby="bio-bihter-sahin-name"
+              >
+                <img
+                  class="team-photo"
+                  src="/assets/hakkimizda/bihter-sahin.webp"
+                  alt="Bihter Şahin"
+                  width="800"
+                  height="1067"
+                  loading="lazy"
+                />
+                <span class="team-text">
+                  <span class="team-role">Genel Koordinatör</span>
+                  <span class="team-name" id="bio-bihter-sahin-name">Bihter Şahin</span>
+                  <span class="team-tagline">2018'de danışman olarak başladı, 2023'te yayınevini devraldı. Bunu planlamadı — sadece hiç vazgeçmedi.</span>
+                </span>
+              </button>
             </li>
-            <li>
-              <p class="people-role">Baş Editör</p>
-              <h3>Büşra Şahin</h3>
-              <p>Metinlerin yalnızca dilini değil, anlamını da gözeten güçlü bir editöryal bakış sunar.</p>
+            <li class="team-strip">
+              <button
+                class="team-open"
+                type="button"
+                aria-haspopup="dialog"
+                aria-controls="bio-busra-sahin"
+                aria-labelledby="bio-busra-sahin-name"
+              >
+                <img
+                  class="team-photo"
+                  src="/assets/hakkimizda/busra-sahin.webp"
+                  alt="Büşra Şahin"
+                  width="800"
+                  height="1067"
+                  loading="lazy"
+                />
+                <span class="team-text">
+                  <span class="team-role">Baş Editör</span>
+                  <span class="team-name" id="bio-busra-sahin-name">Büşra Şahin</span>
+                  <span class="team-tagline">Bir metni düzeltmez. Sahibine geri verir — daha güçlü ama hâlâ onun.</span>
+                </span>
+              </button>
             </li>
-            <li>
-              <p class="people-role">Yazar Danışmanı</p>
-              <h3>Sibel Çağlar</h3>
-              <p>Yazarlara tüm yaratım ve hazırlık sürecinde birebir eşlik eden, yol gösterici bir rehberdir.</p>
+            <li class="team-strip">
+              <button
+                class="team-open"
+                type="button"
+                aria-haspopup="dialog"
+                aria-controls="bio-bilgehan-pullukcu"
+                aria-labelledby="bio-bilgehan-pullukcu-name"
+              >
+                <img
+                  class="team-photo"
+                  src="/assets/hakkimizda/bilgehan-pullukcu.webp"
+                  alt="Bilgehan Pullukcu"
+                  width="800"
+                  height="1067"
+                  loading="lazy"
+                />
+                <span class="team-text">
+                  <span class="team-role">Yazar Yönetimi &amp; Yayın Koordinasyonu</span>
+                  <span class="team-name" id="bio-bilgehan-pullukcu-name">Bilgehan Pullukcu</span>
+                  <span class="team-tagline">Her kitabın bir yolculuğu vardır. Benim işim, o yolculukta yazara eşlik etmek.</span>
+                </span>
+              </button>
             </li>
-            <li>
-              <p class="people-role">Grafik Tasarımcı &amp; Çizer</p>
-              <h3>Sezen Çağlı</h3>
-              <p>Kapaktan illüstrasyona, görselden bütünlüğe uzanan estetik dokunuşların mimarıdır.</p>
+            <li class="team-strip">
+              <button
+                class="team-open"
+                type="button"
+                aria-haspopup="dialog"
+                aria-controls="bio-sibel-caglar"
+                aria-labelledby="bio-sibel-caglar-name"
+              >
+                <img
+                  class="team-photo"
+                  src="/assets/hakkimizda/sibel-caglar.webp"
+                  alt="Sibel Çağlar"
+                  width="800"
+                  height="1067"
+                  loading="lazy"
+                />
+                <span class="team-text">
+                  <span class="team-role">Yazar Danışmanı</span>
+                  <span class="team-name" id="bio-sibel-caglar-name">Sibel Çağlar</span>
+                  <span class="team-tagline">Dışarıdan ciddi görünür. İçeriden ise en çok gülen odur ama bir yazarın en kırılgan anında tam da bu denge işe yarar.</span>
+                </span>
+              </button>
             </li>
-            <li>
-              <p class="people-role">Yayın Hazırlık &amp; Tasarım Sorumlusu</p>
-              <h3>Neşe Siyamoğlu</h3>
-              <p>Tasarım, dizgi ve matbaa öncesi tüm teknik süreçleri profesyonelce yönetir.</p>
+            <li class="team-strip">
+              <button
+                class="team-open"
+                type="button"
+                aria-haspopup="dialog"
+                aria-controls="bio-nilay-karaduman"
+                aria-labelledby="bio-nilay-karaduman-name"
+              >
+                <img
+                  class="team-photo"
+                  src="/assets/hakkimizda/nilay-karaduman.webp"
+                  alt="Nilay Karaduman"
+                  width="800"
+                  height="1067"
+                  loading="lazy"
+                />
+                <span class="team-text">
+                  <span class="team-role">Yazar Koçu · İçerik ve Sosyal Medya Sorumlusu</span>
+                  <span class="team-name" id="bio-nilay-karaduman-name">Nilay Karaduman</span>
+                  <span class="team-tagline">Bir yazarla tanıştığında ilk sorduğu şey "Ne yazmış?" değil, "Neden yazmış?"</span>
+                </span>
+              </button>
             </li>
-            <li>
-              <p class="people-role">Mali İşler ve Muhasebe</p>
-              <h3>Arzu Özen Çakır</h3>
-              <p>Tüm finansal süreçleri şeffaflık ve titizlikle yönetir; ödemelerden raporlamaya güvenli bir işleyiş sağlar.</p>
+            <li class="team-strip">
+              <button
+                class="team-open"
+                type="button"
+                aria-haspopup="dialog"
+                aria-controls="bio-erinc-sahin"
+                aria-labelledby="bio-erinc-sahin-name"
+              >
+                <img
+                  class="team-photo"
+                  src="/assets/hakkimizda/erinc-sahin.webp"
+                  alt="Erinç Şahin"
+                  width="800"
+                  height="1067"
+                  loading="lazy"
+                />
+                <span class="team-text">
+                  <span class="team-role">Dijital Erişim &amp; Sosyal Medya İletişimi</span>
+                  <span class="team-name" id="bio-erinc-sahin-name">Erinç Şahin</span>
+                  <span class="team-tagline">Her hikâye anlatılmayı hak eder. Benim işim, onun doğru insanlara ulaşmasını sağlamak.</span>
+                </span>
+              </button>
             </li>
-            <li>
-              <p class="people-role">BT Operasyon ve Uygulama Yönetimi</p>
-              <h3>Volkan Pervaz</h3>
-              <p>Program kurulumları, lisanslamalar ve dijital güvenlik sistemlerinin teknik sorumlusudur.</p>
+            <li class="team-strip">
+              <button
+                class="team-open"
+                type="button"
+                aria-haspopup="dialog"
+                aria-controls="bio-nese-siyamoglu"
+                aria-labelledby="bio-nese-siyamoglu-name"
+              >
+                <img
+                  class="team-photo"
+                  src="/assets/hakkimizda/nese-siyamoglu.webp"
+                  alt="Neşe Siyamoğlu"
+                  width="800"
+                  height="1067"
+                  loading="lazy"
+                />
+                <span class="team-text">
+                  <span class="team-role">Yayın Hazırlık &amp; Tasarım Sorumlusu</span>
+                  <span class="team-name" id="bio-nese-siyamoglu-name">Neşe Siyamoğlu</span>
+                  <span class="team-tagline">Neşe'nin işi fark edilmiyorsa her şey yolundadır. Bu onun hedefi.</span>
+                </span>
+              </button>
             </li>
-            <li>
-              <p class="people-role">Full Stack Web Geliştirici</p>
-              <h3>Çetin Tambaş</h3>
-              <p>Yazardan Direkt'in tüm web altyapısını, kullanıcı deneyimini ve yazılım geliştirmeyi üstlenir.</p>
+            <li class="team-strip">
+              <button
+                class="team-open"
+                type="button"
+                aria-haspopup="dialog"
+                aria-controls="bio-arzu-ozen-cakir"
+                aria-labelledby="bio-arzu-ozen-cakir-name"
+              >
+                <img
+                  class="team-photo"
+                  src="/assets/hakkimizda/arzu-ozen-cakir.webp"
+                  alt="Arzu Özen Çakır"
+                  width="800"
+                  height="1067"
+                  loading="lazy"
+                />
+                <span class="team-text">
+                  <span class="team-role">Mali İşler ve Muhasebe</span>
+                  <span class="team-name" id="bio-arzu-ozen-cakir-name">Arzu Özen Çakır</span>
+                  <span class="team-tagline">Yıllar önce köy okulundaki bir öğrencisinin hayatını değiştirdi. Rakamların içinde bile olsa önce insanı görür.</span>
+                </span>
+              </button>
+            </li>
+            <li class="team-strip team-strip-plain">
+              <button
+                class="team-open"
+                type="button"
+                aria-haspopup="dialog"
+                aria-controls="bio-sezen-cagli"
+                aria-labelledby="bio-sezen-cagli-name"
+              >
+                <span class="team-monogram" aria-hidden="true">SÇ</span>
+                <span class="team-text">
+                  <span class="team-role">Grafik Tasarımcı &amp; Çizer</span>
+                  <span class="team-name" id="bio-sezen-cagli-name">Sezen Çağlı</span>
+                  <span class="team-tagline">Kapaktan illüstrasyona, görselden bütünlüğe uzanan estetik dokunuşların mimarıdır.</span>
+                </span>
+              </button>
+            </li>
+            <li class="team-strip team-strip-plain">
+              <button
+                class="team-open"
+                type="button"
+                aria-haspopup="dialog"
+                aria-controls="bio-volkan-pervaz"
+                aria-labelledby="bio-volkan-pervaz-name"
+              >
+                <span class="team-monogram" aria-hidden="true">VP</span>
+                <span class="team-text">
+                  <span class="team-role">BT Operasyon ve Uygulama Yönetimi</span>
+                  <span class="team-name" id="bio-volkan-pervaz-name">Volkan Pervaz</span>
+                  <span class="team-tagline">Program kurulumları, lisanslamalar ve dijital güvenlik sistemlerinin teknik sorumlusudur.</span>
+                </span>
+              </button>
+            </li>
+            <li class="team-strip team-strip-plain">
+              <button
+                class="team-open"
+                type="button"
+                aria-haspopup="dialog"
+                aria-controls="bio-cetin-tambas"
+                aria-labelledby="bio-cetin-tambas-name"
+              >
+                <span class="team-monogram" aria-hidden="true">ÇT</span>
+                <span class="team-text">
+                  <span class="team-role">Full Stack Web Geliştirici</span>
+                  <span class="team-name" id="bio-cetin-tambas-name">Çetin Tambaş</span>
+                  <span class="team-tagline">Yazardan Direkt'in tüm web altyapısını, kullanıcı deneyimini ve yazılım geliştirmeyi üstlenir.</span>
+                </span>
+              </button>
             </li>
           </ul>
         </div>
       </section>
+
+      <!-- Die Lebensläufe stehen hier im HTML, nicht im Skript. -->
+      <dialog class="team-dialog" id="bio-bihter-sahin" aria-labelledby="bio-bihter-sahin-dialog-name">
+        <div class="team-dialog-inner">
+          <img
+            class="team-dialog-photo"
+            src="/assets/hakkimizda/bihter-sahin.webp"
+            alt="Bihter Şahin"
+            width="800"
+            height="1067"
+            loading="lazy"
+          />
+          <div class="team-dialog-body">
+            <p class="team-dialog-role">Genel Koordinatör</p>
+            <h3 class="team-dialog-name" id="bio-bihter-sahin-dialog-name">Bihter Şahin</h3>
+            <hr class="team-dialog-line" />
+            <p>Ben Bihter.</p>
+            <p>Benim için bu iş hiçbir zaman sadece yayıncılık olmadı. Bir insanın içinden çıkan bir şeyi sana uzatması, bana hep çok ciddi bir paylaşım gibi geldi. O yüzden biri bize yazdığında ben önce metne değil, o metnin arkasındaki insana dikkat kesilirim.</p>
+            <p>Yıllar önce beni rahatsız eden şey tam da buydu. İnsanlar kalplerinden gelen bir şeyle geliyor ama birçok yerde yalnızca dosya gibi görülüyor. Bende bu duygu hep ters çalıştı. Bir insan bana bir şey getiriyorsa, orada önce emanet duygusu hissediyorum ben.</p>
+            <p>Ben samimi biriyim, hızlı yakınlaşırım. Yapay mesafeleri sevmem. Hayatla da insanlarla da arama duvar örmem. Belki de bu yüzden, biri kendinden bir parça getirdiğinde onu sıradan bir evrak gibi göremem.</p>
+            <p>Bizim için yazar dediğin kişi sadece yazan biri değildir. Bazen bir kitabın arkasında kimsenin bilmediği bir kırgınlık vardır. Bazen yıllarca ertelenmiş bir cesaret, bazen de insanın kendi sesine geç kalmış hali…</p>
+            <p>Bize yazdığında şunu hissetmeni isterim: Burada sadece cevap verilmez. Burada gerçekten karşılık vardır.</p>
+          </div>
+        </div>
+        <button class="team-dialog-close" type="button" aria-label="Kapat">
+          <span aria-hidden="true">×</span>
+        </button>
+      </dialog>
+      <dialog class="team-dialog" id="bio-busra-sahin" aria-labelledby="bio-busra-sahin-dialog-name">
+        <div class="team-dialog-inner">
+          <img
+            class="team-dialog-photo"
+            src="/assets/hakkimizda/busra-sahin.webp"
+            alt="Büşra Şahin"
+            width="800"
+            height="1067"
+            loading="lazy"
+          />
+          <div class="team-dialog-body">
+            <p class="team-dialog-role">Baş Editör</p>
+            <h3 class="team-dialog-name" id="bio-busra-sahin-dialog-name">Büşra Şahin</h3>
+            <hr class="team-dialog-line" />
+            <p>Ben Büşra.</p>
+            <p>Ben temel olarak metinle uğraşıyorum, evet ama aslında daha çok sesle uğraşıyorum. Bir yazarın sesi yerli yerinde mi, cümle güçlenirken o iç titreşim kayboluyor mu, ben daha çok oralara bakıyorum.</p>
+            <p>Bazı metinler teknik olarak düzelir, belki mükemmelleşir ama ruhu geride kalır. Benim içime sinmeyen şey tam da bu. Bir metin toparlanabilir, güçlenebilir, daha berrak hâle gelebilir ama sonunda hâlâ sahibine ait durmuyorsa, orada bir şey eksik kalmıştır.</p>
+            <p>Ben dikkatimi kolay dağıtmam. Sessizce bakarım. Bazen bir cümlede en çok, hiç yazılmamış yere takılırım. Nefes nerede kesilmiş, duygu nerede geri çekilmiş, ses nerede incinmiş… Sanırım benim editörlüğüm biraz da orada başlıyor.</p>
+            <p>Biz burada bir metni "düzgün" hâle getirmeye çalışmıyoruz sadece. Onu, sahibine rağmen değil; sahibiyle birlikte güçlendirmeye çalışıyoruz.</p>
+            <p>Dosyan bize geldiğinde, üzerinden geçilmiş değil; anlaşılmış olsun isterim.</p>
+          </div>
+        </div>
+        <button class="team-dialog-close" type="button" aria-label="Kapat">
+          <span aria-hidden="true">×</span>
+        </button>
+      </dialog>
+      <dialog class="team-dialog" id="bio-bilgehan-pullukcu" aria-labelledby="bio-bilgehan-pullukcu-dialog-name">
+        <div class="team-dialog-inner">
+          <img
+            class="team-dialog-photo"
+            src="/assets/hakkimizda/bilgehan-pullukcu.webp"
+            alt="Bilgehan Pullukcu"
+            width="800"
+            height="1067"
+            loading="lazy"
+          />
+          <div class="team-dialog-body">
+            <p class="team-dialog-role">Yazar Yönetimi &amp; Yayın Koordinasyonu</p>
+            <h3 class="team-dialog-name" id="bio-bilgehan-pullukcu-dialog-name">Bilgehan Pullukcu</h3>
+            <hr class="team-dialog-line" />
+            <p>Ben Bilgehan.</p>
+            <p>Dinlemeyi konuşmaktan, anlamayı yönlendirmekten daha değerli bulurum. Belki de bu yüzden bir yazarın yalnızca yazdıklarını değil, satır aralarında saklı kalan duygularını da duymaya çalışırım. Bazen bir dosyanın ilerlemesini engelleyen şey teknik bir sorun değil; küçük bir tereddüt, kaybolan bir cesaret ya da yalnızca duyulma ihtiyacıdır.</p>
+            <p>Yazarlarımızın fikir aşamasından kitabın okurla buluştuğu ana kadar uzanan yolculuğunda yanlarında yer alıyorum. Sürecin her adımında; düzenleyen, takip eden, yön gösteren ve gerektiğinde yalnızca güven veren kişi olmayı önemsiyorum. Çünkü biliyorum ki her güçlü kitabın arkasında, yazara inanan bir ekip vardır.</p>
+            <p>Yayıncılık dünyasına farklı bir sektörden geldim. Bu bana dosyalara yalnızca bir yayın projesi olarak değil, bir insanın emeği, hayali ve hikâyesi olarak bakmayı öğretti. Her yazarın kendine özgü bir sesi olduğuna inanıyor; o sesin kaybolmadan okura ulaşabilmesi için çalışıyorum.</p>
+            <p>Hayatımın en kıymetli kısmını ailem oluşturuyor. Oğlum ve kızımla geçirdiğim zaman, bana sabrın, gelişimin ve gerçek hikâyelerin çoğu zaman sessizce büyüdüğünü hatırlatıyor.</p>
+            <p>Bir yazar yayınevimizin kapısını çaldığında onu önce bir dosya olarak değil, anlatacak bir hikâyesi olan insan olarak görmek isterim. Samimi, güven veren ve yol arkadaşlığı hissi taşıyan bir yayıncılık anlayışının en önemli parçası olduğuna inanıyorum.</p>
+            <p>Dosyanız hangi aşamada olursa olsun, hikâyenizin yolculuğunda size eşlik etmek için buradayım.</p>
+          </div>
+        </div>
+        <button class="team-dialog-close" type="button" aria-label="Kapat">
+          <span aria-hidden="true">×</span>
+        </button>
+      </dialog>
+      <dialog class="team-dialog" id="bio-sibel-caglar" aria-labelledby="bio-sibel-caglar-dialog-name">
+        <div class="team-dialog-inner">
+          <img
+            class="team-dialog-photo"
+            src="/assets/hakkimizda/sibel-caglar.webp"
+            alt="Sibel Çağlar"
+            width="800"
+            height="1067"
+            loading="lazy"
+          />
+          <div class="team-dialog-body">
+            <p class="team-dialog-role">Yazar Danışmanı</p>
+            <h3 class="team-dialog-name" id="bio-sibel-caglar-dialog-name">Sibel Çağlar</h3>
+            <hr class="team-dialog-line" />
+            <p>Ben Sibel.</p>
+            <p>Ben genelde insanların en hassas olduğu anda yanlarındayım. Daha hiçbir şey netleşmemişken, daha kendi yazdığına bile tam nasıl bakacağını bilemezken, daha "göndereyim mi, bekleteyim mi?" arasında gidip gelirken…</p>
+            <p>Ben o anı çok önemsiyorum çünkü çoğu zaman mesele sadece kitap değildir. İnsan bazen aslında kendini gösterip göstermemeye karar veriyordur. Bir metni paylaşmak, bazen sandığımızdan çok daha kişisel bir şeydir.</p>
+            <p>Ben acele ettiren biri değilim. İnsanı zorlayarak açmaya çalışmam. Birinin gerçekten konuşabilmesi için önce rahatlaması gerektiğini bilirim. Bazen bir insana yapılabilecek en büyük iyilik, ona hız değil, alan vermektir.</p>
+            <p>Bizim için bir yazar, "bakalım ne göndermiş" diye karşılanan biri değildir. Özellikle ilk adımda hiç değildir çünkü ilk adım bazen metinden daha ağırdır.</p>
+            <p>Bize ulaştığında, sanki bir yere başvurmuş gibi değil; sanki biri sana sessizce yer açmış gibi hissetmeni isterim.</p>
+          </div>
+        </div>
+        <button class="team-dialog-close" type="button" aria-label="Kapat">
+          <span aria-hidden="true">×</span>
+        </button>
+      </dialog>
+      <dialog class="team-dialog" id="bio-nilay-karaduman" aria-labelledby="bio-nilay-karaduman-dialog-name">
+        <div class="team-dialog-inner">
+          <img
+            class="team-dialog-photo"
+            src="/assets/hakkimizda/nilay-karaduman.webp"
+            alt="Nilay Karaduman"
+            width="800"
+            height="1067"
+            loading="lazy"
+          />
+          <div class="team-dialog-body">
+            <p class="team-dialog-role">Yazar Koçu · İçerik ve Sosyal Medya Sorumlusu</p>
+            <h3 class="team-dialog-name" id="bio-nilay-karaduman-dialog-name">Nilay Karaduman</h3>
+            <hr class="team-dialog-line" />
+            <p>Merhaba, ben Nilay.</p>
+            <p>Yayınevimizde yazarlarla birebir iletişim kuruyor, eserlerinin hem yayın sürecinde hem de görünürlüğünde aktif rol alıyorum. Kitaplarımızın doğru okura ulaşması ve hak ettiği değeri görmesi, çalışmalarımızın en önemli parçalarından biri.</p>
+            <p>Her metnin arkasında kendine özgü bir dünya olduğuna inanıyorum. Bu nedenle bir yazarı yalnızca dosyasıyla değil, duygularıyla da tanımaya çalışıyorum. Ne anlatmak istediğini, hangi duygularla yazdığını ve kelimelerinin ardındaki sesi anlamak benim için büyük önem taşıyor.</p>
+            <p>Aynı zamanda içerik üretimi, sosyal medya yönetimi ve görsel tasarım alanlarında çalışıyorum. Kitap tanıtımlarından dijital içeriklere kadar birçok aşamada aktif olarak yer alıyor, eserlerin okurlarla buluşma sürecini destekliyorum.</p>
+            <p>Müjdat Gezen Sanat Merkezi'nde Yaratıcı Yazarlık eğitimi aldım ve Yazar Koçluğu alanında eğitimimi sürdürdüm.</p>
+            <p>Eğer yolumuz kesişirse, yalnızca yönlendiren değil; tıkandığınız noktada yanınızda duran, gerçekten dinleyen, çözüm odaklı yaklaşan ve süreciniz boyunca sizi destekleyen biriyle çalıştığınızı hissetmenizi isterim.</p>
+          </div>
+        </div>
+        <button class="team-dialog-close" type="button" aria-label="Kapat">
+          <span aria-hidden="true">×</span>
+        </button>
+      </dialog>
+      <dialog class="team-dialog" id="bio-erinc-sahin" aria-labelledby="bio-erinc-sahin-dialog-name">
+        <div class="team-dialog-inner">
+          <img
+            class="team-dialog-photo"
+            src="/assets/hakkimizda/erinc-sahin.webp"
+            alt="Erinç Şahin"
+            width="800"
+            height="1067"
+            loading="lazy"
+          />
+          <div class="team-dialog-body">
+            <p class="team-dialog-role">Dijital Erişim &amp; Sosyal Medya İletişimi</p>
+            <h3 class="team-dialog-name" id="bio-erinc-sahin-dialog-name">Erinç Şahin</h3>
+            <hr class="team-dialog-line" />
+            <p>Ben Erinç.</p>
+            <p>Merak benim için yalnızca bir karakter özelliği değil; dünyayı anlamanın ve anlatmanın en güçlü yolu. Bir kitabın neden bazı insanlara dokunduğunu, bir hikâyenin neden hafızalarda yer ettiğini ya da bazen neden görünmeden kaybolduğunu düşünürüm. Bu soruların peşinden gitmek, yaptığım işin de temelini oluşturuyor.</p>
+            <p>Yayınevimizde bir kitabın dijital dünyadaki yolculuğuna eşlik ediyorum. Bir yazar yazmayı tamamladığında hikâyesi aslında yeni bir yolculuğa başlar. Ben de o yolculukta kitabın sesini duyurmak, doğru okurlarla buluşmasını sağlamak ve hikâyenin hak ettiği görünürlüğe ulaşmasına katkıda bulunmak için çalışıyorum.</p>
+            <p>Ancak yaptığım iş yalnızca sosyal medya ya da dijital iletişimden ibaret değil. Gerektiğinde farklı alanlarda sorumluluk almaktan, çözüm üretmekten ve ekibin ihtiyaç duyduğu yerde destek olmaktan mutluluk duyuyorum. Çünkü yayıncılığın özünde ekip ruhunun ve ortak emeğin olduğuna inanıyorum.</p>
+            <p>Kitapların insanlar üzerindeki etkisini fark ettiğim gün bu alanda çalışmak istediğimi anladım. Bir hikâyenin doğru zamanda, doğru kişiye ulaşmasına vesile olmak; bu mesleğin en değerli taraflarından biri.</p>
+            <p>İş dışında da keşfetmeyi severim. Yürüyüşlerde, bisiklet üzerinde ya da yeni şeyler araştırırken kendimi dinlenmiş hissederim. Öğrenmek benim için bir görev değil, yaşam biçimidir.</p>
+            <p>Eğer anlatacak bir hikâyeniz varsa, bilin ki o hikâyenin okuruna ulaşabilmesi için çalışan bir ekip var. Ben de o ekibin bir parçası olarak, yolculuğunuza eşlik etmek için buradayım.</p>
+          </div>
+        </div>
+        <button class="team-dialog-close" type="button" aria-label="Kapat">
+          <span aria-hidden="true">×</span>
+        </button>
+      </dialog>
+      <dialog class="team-dialog" id="bio-nese-siyamoglu" aria-labelledby="bio-nese-siyamoglu-dialog-name">
+        <div class="team-dialog-inner">
+          <img
+            class="team-dialog-photo"
+            src="/assets/hakkimizda/nese-siyamoglu.webp"
+            alt="Neşe Siyamoğlu"
+            width="800"
+            height="1067"
+            loading="lazy"
+          />
+          <div class="team-dialog-body">
+            <p class="team-dialog-role">Yayın Hazırlık &amp; Tasarım Sorumlusu</p>
+            <h3 class="team-dialog-name" id="bio-nese-siyamoglu-dialog-name">Neşe Siyamoğlu</h3>
+            <hr class="team-dialog-line" />
+            <p>Ben Neşe.</p>
+            <p>Ben daha çok görünmeyen yerdeyim. Zaten çoğu zaman bir şey görünmüyorsa ve yine de her şey yerli yerindeyse, orada iyi bir emek vardır.</p>
+            <p>Dosyanın kitaba dönüşürken dağılmaması, eksilmemesi, özensizleşmemesi için çalışıyorum çünkü bir kitabın son hâli, sadece ne anlattığıyla değil, nasıl taşındığıyla da ilgilidir. Bazen insan tam da bu görünmeyen yerde saygı görür.</p>
+            <p>Ben titiz biriyim ama sert, boğucu şekilde değil. Daha çok insanın içini rahatlatan türden. Her şeyin yerli yerinde olması, bazen çok sessiz ama çok güçlü bir güven duygusu yaratır.</p>
+            <p>Biz burada detayı küçümsemiyoruz çünkü detaya önem vermek, bir yazara "senin emeğin benim için önemli" demenin en sessiz yoludur.</p>
+            <p>Sen her aşamayı tek tek takip etmek zorunda değilsin ama şunu bilmeni isterim: Eserin burada gözden kaçmaz.</p>
+          </div>
+        </div>
+        <button class="team-dialog-close" type="button" aria-label="Kapat">
+          <span aria-hidden="true">×</span>
+        </button>
+      </dialog>
+      <dialog class="team-dialog" id="bio-arzu-ozen-cakir" aria-labelledby="bio-arzu-ozen-cakir-dialog-name">
+        <div class="team-dialog-inner">
+          <img
+            class="team-dialog-photo"
+            src="/assets/hakkimizda/arzu-ozen-cakir.webp"
+            alt="Arzu Özen Çakır"
+            width="800"
+            height="1067"
+            loading="lazy"
+          />
+          <div class="team-dialog-body">
+            <p class="team-dialog-role">Mali İşler ve Muhasebe</p>
+            <h3 class="team-dialog-name" id="bio-arzu-ozen-cakir-dialog-name">Arzu Özen Çakır</h3>
+            <hr class="team-dialog-line" />
+            <p>Ben Arzu.</p>
+            <p>Benim alanım daha çok rakamlar, kayıtlar, düzen… Dışarıdan bakınca duygudan uzak gibi görünebilir ama bana sorarsan güvenin en derin tarafı biraz da burada kurulur.</p>
+            <p>İnsan güzel sözleri, güzel kitapları sever, evet ama gerçekten rahatlaması için bir yerde işlerin temiz yürümesi gerekir. Karışıklık yorar. Belirsizlik insanın içini daraltır. Netlik ise çoğu zaman sessizce rahatlatır.</p>
+            <p>Ben netliği severim. Sonradan toparlanan şeyleri değil, baştan açık olan şeyleri. Herkesin, neyin nasıl yürüdüğünü bilebildiği, içi rahat bir düzeni.</p>
+            <p>Biz burada güveni sadece sıcaklıkla kurmuyoruz. Düzenle de kuruyoruz. Şeffaflıkla da. Sağlamlıkla da.</p>
+            <p>Rakamların konuştuğu bir alanda bile insan kendini korunmuş hissedebilir. Benim için kıymetli olan tam da bu.</p>
+          </div>
+        </div>
+        <button class="team-dialog-close" type="button" aria-label="Kapat">
+          <span aria-hidden="true">×</span>
+        </button>
+      </dialog>
+      <dialog class="team-dialog" id="bio-sezen-cagli" aria-labelledby="bio-sezen-cagli-dialog-name">
+        <div class="team-dialog-inner">
+          <span class="team-dialog-photo team-monogram" aria-hidden="true">SÇ</span>
+          <div class="team-dialog-body">
+            <p class="team-dialog-role">Grafik Tasarımcı &amp; Çizer</p>
+            <h3 class="team-dialog-name" id="bio-sezen-cagli-dialog-name">Sezen Çağlı</h3>
+            <hr class="team-dialog-line" />
+            <p>Kapaktan illüstrasyona, görselden bütünlüğe uzanan estetik dokunuşların mimarıdır.</p>
+          </div>
+        </div>
+        <button class="team-dialog-close" type="button" aria-label="Kapat">
+          <span aria-hidden="true">×</span>
+        </button>
+      </dialog>
+      <dialog class="team-dialog" id="bio-volkan-pervaz" aria-labelledby="bio-volkan-pervaz-dialog-name">
+        <div class="team-dialog-inner">
+          <span class="team-dialog-photo team-monogram" aria-hidden="true">VP</span>
+          <div class="team-dialog-body">
+            <p class="team-dialog-role">BT Operasyon ve Uygulama Yönetimi</p>
+            <h3 class="team-dialog-name" id="bio-volkan-pervaz-dialog-name">Volkan Pervaz</h3>
+            <hr class="team-dialog-line" />
+            <p>Program kurulumları, lisanslamalar ve dijital güvenlik sistemlerinin teknik sorumlusudur.</p>
+          </div>
+        </div>
+        <button class="team-dialog-close" type="button" aria-label="Kapat">
+          <span aria-hidden="true">×</span>
+        </button>
+      </dialog>
+      <dialog class="team-dialog" id="bio-cetin-tambas" aria-labelledby="bio-cetin-tambas-dialog-name">
+        <div class="team-dialog-inner">
+          <span class="team-dialog-photo team-monogram" aria-hidden="true">ÇT</span>
+          <div class="team-dialog-body">
+            <p class="team-dialog-role">Full Stack Web Geliştirici</p>
+            <h3 class="team-dialog-name" id="bio-cetin-tambas-dialog-name">Çetin Tambaş</h3>
+            <hr class="team-dialog-line" />
+            <p>Yazardan Direkt'in tüm web altyapısını, kullanıcı deneyimini ve yazılım geliştirmeyi üstlenir.</p>
+          </div>
+        </div>
+        <button class="team-dialog-close" type="button" aria-label="Kapat">
+          <span aria-hidden="true">×</span>
+        </button>
+      </dialog>
 
       <section class="band" id="yazarlarimiz" aria-labelledby="voices-h">
         <div class="wrap">

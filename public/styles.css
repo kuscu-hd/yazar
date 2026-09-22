@@ -1911,6 +1911,268 @@ a {
   color: var(--muted);
 }
 
+/* ==================================================================
+   EKIP -- Akkordeon aus Aufnahmen
+
+   Alle Aufnahmen stehen als schmale Streifen nebeneinander. Der Streifen,
+   über dem der Zeiger steht (oder der mit der Tastatur angewählt ist),
+   wächst, die anderen weichen. Der Effekt ist reines CSS: nur flex-grow
+   wandert, deshalb läuft er ruhig.
+
+   Die Reihenfolge der drei Regeln entscheidet, wer gewinnt: Ausgangszustand
+   (erster Streifen breit), dann "irgendeiner ist angewählt" (alle schmal),
+   dann "dieser ist angewählt" (dieser breit).
+   ================================================================== */
+
+.team-row {
+  display: flex;
+  gap: 12px;
+  height: 520px;
+  margin: clamp(44px, 6vh, 80px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 0.4 als Ruhemaß, nicht 1: damit ist der offene Streifen im
+   Ausgangszustand genauso breit wie unter dem Zeiger. */
+.team-strip {
+  position: relative;
+  flex: 0.4 1 0;
+  min-width: 0;
+  transition: flex-grow 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Ausgangszustand: der erste Streifen ist offen, damit der Abschnitt nicht
+   leer wirkt, bevor jemand etwas anfasst. */
+.team-strip:first-child {
+  flex-grow: 4;
+}
+
+.team-row:hover .team-strip,
+.team-row:focus-within .team-strip {
+  flex-grow: 0.4;
+}
+
+.team-row .team-strip:hover,
+.team-row .team-strip:has(.team-open:focus-visible) {
+  flex-grow: 4;
+}
+
+.team-open {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--hair);
+  border-radius: 14px;
+  background: #14101a;
+  color: var(--ink-on-dark);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 350ms ease;
+}
+
+.team-open:hover,
+.team-open:focus-visible {
+  border-color: var(--hair-strong);
+}
+
+.team-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* Die Gesichter sitzen im oberen Drittel der Aufnahmen; so bleiben sie
+     auch im schmalen Streifen im Bild. */
+  object-fit: cover;
+  object-position: 50% 26%;
+}
+
+/* Noch ohne Aufnahme: die Anfangsbuchstaben statt eines fremden Bildes. */
+.team-monogram {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  background: radial-gradient(60% 46% at 50% 34%, rgb(217 165 39 / 0.16), transparent 70%), #1b1620;
+  color: var(--gold);
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 2.2vw, 2rem);
+  letter-spacing: 0.06em;
+}
+
+/* Der dunkle Verlauf trägt die Schrift; ohne ihn wäre sie auf hellen
+   Aufnahmen nicht zu lesen. */
+.team-open::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgb(0 0 0 / 0.04) 0%, rgb(0 0 0 / 0.3) 44%, rgb(0 0 0 / 0.84) 100%);
+}
+
+.team-text {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  gap: 6px;
+  padding: 26px 22px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 700ms cubic-bezier(0.22, 1, 0.36, 1), transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.team-strip:first-child .team-text {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.team-row:hover .team-strip .team-text,
+.team-row:focus-within .team-strip .team-text {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.team-row .team-strip:hover .team-text,
+.team-row .team-strip:has(.team-open:focus-visible) .team-text {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.team-role {
+  color: var(--gold);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.team-name {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 1.7vw, 1.5rem);
+  line-height: 1.16;
+}
+
+.team-tagline {
+  display: -webkit-box;
+  max-width: 34ch;
+  overflow: hidden;
+  /* Drei Zeilen, dann Schluss -- sonst läuft der Leitsatz aus dem
+     Streifen heraus. Vollständig steht er ohnehin im Dialog. */
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  color: rgb(244 241 238 / 0.82);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* ---------- Der Lebenslauf im Dialog ---------- */
+
+/* Der Text steht im HTML; das Skript öffnet und schließt nur. */
+.team-dialog {
+  width: min(880px, calc(100vw - 32px));
+  max-height: min(86vh, 760px);
+  padding: 0;
+  overflow: visible;
+  border: 1px solid var(--hair-on-dark);
+  border-radius: 6px;
+  background: #14101a;
+  color: var(--ink-on-dark);
+}
+
+.team-dialog::backdrop {
+  background: rgb(10 8 12 / 0.72);
+  backdrop-filter: blur(3px);
+}
+
+.team-dialog-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  max-height: inherit;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.team-dialog-photo {
+  width: 100%;
+  height: 100%;
+  max-height: min(86vh, 760px);
+  object-fit: cover;
+  object-position: 50% 22%;
+}
+
+span.team-dialog-photo {
+  position: relative;
+  min-height: 260px;
+}
+
+.team-dialog-body {
+  /* Lange Lebensläufe rollen im Dialog, nicht die ganze Seite. */
+  overflow-y: auto;
+  padding: clamp(28px, 3.4vw, 44px);
+}
+
+.team-dialog-role {
+  margin: 0;
+  color: var(--gold);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.team-dialog-name {
+  margin: 10px 0 0;
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-weight: 400;
+  line-height: 1.14;
+}
+
+.team-dialog-line {
+  margin: 20px 0 22px;
+  border: 0;
+  border-top: 1px solid var(--hair-on-dark);
+}
+
+.team-dialog-body p {
+  margin: 0 0 14px;
+  font-size: 0.95rem;
+  line-height: 1.72;
+  color: var(--muted-on-dark);
+}
+
+.team-dialog-body p:last-child {
+  margin-bottom: 0;
+}
+
+.team-dialog-close {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-content: center;
+  border: 1px solid var(--hair-on-dark);
+  border-radius: 999px;
+  background: #14101a;
+  color: var(--ink-on-dark);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 200ms ease, color 200ms ease;
+}
+
+.team-dialog-close:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
 /* ---------- Stimmen ---------- */
 
 .voices {
@@ -2520,6 +2782,57 @@ a {
     columns: 2 260px;
   }
 
+  /* Kein Zeiger auf dem Telefon: aus den Streifen werden Karten, auf denen
+     Name und Rolle immer stehen. Ein Tippen öffnet denselben Dialog. */
+  .team-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    height: auto;
+    gap: 10px;
+  }
+
+  .team-strip,
+  .team-strip:first-child,
+  .team-row:hover .team-strip,
+  .team-row:focus-within .team-strip,
+  .team-row .team-strip:hover,
+  .team-row .team-strip:has(.team-open:focus-visible) {
+    flex: none;
+    flex-grow: 1;
+    transition: none;
+  }
+
+  .team-open {
+    aspect-ratio: 3 / 4;
+    height: auto;
+  }
+
+  .team-text,
+  .team-row:hover .team-strip .team-text,
+  .team-row:focus-within .team-strip .team-text {
+    opacity: 1;
+    transform: none;
+    padding: 16px 14px;
+  }
+
+  .team-dialog-inner {
+    grid-template-columns: minmax(0, 1fr);
+    overflow-y: auto;
+  }
+
+  .team-dialog-photo {
+    max-height: 42vh;
+  }
+
+  span.team-dialog-photo {
+    min-height: 200px;
+  }
+
+  .team-dialog-close {
+    top: 8px;
+    right: 8px;
+  }
+
   /* Zahl, Text und Stichpunkte übereinander -- in drei Spalten bleibt für
      die Stichpunkte sonst nur noch eine Wortbreite. */
   .service {
@@ -2547,6 +2860,12 @@ a {
 
   .faq details p {
     padding-right: 0;
+  }
+
+  /* Auf der schmalen Karte bleibt nur Rolle und Name; der Leitsatz steht
+     im Dialog daneben. */
+  .team-tagline {
+    display: none;
   }
 }
 
@@ -2576,6 +2895,11 @@ a {
   .signpost:hover,
   .contact-form button:hover {
     transform: none;
+  }
+
+  .team-strip,
+  .team-text {
+    transition: none;
   }
 }
 
