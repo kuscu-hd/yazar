@@ -1,0 +1,2596 @@
+:root {
+  /* Format, Maßstab und Versatz der Videobox kommen aus script.js und
+     wechseln mit dem laufenden Abschnitt (step1/2 sind 640x608, step3/4 sind
+     768x512, und sie sind auf verschiedene Ausschnitte gerendert). Die Werte
+     stehen als CLIP_FIT dort; --film-width ist nur noch die Bezugsbreite, auf
+     die sich der Maßstab bezieht. Die Höhenschranke ist so gewählt, dass auch
+     die größte Box (step1/2, 1.11 x Bezugsbreite hoch) mit etwas Luft in die
+     Bühne passt. */
+  --film-ratio: 1.0526;
+  --film-width: min(52vw, 820px, 74vh);
+  --film-right: 0%;
+  /* Verankerung: am rechten Rand (Desktop) oder mittig (Mobil). Der Maßstab
+     wirkt um die Boxmitte, die Verankerung bleibt davon unberührt. */
+  --film-anchor-x: 0px;
+  --film-top: 50%;
+  --film-pos: 50% 50%;
+  /* Breite der weichen Kante, mit der das Video nach links in den Grund
+     läuft. Rechts sitzt die Box am Fensterrand, dort braucht es keine.
+     Oben und unten reicht ein Hauch: der Grund der Clips ist nicht ganz
+     gleichmäßig (an den Rändern zwischen 228 und 249 gemessen), eine flache
+     Fläche kann ihn also nicht überall treffen. 3% lösen die Kante auf und
+     bleiben unter dem gemessenen Abstand des Buchs zum Bildrand --
+     angeschnitten wird nichts. Den genauen Wert setzt script.js je Abschnitt
+     und je Position darin (CLIP_FIT.fadeY). */
+  --film-fade: 18%;
+  --film-fade-right: 0%;
+  --film-fade-y: 10%;
+
+  /* Die weiche Kante läuft nicht gerade, sondern als S (smootherstep). Eine
+     gerade Rampe hat an ihrem oberen Ende einen Knick, und genau dieser Knick
+     zeichnet die Kante der Videobox auf dem hellen Grund nach. Mit dem
+     S-Verlauf beginnt und endet die Blende unmerklich, die Box löst sich
+     dadurch vollständig auf. Beide Verläufe werden als Maske geschnitten;
+     .reveal setzt dieselben Variablen und benutzt sie noch einmal. */
+  --edge-x: linear-gradient(
+    to right,
+    rgb(0 0 0 / 0) 0,
+    rgb(0 0 0 / 0.027) calc(var(--film-fade) * 0.15),
+    rgb(0 0 0 / 0.163) calc(var(--film-fade) * 0.3),
+    rgb(0 0 0 / 0.407) calc(var(--film-fade) * 0.45),
+    rgb(0 0 0 / 0.683) calc(var(--film-fade) * 0.6),
+    rgb(0 0 0 / 0.896) calc(var(--film-fade) * 0.75),
+    rgb(0 0 0 / 0.991) calc(var(--film-fade) * 0.9),
+    rgb(0 0 0 / 1) var(--film-fade),
+    rgb(0 0 0 / 1) calc(100% - var(--film-fade-right)),
+    rgb(0 0 0 / 0.991) calc(100% - var(--film-fade-right) * 0.9),
+    rgb(0 0 0 / 0.896) calc(100% - var(--film-fade-right) * 0.75),
+    rgb(0 0 0 / 0.683) calc(100% - var(--film-fade-right) * 0.6),
+    rgb(0 0 0 / 0.407) calc(100% - var(--film-fade-right) * 0.45),
+    rgb(0 0 0 / 0.163) calc(100% - var(--film-fade-right) * 0.3),
+    rgb(0 0 0 / 0.027) calc(100% - var(--film-fade-right) * 0.15),
+    rgb(0 0 0 / 0) 100%
+  );
+  --edge-y: linear-gradient(
+    to bottom,
+    rgb(0 0 0 / 0) 0,
+    rgb(0 0 0 / 0.027) calc(var(--film-fade-y) * 0.15),
+    rgb(0 0 0 / 0.163) calc(var(--film-fade-y) * 0.3),
+    rgb(0 0 0 / 0.407) calc(var(--film-fade-y) * 0.45),
+    rgb(0 0 0 / 0.683) calc(var(--film-fade-y) * 0.6),
+    rgb(0 0 0 / 0.896) calc(var(--film-fade-y) * 0.75),
+    rgb(0 0 0 / 0.991) calc(var(--film-fade-y) * 0.9),
+    rgb(0 0 0 / 1) var(--film-fade-y),
+    rgb(0 0 0 / 1) calc(100% - var(--film-fade-y)),
+    rgb(0 0 0 / 0.991) calc(100% - var(--film-fade-y) * 0.9),
+    rgb(0 0 0 / 0.896) calc(100% - var(--film-fade-y) * 0.75),
+    rgb(0 0 0 / 0.683) calc(100% - var(--film-fade-y) * 0.6),
+    rgb(0 0 0 / 0.407) calc(100% - var(--film-fade-y) * 0.45),
+    rgb(0 0 0 / 0.163) calc(100% - var(--film-fade-y) * 0.3),
+    rgb(0 0 0 / 0.027) calc(100% - var(--film-fade-y) * 0.15),
+    rgb(0 0 0 / 0) 100%
+  );
+
+  /* Rückfallwert der Prägung, falls JavaScript nicht läuft: dasselbe Gold,
+     das COVER_FOILS[0] in script.js setzt. Dort stehen auch die anderen
+     Metalle und die Begründung für die Stopfolge. */
+  --cover-foil: linear-gradient(
+    115deg,
+    #8a6012 0%,
+    #a9781a 11%,
+    #cf9c26 22%,
+    #edc248 33%,
+    #fbdd7b 43%,
+    #fff2b4 48%,
+    #f7d264 55%,
+    #dfae30 67%,
+    #b0801a 82%,
+    #8a6012 100%
+  );
+  --cover-foil-relief: saturate(1.06)
+    drop-shadow(0 1px 1px rgb(0 0 0 / 0.55));
+
+  --film-main-opacity: 0;
+  --progress: 0;
+  --hint-opacity: 1;
+
+  /* Aubergine aus der Kopfleiste der bestehenden Seite, geschaetzt aus dem
+     Screenshot -- gib mir den exakten Hex, dann ziehe ich ihn nach. */
+  --brand-purple: #3c0d55;
+  /* Auf hellem Grund wird der Schimmer multipliziert statt addiert, die Töne
+     sind deshalb sehr hell gehalten. */
+  --brand-purple-lit: rgba(214, 196, 226, 0.34);
+  --brand-purple-deep: rgba(206, 190, 220, 0.3);
+
+  /* Der Grund der neuen Videos ist ein sehr helles Grau; an den Bildrändern
+     gemessen liegt es zwischen 228 und 249. 241 trifft die Mitte, dadurch
+     ist die Kante der Videobox oben und unten nicht zu sehen. */
+  --page: rgb(var(--page-rgb));
+  --page-rgb: 241 241 241;
+  --ink: #16121a;
+  --muted: rgba(22, 18, 26, 0.62);
+  --faint: rgba(22, 18, 26, 0.4);
+  --accent: #e2231a;
+  /* Das Gold der Prägung noch einmal als Textfarbe -- damit die dunklen
+     Bahnen weiter unten dieselbe Legierung tragen wie der Buchdeckel. */
+  --gold: #d9a527;
+  --gold-soft: rgb(217 165 39 / 0.22);
+  /* Gedeckte Bahn: nur so viel dunkler als der Grund, dass die Kante ohne
+     Linie zu sehen ist. */
+  --page-quiet: #e8e7e5;
+  --hair: rgb(22 18 26 / 0.12);
+  --hair-strong: rgb(22 18 26 / 0.2);
+  /* Auf dunklem Grund kehren sich die Textstufen um. */
+  --ink-on-dark: #f4f1ee;
+  --muted-on-dark: rgb(244 241 238 / 0.66);
+  --faint-on-dark: rgb(244 241 238 / 0.42);
+  --hair-on-dark: rgb(244 241 238 / 0.16);
+
+  --sans: Inter, Satoshi, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--page);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
+  background: var(--page);
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  overflow-x: clip;
+  background: var(--page);
+}
+
+button {
+  border: 0;
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---------- Scroll-Fortschritt ---------- */
+
+.scroll-progress {
+  position: fixed;
+  z-index: 31;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(22, 18, 26, 0.1);
+}
+
+/* Kapitelmarken an den drei Haltepunkten, aus der Timeline erzeugt. */
+.scroll-mark {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  margin-left: -1px;
+  background: rgba(22, 18, 26, 0.26);
+  transition: background 260ms ease, box-shadow 260ms ease;
+}
+
+.scroll-mark.is-passed {
+  background: var(--ink);
+  box-shadow: 0 0 6px rgba(226, 35, 26, 0.8);
+}
+
+.scroll-progress-bar {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--brand-purple) 0%, #7e30b0 40%, var(--accent) 100%);
+  transform: scaleX(var(--progress));
+  transform-origin: 0 50%;
+}
+
+/* ---------- Kopfzeile ---------- */
+
+.site-header {
+  position: fixed;
+  z-index: 30;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 3vw, 56px);
+  padding: clamp(20px, 2.2vw, 32px) clamp(20px, 3vw, 48px);
+  pointer-events: none;
+}
+
+.site-header > * {
+  pointer-events: auto;
+}
+
+.brand {
+  display: block;
+  margin-right: auto;
+  line-height: 0;
+  text-decoration: none;
+}
+
+.brand img {
+  display: block;
+  height: clamp(30px, 3.2vw, 42px);
+  width: auto;
+  /* Die Datei ist eine weiße Strichzeichnung für dunklen Grund. Umgedreht
+     steht sie schwarz auf dem hellen Grund. */
+  filter: invert(1);
+}
+
+.nav-primary {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2vw, 38px);
+}
+
+.nav-primary a {
+  position: relative;
+  padding-bottom: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  color: rgba(22, 18, 26, 0.72);
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+/* Unterstrich wächst aus der Mitte statt einfach aufzupoppen. */
+.nav-primary a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-primary a:hover,
+.nav-primary a:focus-visible {
+  color: var(--ink);
+}
+
+.nav-primary a:hover::after,
+.nav-primary a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.nav-toggle {
+  display: grid;
+  gap: 5px;
+  width: 46px;
+  height: 46px;
+  place-content: center;
+  border: 1px solid rgba(22, 18, 26, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.66);
+  cursor: pointer;
+  transition: background 200ms ease, border-color 200ms ease;
+}
+
+.nav-toggle:hover {
+  border-color: rgba(126, 48, 176, 0.6);
+  background: rgba(126, 48, 176, 0.1);
+}
+
+.nav-toggle-bar {
+  display: block;
+  width: 20px;
+  height: 1.5px;
+  background: var(--ink);
+}
+
+/* ---------- Menütafel ---------- */
+
+/* Die Tafel ist mittig, solange sie hineinpasst, und rollt, wenn nicht --
+   auf einem flachen Fenster ist die Liste länger als das Bild. Deshalb
+   Flexbox mit auto-Rändern am ersten und letzten Kind statt zentriertem
+   Grid: auto-Ränder werden zu 0, sobald kein Platz übrig ist, und der
+   Anfang der Liste bleibt erreichbar. Zentriertes Grid würde ihn oben
+   abschneiden, ohne dass man ihn erscrollen kann. */
+.nav-panel {
+  position: fixed;
+  z-index: 29;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 4vh, 52px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: clamp(90px, 13vh, 150px) clamp(24px, 6vw, 96px) clamp(40px, 8vh, 90px);
+  background: rgba(246, 246, 246, 0.99);
+}
+
+.nav-panel > * {
+  flex: none;
+}
+
+.nav-panel > :first-child {
+  margin-top: auto;
+}
+
+.nav-panel > :last-child {
+  margin-bottom: auto;
+}
+
+.nav-panel[hidden] {
+  display: none;
+}
+
+.nav-full {
+  display: grid;
+  gap: clamp(8px, 1.4vh, 18px);
+}
+
+.nav-full a {
+  width: fit-content;
+  font-family: var(--serif);
+  font-size: clamp(24px, 3.6vw, 50px);
+  line-height: 1.1;
+  text-decoration: none;
+  transition: color 200ms ease, transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-full a:hover,
+.nav-full a:focus-visible {
+  color: var(--accent);
+  transform: translateX(10px);
+}
+
+.nav-branch {
+  display: grid;
+  gap: clamp(6px, 0.9vh, 12px);
+}
+
+/* Untermenü von HİZMETLERİMİZ -- kleiner und eingerückt, damit die
+   Hauptpunkte die Gliederung behalten. */
+.nav-sub {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px clamp(14px, 1.8vw, 26px);
+  padding-left: clamp(12px, 1.6vw, 26px);
+  border-left: 1px solid rgba(126, 48, 176, 0.35);
+}
+
+.nav-sub a {
+  font-family: var(--sans);
+  font-size: clamp(13px, 1.05vw, 15px);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+.nav-sub a:hover,
+.nav-sub a:focus-visible {
+  color: var(--ink);
+  transform: none;
+}
+
+.nav-credo {
+  max-width: 46ch;
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(14px, 1.2vw, 17px);
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.nav-panel-contact {
+  display: grid;
+  gap: 6px;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.nav-panel-contact a {
+  width: fit-content;
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.nav-panel-contact a:hover {
+  color: var(--ink);
+}
+
+/* ---------- Bühne ---------- */
+
+.site-shell {
+  min-height: 100vh;
+}
+
+.cinema-scroll {
+  position: relative;
+  height: calc(100vh + 5900px);
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-height: 620px;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--page);
+}
+
+.world {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--page);
+}
+
+/* ---------- Video ---------- */
+
+.film {
+  position: absolute;
+  z-index: 1;
+  right: var(--film-right);
+  top: var(--film-top);
+  width: var(--film-width);
+  aspect-ratio: var(--film-ratio);
+  /* Von rechts nach links gelesen: erst den Abschnitt auf seinen Maßstab
+     bringen (um die Boxmitte, die dabei liegen bleibt), dann um den
+     gemessenen Versatz schieben, dann verankern. */
+  transform: translate(var(--film-anchor-x), -50%)
+    translate(var(--clip-dx, 0px), var(--clip-dy, 0px))
+    scale(var(--clip-scale, 1));
+  overflow: hidden;
+  /* Ringsum weich in den Grund auslaufen, damit die Box nicht als Rechteck
+     auf dem Weiß steht. Rechts sitzt sie am Fensterrand, dort braucht es
+     keine Blende. */
+  -webkit-mask-image: var(--edge-x), var(--edge-y);
+  mask-image: var(--edge-x), var(--edge-y);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+.film-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--film-pos);
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+/* Der Loop liegt unter dem Clipstapel. Er muss ausgeblendet werden, sobald
+   der Stapel ihn deckt -- sonst blitzt er beim Übergang aufs Standbild
+   wieder auf, wenn das Video darüber wegblendet. */
+.film-video-loop {
+  opacity: var(--film-loop-opacity, 1);
+}
+
+/* Die vier Abschnitte liegen deckungsgleich übereinander. --clip-on setzt
+   script.js je Element auf 1 oder 0; --film-main-opacity blendet den ganzen
+   Stapel gegen den Loop und später gegen das Standbild. */
+.film-video-clip {
+  opacity: calc(var(--film-main-opacity) * var(--clip-on, 0));
+}
+
+/* Das Standbild ist das letzte Bild von step4 und liegt zu Beginn exakt auf
+   dem Videoausschnitt; danach oeffnet es sich auf die ganze Buehne. Deshalb
+   zwei Rechtecke: .reveal ist das Fenster, .reveal-img das Bild darin. Beide
+   werden in script.js zwischen Anfangs- und Endlage interpoliert. */
+.reveal {
+  position: absolute;
+  z-index: 1;
+  left: var(--rv-x, 0px);
+  top: var(--rv-y, 0px);
+  width: var(--rv-w, 0px);
+  height: var(--rv-h, 0px);
+  overflow: hidden;
+  opacity: var(--rv-opacity, 0);
+  pointer-events: none;
+  /* Dieselben weichen Kanten wie an der Videobox -- solange das Standbild
+     noch auf ihr liegt, darf man den Wechsel nicht am Rand sehen. Dazu
+     werden hier einfach die Variablen der Blende neu belegt, die --edge-*
+     Verläufe lösen sie an dieser Stelle auf. Beim Öffnen laufen beide auf 0. */
+  --film-fade: var(--rv-fade, 18%);
+  --film-fade-right: 0%;
+  --film-fade-y: var(--rv-fade-y, 10%);
+  -webkit-mask-image: var(--edge-x), var(--edge-y);
+  mask-image: var(--edge-x), var(--edge-y);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+.reveal-img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  width: var(--rv-iw, 0px);
+  height: auto;
+  transform: translate3d(var(--rv-ix, 0px), var(--rv-iy, 0px), 0);
+  will-change: transform, width;
+}
+
+/* ---------- Logo-Auswahl auf dem Buchdeckel ---------- */
+
+/* Wichtig: hier KEINE Deckkraft. Ein Elternelement mit opacity < 1 kapselt
+   die Mischmodi seiner Kinder, die Ledereinfärbung würde dann gegen nichts
+   statt gegen das Video mischen. Deshalb blendet jedes Kind einzeln. */
+.cover-pick {
+  position: absolute;
+  z-index: 7;
+  inset: 0;
+  visibility: var(--cover-visibility, hidden);
+  pointer-events: none;
+}
+
+.cover-pick.is-ready .cover-arrow {
+  pointer-events: auto;
+}
+
+/* Das Logo wird als Maske über einen Goldverlauf gelegt: dadurch wirkt
+   jedes beliebige Logo wie in das Leder geprägt, egal welche Farbe die
+   Quelldatei hat. Die matrix3d kommt aus script.js. */
+.cover-logo {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--cover-w, 0px);
+  height: var(--cover-h, 0px);
+  transform: var(--cover-matrix, none);
+  transform-origin: 0 0;
+  background: var(--cover-foil);
+  background-size: 240% 100%;
+  /* Ein Hauch Sättigung hält das Gold auch dort gelb, wo der Verlauf in
+     seinen hellsten Punkt läuft, und der dunkle Saum darunter setzt die
+     Prägung vom Leder ab -- ohne ihn liegt sie auf statt darin. */
+  filter: var(--cover-foil-relief);
+  animation: cover-sheen 7s ease-in-out infinite;
+  -webkit-mask-image: var(--cover-src);
+  mask-image: var(--cover-src);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  opacity: calc(var(--cover-opacity, 0) * var(--cover-logo-opacity, 1));
+  transition: opacity 220ms ease;
+  will-change: transform, opacity;
+}
+
+/* Dieselbe Prägung quer auf dem Buchrücken. Lage und Drehung stecken in der
+   matrix3d aus script.js; hier bleibt nur die Helligkeit: der Rücken liegt im
+   Schatten, eine gleich helle Prägung sähe dort aufgeklebt aus. */
+.cover-logo.cover-logo-spine {
+  width: var(--cover-spine-logo-w, 0px);
+  height: var(--cover-spine-logo-h, 0px);
+  transform: var(--cover-spine-logo-matrix, none);
+  filter: brightness(0.66) var(--cover-foil-relief);
+}
+
+/* Liegt auf demselben Lederfeld wie das Logo, aber als ganze Fläche.
+   "hard-light" färbt in beide Richtungen: ein heller Ton hebt das Leder an,
+   ein dunkler drückt es ab -- und die Struktur des Videos bleibt sichtbar. */
+.cover-tint {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  /* Kein Farbauftrag, sondern eine Filterkette auf das Videobild selbst:
+     brightness hebt das fast schwarze Leder multiplikativ an (die Kontraste
+     und damit die Narbung bleiben erhalten), sepia + hue-rotate legen den
+     Farbton fest. Ein deckender Farbauftrag würde die Struktur platt machen,
+     und "mix-blend-mode: color" greift hier nicht, weil backdrop-filter das
+     Element isoliert. */
+  backdrop-filter: var(--cover-leather-lift, none);
+  -webkit-backdrop-filter: var(--cover-leather-lift, none);
+  /* Weiche Kante an allen vier Seiten, damit der Überstand nicht als Kante
+     auf der Bordüre aufsitzt. Zwei Verläufe, geschnitten -- ein radialer
+     würde in der Mitte einen Fleck erzeugen statt gleichmäßig zu färben. */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 10%, #000 90%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 8%, #000 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 10%, #000 90%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 8%, #000 92%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  opacity: calc(var(--cover-opacity, 0) * var(--cover-leather-strength, 0));
+  transition: opacity 260ms ease;
+  pointer-events: none;
+}
+
+/* Vorderdeckel und Rücken -- zwei Flächen, dieselbe Filterkette. Die Ecken
+   stehen als COVER_QUAD und COVER_SPINE_QUAD in script.js. */
+.cover-tint-front {
+  width: var(--cover-front-w, 0px);
+  height: var(--cover-front-h, 0px);
+  transform: var(--cover-front-matrix, none);
+}
+
+/* Der Rücken liegt im Schatten, seine Filterkette trägt deshalb einen
+   eigenen Vorfaktor (COVER_SPINE_LIFT in script.js). */
+.cover-tint-spine {
+  width: var(--cover-spine-w, 0px);
+  height: var(--cover-spine-h, 0px);
+  transform: var(--cover-spine-matrix, none);
+  backdrop-filter: var(--cover-leather-lift-spine, none);
+  -webkit-backdrop-filter: var(--cover-leather-lift-spine, none);
+}
+
+/* Kontrollansicht zum Justieren der Ecken: #quads in der Adresszeile oder
+   yazarQuads() in der Konsole. */
+.cover-pick.show-quads .cover-tint {
+  border: 2px solid #00ff88;
+  background: rgba(0, 255, 136, 0.16);
+  opacity: 1;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+/* Langsamer Lichtwanderweg ueber die Goldpraegung, wie Kerzenlicht. */
+@keyframes cover-sheen {
+  0%,
+  100% {
+    background-position: 118% 0;
+  }
+  50% {
+    background-position: -18% 0;
+  }
+}
+
+.cover-logo-text {
+  display: none;
+}
+
+/* Platzhaltermodus: statt Maske ein beschriftetes Feld, damit sichtbar ist,
+   wo das eigene Logo hinkaeme. */
+.cover-logo.is-text {
+  background: none;
+  animation: none;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.cover-logo.is-text .cover-logo-text {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-content: center;
+  border: 2px dashed rgb(229 181 58 / 0.62);
+  border-radius: 5px;
+  color: #e9c35c;
+  font-size: var(--cover-fs, 16px);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: pre-line;
+}
+
+.cover-arrow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: var(--cover-opacity, 0);
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-content: center;
+  margin: -23px 0 0 -23px;
+  border: 1px solid rgba(22, 18, 26, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--ink);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 200ms ease, border-color 200ms ease, transform 200ms ease;
+}
+
+.cover-arrow:hover {
+  border-color: rgba(126, 48, 176, 0.6);
+  background: rgba(126, 48, 176, 0.12);
+}
+
+.cover-arrow-prev {
+  transform: translate3d(var(--cover-prev-x, 0px), var(--cover-prev-y, 0px), 0);
+}
+
+.cover-arrow-next {
+  transform: translate3d(var(--cover-next-x, 0px), var(--cover-next-y, 0px), 0);
+}
+
+.cover-arrow-prev:hover {
+  transform: translate3d(calc(var(--cover-prev-x, 0px) - 3px), var(--cover-prev-y, 0px), 0);
+}
+
+.cover-arrow-next:hover {
+  transform: translate3d(calc(var(--cover-next-x, 0px) + 3px), var(--cover-next-y, 0px), 0);
+}
+
+/* Am unteren Bühnenrand verankert statt am Video -- so läuft es auf
+   flachen Fenstern nicht aus dem Bild. */
+.cover-panel {
+  position: absolute;
+  left: var(--cover-panel-x, 50%);
+  bottom: clamp(14px, 3vh, 34px);
+  display: grid;
+  justify-items: center;
+  gap: 9px;
+  width: min(420px, 46vw);
+  margin-left: min(-210px, -23vw);
+  opacity: var(--cover-opacity, 0);
+  text-align: center;
+}
+
+/* Zwei Reihen unter dem Buch: Leder und Prägung. Die Knöpfe bauen sich in
+   script.js aus COVER_LEATHERS und COVER_FOILS, ihre Namen kommen aus den
+   Sprachdateien. */
+.cover-groups {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2.4vw, 34px);
+  margin-top: 3px;
+}
+
+.cover-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cover-group-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.cover-swatches {
+  display: flex;
+  gap: 7px;
+}
+
+.cover-swatch {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 1px solid rgba(22, 18, 26, 0.25);
+  border-radius: 999px;
+  background: var(--swatch, #000);
+  cursor: pointer;
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), border-color 200ms ease;
+}
+
+.cover-swatch:hover {
+  transform: scale(1.14);
+  border-color: rgba(22, 18, 26, 0.55);
+}
+
+.cover-swatch.is-on {
+  border-color: var(--ink);
+  transform: scale(1.14);
+  box-shadow: 0 0 0 2px var(--page), 0 0 0 3px var(--accent);
+}
+
+/* Anfassbar erst, wenn die Auswahl wirklich steht -- während der Blende
+   würde ein Klick ins Leere gehen. */
+.cover-pick.is-ready .cover-swatch {
+  pointer-events: auto;
+}
+
+.cover-label {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.cover-dots {
+  display: flex;
+  gap: 7px;
+}
+
+.cover-dots span {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(126, 48, 176, 0.32);
+  transition: background 200ms ease;
+}
+
+.cover-dots span.is-on {
+  background: var(--accent);
+}
+
+/* Markenviolett als Lichtstimmung. Auf hellem Grund muss es "multiply"
+   sein: der Grund wird eingefärbt, das schwarze Buch bleibt schwarz. Wichtig
+   ist wie vorher, dass die Schicht über der ganzen Bühne liegt -- Video- und
+   Seitengrund werden dadurch gleich eingefärbt und die Kante der Videobox
+   bleibt unsichtbar. */
+.bloom {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  background:
+    radial-gradient(38% 34% at 78% 44%, var(--brand-purple-lit), transparent 72%),
+    radial-gradient(62% 54% at 4% 92%, var(--brand-purple-deep), transparent 76%);
+}
+
+/* Schattenverlauf über der linken Hälfte: hält den Text lesbar und
+   verbindet die beiden Bereiche. */
+.copy-scrim {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    rgb(var(--page-rgb)) 0%,
+    rgb(var(--page-rgb) / 0.94) 24%,
+    rgb(var(--page-rgb) / 0.58) 42%,
+    rgb(var(--page-rgb) / 0) 60%
+  );
+}
+
+/* Ränder ins Papierweiß ziehen -- dasselbe Mittel wie vorher, nur andersherum:
+   der Blick geht zur Mitte, und die Kante der Videobox verschwindet vollends. */
+.vignette {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(125% 100% at 50% 50%, transparent 46%, rgb(var(--page-rgb) / 0.62) 100%);
+}
+
+/* Feines Korn, nimmt dem Weiß die digitale Glätte. "multiply", damit es das
+   Papier körnt statt es aufzuhellen. */
+.grain {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- Textspalte ---------- */
+
+.copy-rail {
+  position: absolute;
+  z-index: 6;
+  left: clamp(20px, 5vw, 96px);
+  top: 50%;
+  width: min(38vw, 520px);
+  height: 66vh;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.copy-block {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(calc(-50% + var(--copy-y, 0px)));
+  will-change: transform, opacity;
+}
+
+.copy-block a {
+  pointer-events: auto;
+}
+
+/* Zeilenweiser Aufbau: jede Einheit trägt ihren Index in --line und startet
+   dadurch gestaffelt. Wörter derselben Zeile teilen sich einen Index und
+   laufen gemeinsam ein. */
+.copy-block .rv {
+  opacity: 0;
+  filter: blur(7px);
+  transform: translateY(15px);
+  transition: opacity 560ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 560ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--line, 0) * 85ms);
+}
+
+.copy-block.is-in .rv {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+}
+
+.copy-block .w {
+  display: inline-block;
+}
+
+.copy-index {
+  margin: 0 0 14px;
+  font-family: var(--serif);
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  color: #7e30b0;
+}
+
+.copy-kicker {
+  margin: 0 0 16px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.copy-block h1 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(2.5rem, 4.1vw, 4.1rem);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+}
+
+.copy-block h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.7rem, 2.4vw, 2.5rem);
+  font-weight: 400;
+  line-height: 1.14;
+  letter-spacing: -0.005em;
+}
+
+.copy-lede {
+  margin: 28px 0 0;
+  max-width: 40ch;
+  font-size: clamp(0.98rem, 1vw, 1.08rem);
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.copy-text {
+  margin: 22px 0 0;
+  max-width: 44ch;
+  font-size: clamp(0.98rem, 1.02vw, 1.1rem);
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.copy-text a {
+  color: var(--ink);
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.copy-text a:hover {
+  color: var(--accent);
+}
+
+.copy-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  margin-top: 28px;
+  padding: 0 26px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), filter 200ms ease;
+}
+
+.copy-link::after {
+  content: "→";
+  transform: translateX(-4px);
+  opacity: 0;
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), opacity 200ms ease;
+}
+
+.copy-link:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+.copy-link:hover::after {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* ---------- Scroll-Hinweis ---------- */
+
+.scroll-hint {
+  position: absolute;
+  z-index: 5;
+  left: clamp(20px, 5vw, 96px);
+  bottom: clamp(28px, 5vh, 54px);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  opacity: var(--hint-opacity);
+  pointer-events: none;
+}
+
+.scroll-hint-line {
+  position: relative;
+  display: block;
+  width: 54px;
+  height: 1px;
+  overflow: hidden;
+  background: rgba(22, 18, 26, 0.2);
+}
+
+.scroll-hint-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform-origin: 0 50%;
+  animation: hint-sweep 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes hint-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  55%,
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.scroll-hint-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  color: var(--faint);
+}
+
+/* ==================================================================
+   SPRACHUMSCHALTER
+   Zwei Links, keine Auswahlliste: bei genau zwei Sprachen ist ein Klick
+   weniger Arbeit als ein Aufklappen, und man sieht ohne Umweg, welche
+   gerade läuft. Jeder Link führt auf dieselbe Seite in der anderen
+   Sprache -- es gibt keine Umschaltung im Browser.
+   ================================================================== */
+
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--hair-strong);
+  border-radius: 999px;
+  background: rgb(var(--page-rgb) / 0.66);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.lang-switch a {
+  display: inline-grid;
+  place-content: center;
+  min-width: 38px;
+  height: 30px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: none;
+  color: rgb(22 18 26 / 0.5);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  transition: background 200ms ease, color 200ms ease;
+}
+
+.lang-switch a:hover {
+  color: var(--ink);
+}
+
+.lang-switch a.is-on {
+  background: var(--ink);
+  color: #fff;
+}
+
+.lang-switch-sep {
+  width: 1px;
+  height: 14px;
+  background: var(--hair);
+}
+
+/* Der Umschalter sitzt auf der Bühne ohne Hintergrund; sobald die Seite
+   in den Lesebereich fährt, steht die Leiste auf dem Grund. */
+.site-header.is-parked .lang-switch {
+  background: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* Sobald die Bühne durchgescrollt ist, bekommt die Kopfzeile einen eigenen
+   Grund. Sie läuft von da an über hellen UND dunklen Bahnen -- ohne Grund
+   würde die dunkle Schrift auf der dunklen Bahn verschwinden. */
+.site-header::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-bottom: 1px solid transparent;
+  background: rgb(var(--page-rgb) / 0);
+  -webkit-backdrop-filter: blur(0px);
+  backdrop-filter: blur(0px);
+  opacity: 0;
+  transition: opacity 320ms ease;
+}
+
+.site-header.is-parked::before {
+  border-bottom-color: var(--hair);
+  background: rgb(var(--page-rgb) / 0.86);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  backdrop-filter: blur(16px) saturate(1.3);
+  opacity: 1;
+}
+
+/* ==================================================================
+   LESEBEREICH.  Ab hier steht die Seite still.
+   Jede Bahn trägt eine Grundfarbe; hell / gedeckt / dunkel gliedert die
+   Strecke, damit keine Trennlinien nötig sind.
+   ================================================================== */
+
+.band {
+  position: relative;
+  z-index: 1;
+  padding-block: clamp(76px, 10vh, 148px);
+  /* Die Kopfzeile steht fest über allem. Ohne diesen Abstand landet ein
+     Sprung auf einen Anker hinter ihr und verschluckt die erste Zeile. */
+  scroll-margin-top: clamp(84px, 11vh, 118px);
+  background: var(--page);
+}
+
+.band-quiet {
+  background: var(--page-quiet);
+}
+
+/* Leder und Gold des Buchs, noch einmal als Fläche. */
+.band-dark {
+  background: #14101a;
+  color: var(--ink-on-dark);
+}
+
+.band-dark .kicker {
+  color: var(--gold);
+}
+
+.band-dark .lede,
+.band-dark .prose,
+.band-dark .note {
+  color: var(--muted-on-dark);
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-inline: clamp(20px, 5vw, 96px);
+}
+
+.kicker {
+  margin: 0;
+  color: var(--faint);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.band-h {
+  margin: 16px 0 0;
+  max-width: 24ch;
+  font-family: var(--serif);
+  font-size: clamp(1.85rem, 3.1vw, 3rem);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.008em;
+}
+
+.lede {
+  margin: 0;
+  max-width: 62ch;
+  font-size: clamp(1.02rem, 1.15vw, 1.2rem);
+  line-height: 1.62;
+  color: var(--muted);
+}
+
+.prose {
+  margin: 18px 0 0;
+  max-width: 64ch;
+  font-size: 1rem;
+  line-height: 1.72;
+  color: var(--muted);
+}
+
+/* Der Schlusssatz eines Abschnitts bekommt einen Strich an die Seite --
+   er trägt die Haltung, nicht die Auskunft. */
+.prose-mark {
+  margin-top: 26px;
+  padding-left: 20px;
+  border-left: 2px solid var(--accent);
+  color: var(--ink);
+}
+
+.note {
+  margin: 18px 0 0;
+  max-width: 58ch;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--faint);
+}
+
+/* Überschrift links, Text rechts: der Blick findet den Einstieg an einer
+   Kante und liest dann in einer Spalte weiter. */
+.lede-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(28px, 5vw, 76px);
+  align-items: start;
+}
+
+.lede-grid-head {
+  position: sticky;
+  top: clamp(88px, 12vh, 130px);
+}
+
+/* ==================================================================
+   TITELKOPF DER UNTERSEITEN
+   Die Startseite hat die Videobühne, die Unterseiten haben diesen Kopf:
+   Rubrik, Titel, ein Satz. Nichts weiter -- der Titel soll wirken wie die
+   erste Seite eines Buchs, nicht wie ein Werbebanner.
+   ================================================================== */
+
+.page-head {
+  position: relative;
+  /* Oben so viel Luft, dass die feste Kopfzeile frei über dem Titel steht
+     und nicht auf ihm sitzt. */
+  padding-block: clamp(132px, 21vh, 210px) clamp(40px, 6vh, 76px);
+  background: var(--page);
+}
+
+.page-head .kicker {
+  margin-bottom: 20px;
+}
+
+.page-head h1 {
+  margin: 0;
+  max-width: 22ch;
+  font-family: var(--serif);
+  font-size: clamp(2.3rem, 4.6vw, 4rem);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.012em;
+}
+
+.page-head .lede {
+  margin-top: clamp(24px, 3.4vh, 36px);
+  max-width: 56ch;
+}
+
+/* Die erste Bahn nach dem Titelkopf braucht oben keinen zweiten Absatz --
+   der Kopf hat seinen Abstand schon mitgebracht. */
+.page-head + .band {
+  padding-top: clamp(26px, 4vh, 54px);
+}
+
+/* Eine dunkle Bahn direkt unter dem Kopf setzt schon durch den Farbwechsel
+   ab; ein Abstand darüber würde die Kante nur aufweichen. */
+.page-head + .band-dark {
+  padding-top: clamp(40px, 6vh, 76px);
+}
+
+/* Auf welcher Seite man ist, steht im Menü als aria-current -- daran hängt
+   auch die Markierung, statt an einer zweiten Klasse. */
+/* aria-current steht nur am Link auf genau diese Seite. Eine Unterseite
+   (etwa eine einzelne Leistung) markiert ihren Bereich mit .is-active --
+   aria-current="page" wäre dort eine falsche Auskunft. */
+.nav-primary a[aria-current="page"],
+.nav-primary a.is-active {
+  color: var(--ink);
+}
+
+.nav-primary a[aria-current="page"]::after,
+.nav-primary a.is-active::after {
+  transform: scaleX(1);
+  background: var(--ink);
+}
+
+.nav-full a[aria-current="page"],
+.nav-sub a[aria-current="page"] {
+  color: var(--accent);
+}
+
+/* ==================================================================
+   WEGWEISER
+   Steht nur auf der Startseite: vier Karten, die weiterführen. Sie tragen
+   je einen Satz, nicht den Inhalt der Zielseite -- sonst bräuchte man die
+   Zielseite nicht mehr.
+   ================================================================== */
+
+.signposts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(236px, 1fr));
+  gap: clamp(16px, 1.6vw, 24px);
+  margin: clamp(44px, 6vh, 80px) 0 0;
+  padding: 0;
+  counter-reset: signpost;
+  list-style: none;
+}
+
+.signposts li {
+  counter-increment: signpost;
+}
+
+/* Die ganze Karte ist der Link, nicht nur die Zeile am Fuß: ein größeres
+   Ziel trifft man mit dem Daumen zuverlässiger. */
+.signpost {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: clamp(22px, 2.2vw, 30px);
+  border: 1px solid var(--hair);
+  border-radius: 3px;
+  background: rgb(255 255 255 / 0.56);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 260ms ease, transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 300ms ease;
+}
+
+.signpost::before {
+  content: counter(signpost, decimal-leading-zero);
+  color: var(--faint);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.signpost h3 {
+  margin: 16px 0 0;
+  font-family: var(--serif);
+  font-size: 1.24rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.signpost p {
+  margin: 10px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.signpost span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 22px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.signpost span::after {
+  content: "→";
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.signpost:hover {
+  border-color: var(--hair-strong);
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px -28px rgb(22 18 26 / 0.45);
+}
+
+.signpost:hover span {
+  color: var(--accent);
+}
+
+.signpost:hover span::after {
+  transform: translateX(4px);
+}
+
+/* ==================================================================
+   KONTAKTZEILE
+   Der kurze Abschluss der Startseite. Die ausführliche Fassung steht auf
+   iletisim.html -- hier nur die zwei Wege und der Weiterklick.
+   ================================================================== */
+
+.contact-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(24px, 4vw, 64px);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contact-strip-say {
+  max-width: 34ch;
+}
+
+.contact-strip .band-h {
+  margin-top: 14px;
+  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+}
+
+.contact-strip-ways {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+
+.contact-strip-ways a:not(.copy-link) {
+  font-size: clamp(1.05rem, 1.5vw, 1.32rem);
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.contact-strip-ways a:not(.copy-link):hover {
+  color: var(--gold);
+}
+
+.contact-strip .copy-link {
+  margin-top: 10px;
+}
+
+/* Der Fließtext von hakkimizda. Eine Spalte, keine zwei: das Manifest ist
+   ein Stück Prosa und soll auch so gelesen werden. */
+.prose-column .prose:first-child {
+  margin-top: 0;
+}
+
+/* ---------- Zahlen ---------- */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: clamp(20px, 3vw, 48px);
+  margin: clamp(48px, 7vh, 88px) 0 0;
+  padding: clamp(28px, 4vh, 44px) 0 0;
+  border-top: 1px solid var(--hair);
+  list-style: none;
+}
+
+.stats li {
+  display: grid;
+  gap: 8px;
+}
+
+.stats-value {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.stats-label {
+  max-width: 22ch;
+  color: var(--faint);
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0.04em;
+}
+
+/* ---------- Haltung (dunkle Bahn) ---------- */
+
+.values {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(28px, 3.4vw, 52px);
+  margin: clamp(44px, 6vh, 76px) 0 0;
+  padding: 0;
+  counter-reset: value;
+  list-style: none;
+}
+
+.values li {
+  counter-increment: value;
+  padding-top: 22px;
+  border-top: 1px solid var(--hair-on-dark);
+}
+
+.values li::before {
+  content: counter(value, decimal-leading-zero);
+  display: block;
+  margin-bottom: 14px;
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.values h3 {
+  margin: 0 0 10px;
+  font-family: var(--serif);
+  font-size: 1.22rem;
+  font-weight: 400;
+  line-height: 1.24;
+}
+
+.values p {
+  margin: 0;
+  font-size: 0.94rem;
+  line-height: 1.66;
+  color: var(--muted-on-dark);
+}
+
+/* ---------- Die sechs Leistungen ---------- */
+
+/* Jede Leistung ist ein Abschnitt mit eigener Sprungmarke, keine Karte in
+   einem Gitter: das Menü zeigt sechs Einträge, und die müssen irgendwo
+   ankommen. Drei Spalten -- Zahl, Text, Stichpunkte -- halten die sechs
+   Reihen auf einer gemeinsamen Achse, ohne dass ein Kasten sie einfasst. */
+.services-list {
+  display: grid;
+}
+
+.service {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) minmax(0, 0.82fr);
+  gap: clamp(20px, 3vw, 56px);
+  align-items: start;
+  padding-block: clamp(30px, 4vh, 48px);
+  border-top: 1px solid var(--hair);
+  /* Die Kopfzeile steht fest über allem; ohne das landet ein Sprung aus
+     dem Menü hinter ihr. */
+  scroll-margin-top: clamp(84px, 11vh, 118px);
+}
+
+.service:last-child {
+  border-bottom: 1px solid var(--hair);
+}
+
+.service-index {
+  margin: 6px 0 0;
+  color: var(--faint);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.service h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.38rem, 2vw, 1.72rem);
+  font-weight: 400;
+  line-height: 1.16;
+}
+
+.service-say p {
+  margin: 14px 0 0;
+  max-width: 52ch;
+  font-size: 0.96rem;
+  line-height: 1.68;
+  color: var(--muted);
+}
+
+.service h2 a {
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.service h2 a:hover {
+  color: var(--accent);
+}
+
+.service-more,
+.route-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.service-more::after,
+.route-link::after {
+  content: "→";
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.service-more:hover,
+.route-link:hover {
+  color: var(--accent);
+}
+
+.service-more:hover::after,
+.route-link:hover::after {
+  transform: translateX(4px);
+}
+
+.route-link {
+  margin-top: 18px;
+}
+
+/* Haken als Pseudoelement statt als Zeichen im Text: der Vorlesemodus
+   liest dann die Leistung und nicht das Häkchen. */
+.ticks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ticks li {
+  position: relative;
+  padding: 8px 0 8px 22px;
+  border-top: 1px solid var(--hair);
+  font-size: 0.86rem;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+}
+
+.ticks li:first-child {
+  border-top: 0;
+  padding-top: 2px;
+}
+
+.ticks li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 15px;
+  width: 8px;
+  height: 4px;
+  border-left: 1.5px solid var(--accent);
+  border-bottom: 1.5px solid var(--accent);
+  transform: rotate(-45deg);
+}
+
+.ticks li:first-child::before {
+  top: 9px;
+}
+
+/* ---------- Eine Leistung auf eigener Seite ---------- */
+
+/* Die Rubrik über dem Titel führt zurück auf die Übersicht. */
+.kicker-link {
+  display: inline-block;
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.kicker-link:hover {
+  color: var(--accent);
+}
+
+/* Die fünf Stichpunkte stehen hier allein, nicht neben einem Text --
+   zwei Spalten, damit die Liste nicht als schmaler Streifen hängt. */
+.ticks-wide {
+  columns: 2 260px;
+  column-gap: clamp(24px, 4vw, 64px);
+}
+
+.ticks-wide li {
+  break-inside: avoid;
+}
+
+/* In zwei Spalten beginnt die zweite mit einem Strich -- also bekommt die
+   erste ihren auch, sonst stehen die Spalten versetzt. */
+.ticks-wide li:first-child {
+  padding-top: 8px;
+  border-top: 1px solid var(--hair);
+}
+
+.ticks-wide li:first-child::before {
+  top: 15px;
+}
+
+/* Alle sechs Leistungen als Wegweiser; die aktuelle ist markiert und
+   nicht anklickbar hervorgehoben. */
+.service-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0 clamp(20px, 3vw, 44px);
+  margin: clamp(28px, 4vh, 44px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.service-links a {
+  display: block;
+  padding: 14px 0;
+  border-top: 1px solid var(--hair);
+  font-family: var(--serif);
+  font-size: 1.12rem;
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.service-links a:hover {
+  color: var(--accent);
+}
+
+.service-links a[aria-current="page"] {
+  color: var(--faint);
+}
+
+/* Der Leitsatz der alten Seite steht als zweite Zeile unter dem Titel --
+   der Titel nennt die Leistung, der Leitsatz sagt, worum es geht. */
+.page-tagline {
+  margin: clamp(14px, 2vh, 20px) 0 0;
+  max-width: 30ch;
+  font-family: var(--serif);
+  font-size: clamp(1.3rem, 2.1vw, 1.8rem);
+  line-height: 1.24;
+  color: var(--muted);
+}
+
+/* Text der alten Seite links, die fünf Stichpunkte daneben. */
+.service-body {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  gap: clamp(28px, 5vw, 80px);
+  align-items: start;
+}
+
+.service-prose .prose:first-child {
+  margin-top: 0;
+}
+
+/* Hinweis unter den Fragen auf /amazonda-yayinla. */
+.callout {
+  margin: clamp(32px, 5vh, 52px) 0 0;
+  max-width: 62ch;
+  padding: 16px 20px;
+  border-left: 2px solid var(--accent);
+  background: rgb(255 255 255 / 0.56);
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+/* ---------- Ablauf ---------- */
+
+.steps {
+  display: grid;
+  /* 170px so gewaehlt, dass die fuenf Schritte des Ablaufs auf einem
+     breiten Fenster in EINE Reihe gehen -- bei 220px waeren es vier und
+     einer allein darunter, und die Strecke waere keine Strecke mehr. */
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: clamp(22px, 2.6vw, 36px);
+  margin: clamp(44px, 6vh, 76px) 0 0;
+  padding: 0;
+  counter-reset: step;
+  list-style: none;
+}
+
+.steps li {
+  position: relative;
+  counter-increment: step;
+  padding-top: 26px;
+  border-top: 1px solid var(--hair-strong);
+}
+
+/* Die Zahl sitzt auf der Linie und reitet sie -- dadurch liest sich die
+   Reihe als eine Strecke und nicht als vier Kästen. */
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  top: -11px;
+  left: 0;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-content: center;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.steps h3 {
+  margin: 0 0 8px;
+  font-size: 0.94rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.steps p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.64;
+  color: var(--muted);
+}
+
+/* ---------- Zwei Wege in die Welt ---------- */
+
+/* Keine Kästen, sondern zwei Spalten unter einem Strich. Die beiden Texte
+   sind verschieden lang; in gerahmten Karten gleicher Höhe stünde unter dem
+   kürzeren eine leere Fläche, und die liest man als Fehler. */
+.routes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(28px, 4vw, 72px);
+  align-items: start;
+}
+
+.route {
+  padding-top: 24px;
+  border-top: 1px solid var(--hair-strong);
+}
+
+.route-tag {
+  margin: 0 0 14px;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.route h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.4rem, 1.9vw, 1.75rem);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+/* ---------- Ekip ---------- */
+
+.people {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: clamp(24px, 2.8vw, 44px);
+  margin: clamp(48px, 7vh, 88px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.people li {
+  padding-top: 20px;
+  border-top: 1px solid var(--hair);
+}
+
+.people-role {
+  margin: 0 0 8px;
+  color: var(--faint);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.people h3 {
+  margin: 0 0 10px;
+  font-family: var(--serif);
+  font-size: 1.14rem;
+  font-weight: 400;
+}
+
+.people p:last-child {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.62;
+  color: var(--muted);
+}
+
+/* ---------- Stimmen ---------- */
+
+.voices {
+  /* Mauerwerk aus Spalten: die Zitate sind verschieden lang, in einem
+     Raster mit gleichen Zeilen bliebe unter den kurzen ein Loch. */
+  margin-top: clamp(48px, 7vh, 88px);
+  columns: 3 300px;
+  column-gap: clamp(22px, 2.6vw, 42px);
+}
+
+.voices figure {
+  margin: 0 0 clamp(22px, 2.6vw, 38px);
+  padding: 24px 0 0;
+  border-top: 1px solid var(--hair);
+  break-inside: avoid;
+}
+
+.voices blockquote {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.voices blockquote::before {
+  content: "“";
+  display: block;
+  margin-bottom: -18px;
+  color: var(--accent);
+  font-size: 2.4rem;
+  line-height: 1;
+}
+
+.voices figcaption {
+  margin-top: 16px;
+  color: var(--faint);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* ---------- Sık sorulan sorular ---------- */
+
+.faq details {
+  border-bottom: 1px solid var(--hair);
+}
+
+.faq details:first-child {
+  border-top: 1px solid var(--hair);
+}
+
+.faq summary {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 0;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  cursor: pointer;
+  list-style: none;
+  transition: color 200ms ease;
+}
+
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq summary:hover {
+  color: var(--accent);
+}
+
+/* Plus, das beim Aufklappen zum Minus wird: der eine Balken dreht sich
+   weg. Ein Zeichenwechsel würde springen. */
+.faq summary::after {
+  content: "";
+  position: relative;
+  top: 9px;
+  flex: none;
+  width: 11px;
+  height: 11px;
+  margin-left: auto;
+  background: currentColor;
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  -webkit-mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+  mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+  -webkit-mask-size: 100% 1.5px, 1.5px 100%;
+  mask-size: 100% 1.5px, 1.5px 100%;
+  -webkit-mask-position: center, center;
+  mask-position: center, center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.faq details[open] summary::after {
+  transform: rotate(90deg);
+  -webkit-mask-size: 100% 1.5px, 0 0;
+  mask-size: 100% 1.5px, 0 0;
+}
+
+.faq details p {
+  margin: 0;
+  max-width: 62ch;
+  padding: 0 40px 24px 0;
+  font-size: 0.94rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* ---------- İletişim ---------- */
+
+/* Links nur die drei Wege, rechts das Formular -- die Überschrift steht
+   im Titelkopf, deshalb ist die linke Spalte die schmalere. */
+.contact {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 6fr);
+  gap: clamp(36px, 5vw, 84px);
+  align-items: start;
+}
+
+.contact-list {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 10px clamp(20px, 3vw, 40px);
+  margin: clamp(30px, 4vh, 44px) 0 0;
+  padding-top: clamp(26px, 3.4vh, 36px);
+  border-top: 1px solid var(--hair-on-dark);
+  align-items: baseline;
+}
+
+/* Auf iletisim.html steht die Liste am Anfang der Spalte -- dort trennt
+   sie nichts ab, der Strich wäre eine Linie ins Leere. */
+.contact-list-lead {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.contact-list dt {
+  color: var(--faint-on-dark);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.contact-list dd {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.contact-list a {
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.contact-list a:hover {
+  color: var(--gold);
+}
+
+.contact-form {
+  display: grid;
+  gap: 12px;
+}
+
+.contact-form input:not([type="checkbox"]):not([type="radio"]),
+.contact-form textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--hair-on-dark);
+  border-radius: 3px;
+  background: rgb(244 241 238 / 0.05);
+  color: var(--ink-on-dark);
+  font: inherit;
+  font-size: 0.95rem;
+  transition: border-color 200ms ease, background 200ms ease;
+}
+
+.contact-form textarea {
+  resize: vertical;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: var(--faint-on-dark);
+}
+
+.contact-form input:not([type="checkbox"]):not([type="radio"]):hover,
+.contact-form textarea:hover {
+  border-color: rgb(244 241 238 / 0.3);
+}
+
+.contact-form input:not([type="checkbox"]):not([type="radio"]):focus,
+.contact-form textarea:focus {
+  border-color: var(--gold);
+  background: rgb(244 241 238 / 0.08);
+  outline: none;
+}
+
+/* Das Feld, das beim Absenden auffällt, bleibt rot: dieselbe Schaltfläche
+   wie oben auf der Bühne. */
+.contact-form button {
+  justify-self: start;
+  min-height: 46px;
+  margin-top: 8px;
+  padding: 0 30px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), filter 200ms ease;
+}
+
+.contact-form button:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+.contact-form .note {
+  color: var(--faint-on-dark);
+}
+
+/* ---------- Beschriftungen und Gruppen im Formular ---------- */
+
+/* Sichtbare Beschriftung über jedem Feld statt eines Platzhalters: ein
+   Platzhalter verschwindet beim Tippen, die Beschriftung bleibt. */
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.field-label,
+.contact-form legend {
+  color: var(--faint-on-dark);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Anzahl und Sprachen: die Auswahl steht in einer Gruppe mit eigener
+   Überschrift, damit der Vorlesemodus die Frage mitliest. */
+.choice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  align-items: center;
+  margin: 6px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.choice legend {
+  float: left;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 0;
+}
+
+.choice label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+
+.contact-form input[type="checkbox"],
+.contact-form input[type="radio"] {
+  flex: none;
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  accent-color: var(--gold);
+}
+
+.form-note {
+  flex-basis: 100%;
+  margin: 4px 0 0;
+  color: var(--faint-on-dark);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.consent {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--muted-on-dark);
+}
+
+.consent input {
+  margin-top: 2px;
+}
+
+.consent a {
+  color: var(--ink-on-dark);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.consent a:hover {
+  color: var(--gold);
+}
+
+/* Die Falle für Einsendeprogramme: für Augen und Vorlesemodus weg, aber
+   nicht display:none -- das überspringen viele davon. */
+.form-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ---------- Fehlerseite ---------- */
+
+.notfound-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px clamp(20px, 3vw, 36px);
+  align-items: center;
+  margin-top: clamp(24px, 3.4vh, 36px);
+}
+
+.notfound-actions .copy-link,
+.notfound-actions .route-link {
+  margin-top: 0;
+}
+
+/* Ein Satz auf Deutsch, damit deutsche Leser nicht in einer türkischen
+   Fehlerseite hängen bleiben. */
+.notfound-de {
+  margin: clamp(30px, 4vh, 44px) 0 0;
+  padding-top: clamp(20px, 2.6vh, 28px);
+  border-top: 1px solid var(--hair);
+  max-width: 52ch;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.notfound-de a {
+  color: var(--ink);
+  text-underline-offset: 2px;
+}
+
+.notfound-de a:hover {
+  color: var(--accent);
+}
+
+/* ---------- Rechtstexte ---------- */
+
+/* Eine Spalte, Zeilenlänge fürs Lesen begrenzt. Die Texte sind lang und
+   werden im Zweifel am Stück gelesen. */
+.legal {
+  max-width: 74ch;
+}
+
+.legal h2 {
+  margin: clamp(34px, 4.5vh, 52px) 0 0;
+  font-family: var(--serif);
+  font-size: clamp(1.2rem, 1.7vw, 1.45rem);
+  font-weight: 400;
+  line-height: 1.24;
+}
+
+.legal p,
+.legal li {
+  font-size: 0.95rem;
+  line-height: 1.72;
+  color: var(--muted);
+}
+
+.legal p {
+  margin: 14px 0 0;
+}
+
+.legal-lead {
+  margin: 0;
+  color: var(--ink);
+}
+
+.legal ul {
+  margin: 14px 0 0;
+  padding-left: 20px;
+}
+
+.legal li {
+  margin-top: 8px;
+}
+
+.legal a {
+  color: var(--ink);
+  text-underline-offset: 2px;
+}
+
+.legal a:hover {
+  color: var(--accent);
+}
+
+/* ---------- Alt bilgi ---------- */
+
+.site-footer {
+  padding-block: clamp(54px, 7vh, 88px) clamp(28px, 4vh, 40px);
+  background: #100d14;
+  color: var(--ink-on-dark);
+}
+
+.site-footer-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr));
+  gap: clamp(28px, 4vw, 64px);
+  padding-bottom: clamp(36px, 5vh, 56px);
+  border-bottom: 1px solid var(--hair-on-dark);
+}
+
+.site-footer-logo {
+  display: block;
+  height: 34px;
+  width: auto;
+  /* Die Datei ist eine Strichzeichnung für dunklen Grund und bleibt hier
+     also unverändert -- nur eine Spur heller, damit sie neben dem Gold
+     der Spaltenköpfe nicht zurückfällt. */
+  filter: brightness(1.28);
+}
+
+.site-footer-credo {
+  margin: 22px 0 0;
+  max-width: 40ch;
+  font-family: var(--serif);
+  font-size: 0.98rem;
+  line-height: 1.62;
+  color: var(--muted-on-dark);
+}
+
+.site-footer-nav {
+  display: grid;
+  gap: 11px;
+  align-content: start;
+}
+
+.site-footer-head {
+  margin: 0 0 4px;
+  color: var(--gold);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.site-footer-nav a {
+  color: var(--muted-on-dark);
+  font-size: 0.88rem;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+/* WhatsApp als eigene Schaltfläche, wie in der Fußzeile der alten Seite --
+   in der Farbe des Dienstes, weil man ihn daran erkennt. */
+.site-footer-nav a.whatsapp-link {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: 10px;
+  margin-top: 6px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: #1f9d55;
+  color: #fff;
+  font-weight: 600;
+  transition: background 200ms ease;
+}
+
+.site-footer-nav a.whatsapp-link:hover {
+  background: #25d366;
+  color: #fff;
+}
+
+.whatsapp-icon {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.site-footer-nav a:hover {
+  color: var(--ink-on-dark);
+}
+
+.site-footer-base {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 24px;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: clamp(22px, 3vh, 30px);
+  color: var(--faint-on-dark);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+}
+
+.site-footer-base p {
+  margin: 0;
+}
+
+.site-footer-base a {
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+/* Die Rechtstexte stehen in der untersten Zeile, zwischen Jahr und
+   "Nach oben" -- dort sucht man sie. */
+.site-footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+  margin-right: auto;
+  margin-left: clamp(0px, 4vw, 48px);
+}
+
+.site-footer-legal a[aria-current="page"] {
+  color: var(--ink-on-dark);
+}
+
+.site-footer-base a:hover {
+  color: var(--gold);
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 900px) {
+  :root {
+    /* Fast randlos, damit links und rechts kaum Kante gegen den Grund steht.
+       Nicht ganz: die Box von step1/2 ist 1.17 x so breit und ragt über die
+       Bühne hinaus -- bei mehr als 92vw stößt das offene Buch am Rand an. */
+    --film-width: min(92vw, 78vh);
+    --film-right: 50%;
+    --film-anchor-x: 50%;
+    --film-top: 27vh;
+    --film-fade: 4%;
+    --film-fade-right: 4%;
+  }
+
+  .copy-scrim {
+    background: linear-gradient(
+      to bottom,
+      rgb(var(--page-rgb) / 0.72) 0%,
+      rgb(var(--page-rgb) / 0.2) 30%,
+      rgb(var(--page-rgb) / 0.9) 56%,
+      rgb(var(--page-rgb)) 76%
+    );
+  }
+
+  .copy-rail {
+    left: clamp(20px, 6vw, 48px);
+    right: clamp(20px, 6vw, 48px);
+    top: auto;
+    bottom: 7vh;
+    width: auto;
+    height: 42vh;
+    transform: none;
+  }
+
+  .copy-block {
+    top: auto;
+    bottom: 0;
+    transform: translateY(var(--copy-y, 0px));
+  }
+
+  .nav-primary {
+    display: none;
+  }
+
+  .scroll-hint {
+    display: none;
+  }
+
+  /* Der Kopf der Bahn darf nicht mehr stehen bleiben: gestapelt steht er
+     sonst über seinem eigenen Text. */
+  .lede-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lede-grid-head {
+    position: static;
+  }
+
+  .contact {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .service-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .site-footer-top {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .voices {
+    columns: 2 260px;
+  }
+
+  /* Zahl, Text und Stichpunkte übereinander -- in drei Spalten bleibt für
+     die Stichpunkte sonst nur noch eine Wortbreite. */
+  .service {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .service-index {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .band {
+    padding-block: clamp(56px, 8vh, 84px);
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .voices {
+    columns: 1;
+  }
+
+  .faq details p {
+    padding-right: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .scroll-hint-line::after,
+  .cover-logo {
+    animation: none;
+  }
+
+  .copy-block .rv {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    transition: none;
+  }
+
+  .nav-full a,
+  .copy-link {
+    transition: color 200ms ease;
+  }
+
+  .signpost,
+  .signpost:hover,
+  .contact-form button:hover {
+    transform: none;
+  }
+}
+
+/* ---------- später: Fensterrahmen ----------
+   window_frame.png ist vorerst raus. Zum Wiederherstellen brauchst du eine
+   .window-plate mit Seitenverhältnis 1370/768 über dem Video und diese
+   gemessenen Werte:
+
+     Öffnung im PNG:  x 506-851, y 23-555  (von 1370x768)
+                      = links 36.93%, oben 2.99%, 25.26% breit, 69.40% hoch
+     Mitte/Ursprung:  49.55% / 37.70%   <- Skalierungsursprung für den
+                      Flug durchs Fenster; nur auf diesem Punkt bleibt das
+                      Video beim Zoom stehen
+     Ruheabstand:     --win-distance 0.62 (Desktop), 0.78 (<1100px),
+                      0.92 (<640px)
+     Videos im Rahmen bekommen scale(1 / --win-zoom), damit sie den Zoom
+     der Plate nicht mitmachen.
+------------------------------------------------------------------ */

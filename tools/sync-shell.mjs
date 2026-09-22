@@ -21,45 +21,17 @@
    Menü oder Fußzeile ändern: hier ändern, Skript laufen lassen, die
    geänderten Seiten mit einchecken.
 
-   Kein Teil der ausgelieferten Seite -- wird in der Deploy-Phase vom
-   Veröffentlichen ausgenommen.
+   Dieses Skript liegt außerhalb von public/ und wird deshalb nicht
+   veröffentlicht; es schreibt nur in die Seiten dort.
    ===================================================================== */
 
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { ORIGIN, LANGS, PAGES, SERVICE_IDS, url, langsOf } from "./pages.mjs";
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "public");
 const CHECK = process.argv.includes("--check");
-
-/* ---------------------------------------------------------------------
-   SEITENREGISTER.  Eine Zeile je Seite, beide Sprachen nebeneinander.
-   "section" ist der Punkt der Kopfzeile, zu dem die Seite gehört.
-   --------------------------------------------------------------------- */
-
-export const PAGES = [
-  { id: "home", section: null, tr: ["index.html", "/"], de: ["de/index.html", "/de/"] },
-  { id: "services", section: "services", tr: ["hizmetlerimiz.html", "/hizmetlerimiz"], de: ["de/leistungen.html", "/de/leistungen"] },
-  { id: "consult", section: "services", tr: ["yazar-danismanligi.html", "/yazar-danismanligi"], de: ["de/autorenberatung.html", "/de/autorenberatung"] },
-  { id: "editing", section: "services", tr: ["editorluk-hizmetleri.html", "/editorluk-hizmetleri"], de: ["de/lektorat.html", "/de/lektorat"] },
-  { id: "design", section: "services", tr: ["tasarim.html", "/tasarim"], de: ["de/gestaltung.html", "/de/gestaltung"] },
-  { id: "translation", section: "services", tr: ["ceviri.html", "/ceviri"], de: ["de/uebersetzung.html", "/de/uebersetzung"] },
-  { id: "print", section: "services", tr: ["basim-dagitim.html", "/basim-dagitim"], de: ["de/druck-und-vertrieb.html", "/de/druck-und-vertrieb"] },
-  { id: "ebook", section: "services", tr: ["ekitap-formati.html", "/ekitap-formati"], de: ["de/e-book-format.html", "/de/e-book-format"] },
-  { id: "amazon", section: "amazon", tr: ["amazonda-yayinla.html", "/amazonda-yayinla"], de: ["de/auf-amazon-veroeffentlichen.html", "/de/auf-amazon-veroeffentlichen"] },
-  { id: "about", section: "about", tr: ["hakkimizda.html", "/hakkimizda"], de: ["de/ueber-uns.html", "/de/ueber-uns"] },
-  { id: "global", section: "amazon", tr: ["yurtdisi-hizmetler.html", "/yurtdisi-hizmetler"], de: ["de/international.html", "/de/international"] },
-  { id: "contact", section: "contact", tr: ["iletisim.html", "/iletisim"], de: ["de/kontakt.html", "/de/kontakt"] },
-  // Dankeseite nach dem Absenden: kein Menüpunkt, und noindex -- sie soll
-  // nicht in der Suche auftauchen.
-  { id: "thanks", section: null, noindex: true, tr: ["tesekkurler.html", "/tesekkurler"], de: ["de/danke.html", "/de/danke"] },
-  // Rechtstexte.
-  { id: "kvkk", section: null, tr: ["aydinlatma-metni.html", "/aydinlatma-metni"], de: ["de/datenschutzhinweise.html", "/de/datenschutzhinweise"] },
-  { id: "privacy", section: null, tr: ["gizlilik-ve-guvenlik-politikasi.html", "/gizlilik-ve-guvenlik-politikasi"], de: ["de/datenschutz-und-sicherheit.html", "/de/datenschutz-und-sicherheit"] },
-];
-
-const LANGS = ["tr", "de"];
-const ORIGIN = "https://yazardandirekt.com";
 
 /* TITEL UND BESCHREIBUNG je Seite und Sprache. Titel eindeutig, höchstens
    etwa 60 Zeichen; Beschreibung etwa 120 bis 160 Zeichen. */
@@ -142,6 +114,12 @@ const META = {
     de: ["Datenschutz und Sicherheit | Yazardan Direkt",
       "Die Datenschutz- und Sicherheitsrichtlinie von Yazardan Direkt: Umgang mit persönlichen Daten, Weitergabe, Sicherheit und Cookies."],
   },
+  notfound: {
+    tr: ["Sayfa bulunamadı | Yazardan Direkt",
+      "Aradığınız sayfa bulunamadı. Anasayfaya ya da hizmetlerimize göz atabilirsiniz."],
+    de: ["Seite nicht gefunden | Yazardan Direkt",
+      "Die gesuchte Seite gibt es nicht."],
+  },
   thanks: {
     tr: ["Teşekkürler | Yazardan Direkt",
       "Mesajınız bize ulaştı. Ön değerlendirmenin ardından size özel bir danışman sizinle iletişime geçer."],
@@ -155,9 +133,6 @@ const META = {
       "Senden Sie uns Ihr Werk: +90-0216-301-1213, info@yazardandirekt.com, Montag bis Freitag 9–18 Uhr. Nach der Sichtung meldet sich Ihre Ansprechperson."],
   },
 };
-
-const SERVICE_IDS = ["consult", "editing", "design", "translation", "print", "ebook"];
-const url = (id, lang) => PAGES.find((p) => p.id === id)[lang][1];
 
 /* Vorläufige Nummern -- noch nicht bestätigt. Beide stehen nur hier. */
 const MOBILE = { tel: "+905333568256", show: "+90 533 356 8256" };
@@ -318,10 +293,12 @@ function head(page, lang) {
     `<title>${esc(title)}</title>`,
     `<meta name="description" content="${attr(description)}" />`,
     ...(page.noindex ? [`<meta name="robots" content="noindex" />`] : []),
-    `<link rel="canonical" href="${abs(lang)}" />`,
+    // Die Fehlerseite nennt keine kanonische Adresse: sie antwortet unter
+    // jeder Adresse, die es nicht gibt.
+    ...(page.bare ? [] : [`<link rel="canonical" href="${abs(lang)}" />`]),
     // Solange es die Seite nur in einer Sprache gibt, wäre hreflang eine
     // Auskunft über eine Seite, die es nicht gibt.
-    ...(page.only
+    ...(page.only || page.bare
       ? []
       : [
           `<link rel="alternate" hreflang="tr" href="${abs("tr")}" />`,
@@ -336,7 +313,7 @@ function head(page, lang) {
 
 function header(page, lang) {
   const t = TEXT[lang];
-  const langs = page.only || LANGS;
+  const langs = langsOf(page);
   const here = page[lang][1];
   const other = lang === "tr" ? "de" : "tr";
   const home = page.id === "home" ? "#top" : url("home", lang);
@@ -352,11 +329,14 @@ function header(page, lang) {
   });
 
   // Umschalter: ein Link auf dieselbe Seite in der anderen Sprache.
-  const switcher = langs.map((l) => {
-    const on = l === lang;
+  // Auf der Fehlerseite gibt es diese Seite in keiner Sprache -- dort führen
+  // beide Knöpfe auf die jeweilige Startseite, und keiner ist "aktuell".
+  const switcher = (page.bare ? LANGS : langs).map((l) => {
+    const on = !page.bare && l === lang;
     const cls = on ? ' class="is-on"' : "";
     const cur = on ? ' aria-current="true"' : "";
-    return `    <a href="${attr(page[l][1])}" hreflang="${l}" title="${attr(t.langName[l])}"${cls}${cur}>${l.toUpperCase()}</a>`;
+    const href = page.bare ? url("home", l) : page[l][1];
+    return `    <a href="${attr(href)}" hreflang="${l}" title="${attr(t.langName[l])}"${cls}${cur}>${l.toUpperCase()}</a>`;
   });
 
   const sub = (href, text) => `          ${link(href, text, here)}`;
@@ -518,7 +498,7 @@ function fill(html, name, lines, file) {
 let changed = 0;
 let checked = 0;
 for (const page of PAGES) {
-  for (const lang of page.only || LANGS) {
+  for (const lang of langsOf(page)) {
     const file = page[lang][0];
     const path = join(ROOT, file);
     if (!existsSync(path)) throw new Error(`${file} fehlt`);
