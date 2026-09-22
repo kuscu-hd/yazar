@@ -121,41 +121,42 @@
               <dd>Hafta içi 09:00 – 18:00</dd>
             </dl>
 
-            <!-- Kein Server dahinter: script.js baut aus den Feldern einen
-                 mailto-Link. Sobald ein Endpunkt steht, bekommt das Formular
-                 action/method und der Zweig in script.js entfällt. -->
-            <form class="contact-form" data-mail-subject="İletişim" aria-label="İletişim formu" novalidate>
-              <input
-                type="text"
-                name="isim"
-                autocomplete="name"
-                required
-                placeholder="İsim-Soyisim"
-                aria-label="İsim-Soyisim"
-              />
-              <input
-                type="email"
-                name="email"
-                autocomplete="email"
-                required
-                placeholder="E-posta adresiniz"
-                aria-label="E-posta adresiniz"
-              />
-              <input
-                type="tel"
-                name="telefon"
-                autocomplete="tel"
-                placeholder="Telefon numaranız"
-                aria-label="Telefon numaranız"
-              />
-              <textarea
-                name="mesaj"
-                rows="4"
-                placeholder="Eseriniz hakkında kısa bir not"
-                aria-label="Eseriniz hakkında kısa bir not"
-              ></textarea>
+            <form
+              class="contact-form"
+              name="iletisim"
+              method="POST"
+              action="/tesekkurler"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              data-msg-required="Lütfen bu alanı doldurun."
+              data-msg-email="Lütfen geçerli bir e-posta adresi girin."
+              data-msg-consent="Devam etmek için lütfen onay kutusunu işaretleyin."
+            >
+              <input type="hidden" name="sayfa" value="/iletisim" />
+              <p class="form-honeypot" aria-hidden="true">
+                <label>Bu alanı boş bırakın: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+              </p>
+              <label class="field">
+                <span class="field-label">İsim-Soyisim</span>
+                <input type="text" name="isim" autocomplete="name" required />
+              </label>
+              <label class="field">
+                <span class="field-label">E-posta adresiniz</span>
+                <input type="email" name="email" autocomplete="email" required />
+              </label>
+              <label class="field">
+                <span class="field-label">Telefon numaranız</span>
+                <input type="tel" name="telefon" autocomplete="tel" />
+              </label>
+              <label class="field">
+                <span class="field-label">Eseriniz hakkında kısa bir not</span>
+                <textarea name="mesaj" rows="4"></textarea>
+              </label>
+              <label class="consent">
+                <input type="checkbox" name="onay" value="evet" required />
+                <span><a href="/aydinlatma-metni" target="_blank" rel="noopener">Aydınlatma Metni</a>'ni okudum ve kişisel verilerimin talebimin yanıtlanması amacıyla işlenmesini kabul ediyorum.</span>
+              </label>
               <button type="submit">Gönder</button>
-              <p class="note">Gönder'e bastığınızda e-posta programınız açılır ve mesajınız hazır olarak gelir.</p>
             </form>
           </div>
         </div>
@@ -252,6 +253,10 @@
         </div>
         <div class="site-footer-base">
           <p>© <span class="site-footer-year">2026</span> Yazardan Direkt. <span>Tüm hakları saklıdır.</span></p>
+          <nav class="site-footer-legal" aria-label="Yasal">
+            <a href="/gizlilik-ve-guvenlik-politikasi">Gizlilik İlkesi</a>
+            <a href="/aydinlatma-metni">Aydınlatma Metni</a>
+          </nav>
           <a href="#top">Başa dön</a>
         </div>
       </div>

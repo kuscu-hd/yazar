@@ -1002,33 +1002,54 @@
   window.addEventListener("resize", updateHeaderPark);
   updateHeaderPark();
 
-  /* ---------- Kontaktformular ---------- */
+  /* ---------- Formulare ---------- */
 
-  // Hinter dem Formular steht kein Server. Statt die Eingaben ins Leere zu
-  // schicken, wird daraus eine fertige Mail: das E-Mail-Programm öffnet
-  // sich mit Betreff und Text. Sobald ein Endpunkt steht, bekommt das
-  // Formular action/method und dieser Zweig kann raus.
-  const contactForm = document.querySelector(".contact-form");
-  if (contactForm) {
-    contactForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      if (!contactForm.reportValidity()) return;
-      // Beschriftung und Betreff kommen aus dem Formular selbst -- dort
-      // stehen sie in der Sprache der Seite.
-      const field = (name) => (contactForm.elements[name]?.value || "").trim();
-      const label = (name) => contactForm.elements[name]?.getAttribute("aria-label") || name;
-      const body = [
-        `${label("isim")}: ${field("isim")}`,
-        `${label("email")}: ${field("email")}`,
-        `${label("telefon")}: ${field("telefon")}`,
-        "",
-        field("mesaj"),
-      ].join("\n");
-      const subject = `${contactForm.dataset.mailSubject || ""} — ${field("isim")}`;
-      window.location.href =
-        "mailto:info@yazardandirekt.com" +
-        `?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    });
+  // Abgeschickt wird ohne Skript: Netlify nimmt die Formulare entgegen und
+  // leitet auf die Dankeseite weiter (action). Hier kommen nur die
+  // Fehlermeldungen dazu -- in der Sprache der Seite, aus den data-msg-*
+  // Attributen des Formulars. Ohne JavaScript prüft der Browser selbst, dann
+  // in seiner eigenen Sprache.
+  // Netlify entfernt data-netlify beim Ausliefern; deshalb hängt das hier
+  // an data-msg-required.
+  for (const form of document.querySelectorAll("form[data-msg-required]")) {
+    const msg = form.dataset;
+
+    // "Mindestens eines ankreuzen" kann HTML nicht ausdrücken. Das erste
+    // Kästchen der Gruppe trägt den Fehler, solange keines gewählt ist.
+    const groups = Array.from(form.querySelectorAll("fieldset[data-require-one]"));
+    const syncGroup = (fieldset) => {
+      const boxes = Array.from(fieldset.querySelectorAll('input[type="checkbox"]'));
+      boxes[0].setCustomValidity(boxes.some((b) => b.checked) ? "" : fieldset.dataset.msg);
+    };
+    for (const fieldset of groups) {
+      syncGroup(fieldset);
+      fieldset.addEventListener("change", () => syncGroup(fieldset));
+    }
+
+    // "invalid" steigt nicht auf -- deshalb in der Einfangphase.
+    form.addEventListener(
+      "invalid",
+      (event) => {
+        const field = event.target;
+        if (field.closest("fieldset[data-require-one]")) return;
+        let text = msg.msgRequired;
+        if (field.type === "email" && field.validity.typeMismatch) text = msg.msgEmail;
+        else if (field.type === "radio") text = field.closest("fieldset")?.dataset.msg || text;
+        else if (field.type === "checkbox") text = msg.msgConsent;
+        field.setCustomValidity(text);
+      },
+      true
+    );
+
+    // Sobald etwas geändert wird, entscheidet der Browser neu.
+    const reset = (event) => {
+      const field = event.target;
+      if (!field.name || field.closest("fieldset[data-require-one]")) return;
+      const peers = field.type === "radio" ? form.querySelectorAll(`input[name="${field.name}"]`) : [field];
+      for (const el of peers) el.setCustomValidity("");
+    };
+    form.addEventListener("input", reset);
+    form.addEventListener("change", reset);
   }
 
   const footerYear = document.querySelector(".site-footer-year");

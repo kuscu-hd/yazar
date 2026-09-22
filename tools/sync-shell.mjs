@@ -50,6 +50,12 @@ export const PAGES = [
   { id: "about", section: "about", tr: ["hakkimizda.html", "/hakkimizda"], de: ["de/ueber-uns.html", "/de/ueber-uns"] },
   { id: "global", section: "amazon", tr: ["yurtdisi-hizmetler.html", "/yurtdisi-hizmetler"], de: ["de/international.html", "/de/international"] },
   { id: "contact", section: "contact", tr: ["iletisim.html", "/iletisim"], de: ["de/kontakt.html", "/de/kontakt"] },
+  // Dankeseite nach dem Absenden: kein Menüpunkt, und noindex -- sie soll
+  // nicht in der Suche auftauchen.
+  { id: "thanks", section: null, noindex: true, tr: ["tesekkurler.html", "/tesekkurler"], de: ["de/danke.html", "/de/danke"] },
+  // Rechtstexte.
+  { id: "kvkk", section: null, tr: ["aydinlatma-metni.html", "/aydinlatma-metni"], de: ["de/datenschutzhinweise.html", "/de/datenschutzhinweise"] },
+  { id: "privacy", section: null, tr: ["gizlilik-ve-guvenlik-politikasi.html", "/gizlilik-ve-guvenlik-politikasi"], de: ["de/datenschutz-und-sicherheit.html", "/de/datenschutz-und-sicherheit"] },
 ];
 
 const LANGS = ["tr", "de"];
@@ -124,6 +130,24 @@ const META = {
     de: ["Amazon und İstanbul Books | Yazardan Direkt",
       "Amazon für Ihre englischsprachigen Werke, İstanbul Books für Ihre türkischsprachigen Bücher: per Print-on-Demand zu Lesenden in aller Welt."],
   },
+  kvkk: {
+    tr: ["Aydınlatma Metni | Yazardan Direkt",
+      "6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında kişisel verilerin işlenmesine ilişkin aydınlatma metni."],
+    de: ["Datenschutzhinweise | Yazardan Direkt",
+      "Hinweise zur Verarbeitung personenbezogener Daten nach dem türkischen Gesetz Nr. 6698 (KVKK), übersetzt aus dem Türkischen."],
+  },
+  privacy: {
+    tr: ["Gizlilik ve Güvenlik Politikası | Yazardan Direkt",
+      "Yazardan Direkt'in gizlilik ve güvenlik politikası: kişisel bilgilerin kullanımı, paylaşımı, güvenliği ve çerezler."],
+    de: ["Datenschutz und Sicherheit | Yazardan Direkt",
+      "Die Datenschutz- und Sicherheitsrichtlinie von Yazardan Direkt: Umgang mit persönlichen Daten, Weitergabe, Sicherheit und Cookies."],
+  },
+  thanks: {
+    tr: ["Teşekkürler | Yazardan Direkt",
+      "Mesajınız bize ulaştı. Ön değerlendirmenin ardından size özel bir danışman sizinle iletişime geçer."],
+    de: ["Vielen Dank | Yazardan Direkt",
+      "Ihre Nachricht ist bei uns angekommen. Nach der ersten Sichtung meldet sich eine persönliche Ansprechperson bei Ihnen."],
+  },
   contact: {
     tr: ["İletişim | Yazardan Direkt",
       "Eserinizi bize ulaştırın: +90-0216-301-1213, info@yazardandirekt.com, hafta içi 09:00–18:00. Ön değerlendirmenin ardından danışmanınız size ulaşır."],
@@ -189,6 +213,7 @@ const TEXT = {
       company: "Kurum",
       reach: "Bize ulaşın",
       rights: "Tüm hakları saklıdır.",
+      legalLabel: "Yasal",
       top: "Başa dön",
       about: "Hakkımızda",
       team: "Ekibimiz",
@@ -199,6 +224,9 @@ const TEXT = {
       authors: "Yazarlarımız",
       faq: "Sık sorulan sorular",
       whatsapp: "WhatsApp Desteği",
+      // wie in der Fußzeile der alten Seite benannt
+      privacy: "Gizlilik İlkesi",
+      kvkk: "Aydınlatma Metni",
     },
   },
 
@@ -243,6 +271,7 @@ const TEXT = {
       company: "Verlag",
       reach: "Erreichen Sie uns",
       rights: "Alle Rechte vorbehalten.",
+      legalLabel: "Rechtliches",
       top: "Nach oben",
       about: "Über uns",
       team: "Unser Team",
@@ -253,6 +282,8 @@ const TEXT = {
       authors: "Unsere Autorinnen & Autoren",
       faq: "Häufige Fragen",
       whatsapp: "WhatsApp",
+      privacy: "Datenschutz und Sicherheit",
+      kvkk: "Datenschutzhinweise",
     },
   },
 };
@@ -286,10 +317,17 @@ function head(page, lang) {
     ...(lang === "de" ? [`<!-- DE: unreviewed -->`] : []),
     `<title>${esc(title)}</title>`,
     `<meta name="description" content="${attr(description)}" />`,
+    ...(page.noindex ? [`<meta name="robots" content="noindex" />`] : []),
     `<link rel="canonical" href="${abs(lang)}" />`,
-    `<link rel="alternate" hreflang="tr" href="${abs("tr")}" />`,
-    `<link rel="alternate" hreflang="de" href="${abs("de")}" />`,
-    `<link rel="alternate" hreflang="x-default" href="${abs("tr")}" />`,
+    // Solange es die Seite nur in einer Sprache gibt, wäre hreflang eine
+    // Auskunft über eine Seite, die es nicht gibt.
+    ...(page.only
+      ? []
+      : [
+          `<link rel="alternate" hreflang="tr" href="${abs("tr")}" />`,
+          `<link rel="alternate" hreflang="de" href="${abs("de")}" />`,
+          `<link rel="alternate" hreflang="x-default" href="${abs("tr")}" />`,
+        ]),
     `<link rel="icon" href="data:," />`,
     `<link rel="stylesheet" href="/styles.css" />`,
     `<script src="/script.js" defer></script>`,
@@ -298,6 +336,7 @@ function head(page, lang) {
 
 function header(page, lang) {
   const t = TEXT[lang];
+  const langs = page.only || LANGS;
   const here = page[lang][1];
   const other = lang === "tr" ? "de" : "tr";
   const home = page.id === "home" ? "#top" : url("home", lang);
@@ -313,7 +352,7 @@ function header(page, lang) {
   });
 
   // Umschalter: ein Link auf dieselbe Seite in der anderen Sprache.
-  const switcher = ["tr", "de"].map((l) => {
+  const switcher = langs.map((l) => {
     const on = l === lang;
     const cls = on ? ' class="is-on"' : "";
     const cur = on ? ' aria-current="true"' : "";
@@ -323,6 +362,7 @@ function header(page, lang) {
   const sub = (href, text) => `          ${link(href, text, here)}`;
   const services = SERVICE_IDS.map((id) => sub(url(id, lang), t.service[id]));
 
+  const sep = switcher.length > 1 ? [`    <span class="lang-switch-sep" aria-hidden="true"></span>`] : [];
   return [
     `<header class="site-header">`,
     `  <a class="brand" href="${home}" aria-label="${attr(t.brand)}">`,
@@ -335,8 +375,8 @@ function header(page, lang) {
     ``,
     `  <nav class="lang-switch" aria-label="${attr(t.langLabel)}">`,
     switcher[0],
-    `    <span class="lang-switch-sep" aria-hidden="true"></span>`,
-    switcher[1],
+    ...sep,
+    ...switcher.slice(1),
     `  </nav>`,
     ``,
     `  <button`,
@@ -441,6 +481,12 @@ function footer(page, lang) {
     `    </div>`,
     `    <div class="site-footer-base">`,
     `      <p>© <span class="site-footer-year">2026</span> Yazardan Direkt. <span>${esc(f.rights)}</span></p>`,
+    `      <nav class="site-footer-legal" aria-label="${attr(f.legalLabel)}">`,
+    ...(lang === "de" ? [`        <!-- DE: unreviewed -->`] : []),
+    `        ${link(url("privacy", lang), f.privacy, here)}`,
+    ...(lang === "de" ? [`        <!-- DE: unreviewed -->`] : []),
+    `        ${link(url("kvkk", lang), f.kvkk, here)}`,
+    `      </nav>`,
     `      <a href="#top">${esc(f.top)}</a>`,
     `    </div>`,
     `  </div>`,
@@ -472,7 +518,7 @@ function fill(html, name, lines, file) {
 let changed = 0;
 let checked = 0;
 for (const page of PAGES) {
-  for (const lang of LANGS) {
+  for (const lang of page.only || LANGS) {
     const file = page[lang][0];
     const path = join(ROOT, file);
     if (!existsSync(path)) throw new Error(`${file} fehlt`);
