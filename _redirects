@@ -1,0 +1,65 @@
+# =====================================================================
+# WEITERLEITUNGEN.  Netlify prüft die Regeln von oben nach unten, die erste
+# passende gewinnt. Diese Datei muss im veröffentlichten Verzeichnis liegen,
+# sonst greift keine einzige Regel.
+# =====================================================================
+
+# --- 1. Adressen der alten PHP-Seite ---------------------------------
+# Die .php-Dateien gibt es hier nicht, deshalb genügt die einfache Regel.
+/index.php                                    /                                     301
+/hizmetlerimiz.php                            /hizmetlerimiz                        301
+/yazar-danismanligi.php                       /yazar-danismanligi                   301
+/editorluk-hizmetleri.php                     /editorluk-hizmetleri                 301
+/tasarim.php                                  /tasarim                              301
+/ceviri.php                                   /ceviri                               301
+/basim-dagitim.php                            /basim-dagitim                        301
+/ekitap-formati.php                           /ekitap-formati                       301
+/amazonda-yayinla.php                         /amazonda-yayinla                     301
+/hakkimizda.php                               /hakkimizda                           301
+/yurtdisi-hizmetler.php                       /yurtdisi-hizmetler                   301
+/iletisim.php                                 /iletisim                             301
+/aydinlatma-metni.php                         /aydinlatma-metni                     301
+/gizlilik-ve-guvenlik-politikasi.php          /gizlilik-ve-guvenlik-politikasi      301
+
+# --- 2. .html -> endungslos ------------------------------------------
+# Jede Seite soll nur unter einer Adresse erreichbar sein.
+# Das "!" ist nötig: ohne es gewinnt die vorhandene Datei gegen die Regel
+# und /tasarim.html bliebe mit 200 erreichbar.
+# Kein Kreis: Netlify löst /tasarim intern auf tasarim.html auf; das ist
+# keine Weiterleitung, sondern nur die Wahl der Datei.
+/index.html                                   /                                     301!
+/de/index.html                                /de/                                  301!
+/hizmetlerimiz.html                           /hizmetlerimiz                        301!
+/de/leistungen.html                           /de/leistungen                        301!
+/yazar-danismanligi.html                      /yazar-danismanligi                   301!
+/de/autorenberatung.html                      /de/autorenberatung                   301!
+/editorluk-hizmetleri.html                    /editorluk-hizmetleri                 301!
+/de/lektorat.html                             /de/lektorat                          301!
+/tasarim.html                                 /tasarim                              301!
+/de/gestaltung.html                           /de/gestaltung                        301!
+/ceviri.html                                  /ceviri                               301!
+/de/uebersetzung.html                         /de/uebersetzung                      301!
+/basim-dagitim.html                           /basim-dagitim                        301!
+/de/druck-und-vertrieb.html                   /de/druck-und-vertrieb                301!
+/ekitap-formati.html                          /ekitap-formati                       301!
+/de/e-book-format.html                        /de/e-book-format                     301!
+/amazonda-yayinla.html                        /amazonda-yayinla                     301!
+/de/auf-amazon-veroeffentlichen.html          /de/auf-amazon-veroeffentlichen       301!
+/hakkimizda.html                              /hakkimizda                           301!
+/de/ueber-uns.html                            /de/ueber-uns                         301!
+/yurtdisi-hizmetler.html                      /yurtdisi-hizmetler                   301!
+/de/international.html                        /de/international                     301!
+/iletisim.html                                /iletisim                             301!
+/de/kontakt.html                              /de/kontakt                           301!
+/tesekkurler.html                             /tesekkurler                          301!
+/de/danke.html                                /de/danke                             301!
+/aydinlatma-metni.html                        /aydinlatma-metni                     301!
+/de/datenschutzhinweise.html                  /de/datenschutzhinweise               301!
+/gizlilik-ve-guvenlik-politikasi.html         /gizlilik-ve-guvenlik-politikasi      301!
+/de/datenschutz-und-sicherheit.html           /de/datenschutz-und-sicherheit        301!
+
+# --- 3. Alte WordPress-Adressen --------------------------------------
+# Liste aus der Search Console hier einfügen, eine Zeile je Adresse:
+#   /alte-adresse                              /neue-adresse              301
+# Keine Sammelregel wie "/* /etwas 301" hier hineinschreiben: die fängt
+# jede unbekannte Adresse ab, und die 404-Seite käme nie zum Einsatz.
