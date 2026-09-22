@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      // Cmd+Shift+B startet diesen Task. Er beantwortet Adressen so wie
+      // Netlify: /tasarim, /de/ und die eigene 404-Seite.
+      "label": "Seite ansehen (dev-server)",
+      "type": "shell",
+      "command": "node dev-server.mjs",
+      "group": { "kind": "build", "isDefault": true },
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    },
+    {
+      // Wie oben, zusätzlich mit _redirects und _headers -- also mit den
+      // Weiterleitungen. Lädt beim ersten Mal die Netlify-CLI nach.
+      "label": "Seite ansehen mit Weiterleitungen (netlify dev)",
+      "type": "shell",
+      "command": "npx netlify dev",
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    }
+  ]
+}

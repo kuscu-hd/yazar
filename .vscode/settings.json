@@ -1,0 +1,11 @@
+{
+  // Die Seite liegt in public/ -- das ist die Wurzel, die Netlify ausliefert.
+  // Ohne diese Zeile sucht Live Server /styles.css im Projektordner und die
+  // Seite kommt ohne Gestaltung.
+  //
+  // ACHTUNG: Live Server kennt keine endungslosen Adressen. Zum Ansehen
+  // einer einzelnen Seite reicht es, aber jeder Klick im Menü (/hizmetlerimiz)
+  // endet dort im Nichts. Zum Durchklicken den Task "Seite ansehen" nehmen
+  // (Terminal > Task ausführen, oder Cmd+Shift+B).
+  "liveServer.settings.root": "/public"
+}
