@@ -58,11 +58,13 @@
 /gizlilik-ve-guvenlik-politikasi.html         /gizlilik-ve-guvenlik-politikasi      301!
 /de/datenschutz-und-sicherheit.html           /de/datenschutz-und-sicherheit        301!
 
-# Die Fehlerseite selbst: ohne diese Regel antwortet /404.html mit 200 und
-# ist damit eine Seite, die "nicht gefunden" sagt und "gefunden" meldet.
-# Ziel /404 gibt es als Datei nicht -- Netlify liefert dort 404.html mit
-# Status 404 aus.
+# Die Fehlerseite selbst. Sie ist über ihren Dateinamen erreichbar, und
+# /404 löst Netlify genauso auf 404.html auf wie /tasarim auf tasarim.html --
+# beide würden also mit 200 antworten und damit "nicht gefunden" sagen und
+# "gefunden" melden. Deshalb zwei Regeln: /404.html verweist auf /404, und
+# /404 liefert die Seite mit dem Status aus, der dazugehört.
 /404.html                                     /404                                  301!
+/404                                          /404.html                             404
 
 # --- 3. Alte WordPress-Adressen --------------------------------------
 # Liste aus der Search Console hier einfügen, eine Zeile je Adresse:
