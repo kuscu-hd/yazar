@@ -15,6 +15,81 @@
     <link rel="stylesheet" href="/styles.css" />
     <script src="/script.js" defer></script>
     <!-- /shell:head -->
+    <!-- shell:jsonld -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Service",
+            "@id": "https://yazardandirekt.com/de/e-book-format#service",
+            "name": "E-Book-Format",
+            "description": "Wenn wir Ihr Werk ins E-Book-Format überführen, behandeln wir Inhaltsstruktur, Bildgestaltung und technische Anforderungen mit Sorgfalt. Mit gut lesbaren, professionellen Dateien, die auf allen digitalen Plattformen funktionieren, machen wir Ihr Buch bereit für die digitale Veröffentlichung.",
+            "provider": {
+              "@id": "https://yazardandirekt.com/#organization"
+            },
+            "url": "https://yazardandirekt.com/de/e-book-format",
+            "inLanguage": "de"
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://yazardandirekt.com/de/e-book-format#faq",
+            "inLanguage": "de",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "In welchem Format entsteht das E-Book?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "In der Regel in EPUB und MOBI; als Alternative wird auch PDF angeboten."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Auf welchen Plattformen erscheint es?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Die Dateien werden für weltweite und lokale Plattformen wie Amazon Kindle, Google Books, Kobo und İdefix vorbereitet."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Bleibt die Gestaltung im E-Book erhalten?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "E-Book-Gestaltungen werden vereinfacht, die ursprüngliche Struktur des Textes bleibt aber erhalten."
+                }
+              }
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://yazardandirekt.com/de/e-book-format#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "STARTSEITE",
+                "item": "https://yazardandirekt.com/de/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Leistungen",
+                "item": "https://yazardandirekt.com/de/leistungen"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "E-Book-Format",
+                "item": "https://yazardandirekt.com/de/e-book-format"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <!-- /shell:jsonld -->
   </head>
   <body>
     <!-- shell:header -->

@@ -14,6 +14,81 @@
     <link rel="stylesheet" href="/styles.css" />
     <script src="/script.js" defer></script>
     <!-- /shell:head -->
+    <!-- shell:jsonld -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Service",
+            "@id": "https://yazardandirekt.com/tasarim#service",
+            "name": "Tasarım",
+            "description": "Kapaktan sayfa yerleşimine kadar her tasarım öğesi kitabınızın ruhunu yansıtmalı. Okunabilirlik, estetik denge ve içerikle bütünlük içinde ilerleyen tasarım sürecimizle kitabınızın yalnızca dikkat çekici değil aynı zamanda amacına hizmet eden bir yapıya kavuşmasını sağlıyoruz.",
+            "provider": {
+              "@id": "https://yazardandirekt.com/#organization"
+            },
+            "url": "https://yazardandirekt.com/tasarim",
+            "inLanguage": "tr"
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://yazardandirekt.com/tasarim#faq",
+            "inLanguage": "tr",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Kapak tasarımı için birden fazla alternatif sunuluyor mu?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Eserin niteliğine göre bir ana tasarım sunulur; gerekli durumlarda alternatifler de değerlendirilir."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "İç tasarımda nelere dikkat ediliyor?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Okunabilirlik, yazı tipi uyumu, boşluk dengesi ve baskıya uygunluk esas alınır."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Tasarım sürecinde onayım alınıyor mu?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Tüm adımlar yazarın onayıyla ilerler. Gerekirse revize hakkı tanınır."
+                }
+              }
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://yazardandirekt.com/tasarim#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "ANASAYFA",
+                "item": "https://yazardandirekt.com/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Hizmetlerimiz",
+                "item": "https://yazardandirekt.com/hizmetlerimiz"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Tasarım",
+                "item": "https://yazardandirekt.com/tasarim"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <!-- /shell:jsonld -->
   </head>
   <body>
     <!-- shell:header -->

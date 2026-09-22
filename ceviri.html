@@ -14,6 +14,81 @@
     <link rel="stylesheet" href="/styles.css" />
     <script src="/script.js" defer></script>
     <!-- /shell:head -->
+    <!-- shell:jsonld -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Service",
+            "@id": "https://yazardandirekt.com/ceviri#service",
+            "name": "Çeviri",
+            "description": "Çeviri yalnızca kelimeleri değil anlatının ruhunu, kültürel bağlamını ve yazarın sesini de yeni bir dile taşımayı hedefler. Anlam, üslup ve bağlam tutarlılığını gözeterek eserinizi küresel okurla buluşturmaya özen gösteriyoruz.",
+            "provider": {
+              "@id": "https://yazardandirekt.com/#organization"
+            },
+            "url": "https://yazardandirekt.com/ceviri",
+            "inLanguage": "tr"
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://yazardandirekt.com/ceviri#faq",
+            "inLanguage": "tr",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Hangi dillerde çeviri hizmeti veriliyor?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "İngilizce başta olmak üzere talebe göre farklı dillerde çeviri desteği sunulmaktadır."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Çeviri süresi ne kadar sürer?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Metnin uzunluğu ve diline göre değişir; ortalama süre değerlendirme sonrası bildirilir."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Çevirmenle doğrudan iletişim kurabiliyor muyum?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Süreç yazarla koordinasyon içinde ilerler, gerekli durumlarda doğrudan iletişim kurulabilir."
+                }
+              }
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://yazardandirekt.com/ceviri#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "ANASAYFA",
+                "item": "https://yazardandirekt.com/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Hizmetlerimiz",
+                "item": "https://yazardandirekt.com/hizmetlerimiz"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Çeviri",
+                "item": "https://yazardandirekt.com/ceviri"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <!-- /shell:jsonld -->
   </head>
   <body>
     <!-- shell:header -->

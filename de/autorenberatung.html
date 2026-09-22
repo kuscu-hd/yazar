@@ -15,6 +15,81 @@
     <link rel="stylesheet" href="/styles.css" />
     <script src="/script.js" defer></script>
     <!-- /shell:head -->
+    <!-- shell:jsonld -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Service",
+            "@id": "https://yazardandirekt.com/de/autorenberatung#service",
+            "name": "Autorenberatung",
+            "description": "Wir beobachten Ihren Schreibprozess nicht nur, wir begleiten Sie. Mit unserem persönlichen Ansatz bieten wir Ihnen auf dem Weg von der Idee zum Werk strategische, verlässliche und konstruktive Unterstützung.",
+            "provider": {
+              "@id": "https://yazardandirekt.com/#organization"
+            },
+            "url": "https://yazardandirekt.com/de/autorenberatung",
+            "inLanguage": "de"
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://yazardandirekt.com/de/autorenberatung#faq",
+            "inLanguage": "de",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Wann beginnt die Autorenberatung?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "In dem Moment, in dem Ihr Manuskript bei uns eingeht. Nach einer ersten Sichtung meldet sich eine persönliche Beraterin oder ein persönlicher Berater bei Ihnen."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Welche Themen umfasst die Beratung?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Wir unterstützen Sie bei allen Schritten rund um Inhaltsaufbau, Zielgruppenanalyse, Textentwicklung und Veröffentlichung."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Findet die Beratung persönlich statt?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Ja, jede Autorin und jeder Autor wird individuell betreut. Rückmeldungen gibt es in persönlichen Gesprächen oder schriftlich."
+                }
+              }
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://yazardandirekt.com/de/autorenberatung#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "STARTSEITE",
+                "item": "https://yazardandirekt.com/de/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Leistungen",
+                "item": "https://yazardandirekt.com/de/leistungen"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Autorenberatung",
+                "item": "https://yazardandirekt.com/de/autorenberatung"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <!-- /shell:jsonld -->
   </head>
   <body>
     <!-- shell:header -->

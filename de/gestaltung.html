@@ -15,6 +15,81 @@
     <link rel="stylesheet" href="/styles.css" />
     <script src="/script.js" defer></script>
     <!-- /shell:head -->
+    <!-- shell:jsonld -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Service",
+            "@id": "https://yazardandirekt.com/de/gestaltung#service",
+            "name": "Gestaltung",
+            "description": "Vom Umschlag bis zum Seitenlayout sollte jedes gestalterische Element den Geist Ihres Buches widerspiegeln. Mit einem Gestaltungsprozess, der Lesbarkeit, ästhetisches Gleichgewicht und inhaltliche Geschlossenheit verbindet, sorgen wir dafür, dass Ihr Buch nicht nur auffällt, sondern auch seinem Zweck dient.",
+            "provider": {
+              "@id": "https://yazardandirekt.com/#organization"
+            },
+            "url": "https://yazardandirekt.com/de/gestaltung",
+            "inLanguage": "de"
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://yazardandirekt.com/de/gestaltung#faq",
+            "inLanguage": "de",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Gibt es für den Umschlag mehrere Entwürfe zur Auswahl?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Je nach Werk legen wir einen Hauptentwurf vor; bei Bedarf werden auch Alternativen geprüft."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Worauf wird bei der Innengestaltung geachtet?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Maßgeblich sind Lesbarkeit, stimmige Schriften, ausgewogener Weißraum und Drucktauglichkeit."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Wird die Gestaltung mit mir abgestimmt?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Jeder Schritt geht erst mit Ihrer Zustimmung weiter. Bei Bedarf besteht ein Recht auf Überarbeitung."
+                }
+              }
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://yazardandirekt.com/de/gestaltung#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "STARTSEITE",
+                "item": "https://yazardandirekt.com/de/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Leistungen",
+                "item": "https://yazardandirekt.com/de/leistungen"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Gestaltung",
+                "item": "https://yazardandirekt.com/de/gestaltung"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <!-- /shell:jsonld -->
   </head>
   <body>
     <!-- shell:header -->

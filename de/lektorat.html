@@ -15,6 +15,81 @@
     <link rel="stylesheet" href="/styles.css" />
     <script src="/script.js" defer></script>
     <!-- /shell:head -->
+    <!-- shell:jsonld -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Service",
+            "@id": "https://yazardandirekt.com/de/lektorat#service",
+            "name": "Lektorat",
+            "description": "Lektorat heißt weniger, einen Text zu verändern, als seinen Kern zum Leuchten zu bringen. Bei sprachlicher Stimmigkeit, Ausdruck, Aufbau und Fluss begleiten wir Sie mit aufmerksamem und einfühlsamem Blick und stärken Ihr Werk in seinem Sinnzusammenhang.",
+            "provider": {
+              "@id": "https://yazardandirekt.com/#organization"
+            },
+            "url": "https://yazardandirekt.com/de/lektorat",
+            "inLanguage": "de"
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://yazardandirekt.com/de/lektorat#faq",
+            "inLanguage": "de",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Umfasst das Lektorat nur Rechtschreibung und Grammatik?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Nein. Neben der Grammatik werden auch die Geschlossenheit der Darstellung, der Einklang des Tons und der Inhaltsfluss geprüft."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Wann ist der richtige Zeitpunkt für das Lektorat?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Wir empfehlen es direkt nach Fertigstellung Ihres Manuskripts, bevor der Veröffentlichungsprozess beginnt."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Kann ich direkt mit meiner Lektorin oder meinem Lektor arbeiten?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Ja, mit dem Lektorat Ihres Manuskripts stehen Sie während des gesamten Prozesses in regelmäßigem Austausch."
+                }
+              }
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://yazardandirekt.com/de/lektorat#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "STARTSEITE",
+                "item": "https://yazardandirekt.com/de/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Leistungen",
+                "item": "https://yazardandirekt.com/de/leistungen"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Lektorat",
+                "item": "https://yazardandirekt.com/de/lektorat"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <!-- /shell:jsonld -->
   </head>
   <body>
     <!-- shell:header -->

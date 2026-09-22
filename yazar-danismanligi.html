@@ -14,6 +14,81 @@
     <link rel="stylesheet" href="/styles.css" />
     <script src="/script.js" defer></script>
     <!-- /shell:head -->
+    <!-- shell:jsonld -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Service",
+            "@id": "https://yazardandirekt.com/yazar-danismanligi#service",
+            "name": "Yazar Danışmanlığı",
+            "description": "Yazma sürecinizi yalnızca izlemiyor, size eşlik ediyoruz. Kişiye özel yaklaşımımızla fikrinizi esere dönüştürme yolculuğunuzda stratejik, güvenilir ve yapıcı bir destek sunuyoruz.",
+            "provider": {
+              "@id": "https://yazardandirekt.com/#organization"
+            },
+            "url": "https://yazardandirekt.com/yazar-danismanligi",
+            "inLanguage": "tr"
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://yazardandirekt.com/yazar-danismanligi#faq",
+            "inLanguage": "tr",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Yazar danışmanlığı süreci ne zaman başlar?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Dosyanız bize ulaştığı andan itibaren başlar. Ön değerlendirme sonrası size özel bir danışman ulaşır."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Danışmanlık hangi konuları kapsar?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "İçerik yapısı, hedef kitle analizi, metin geliştirme ve yayın süreciyle ilgili tüm adımlarda destek verilir."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Bu hizmet birebir mi ilerliyor?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Evet, her yazarla özel olarak ilgilenilir. Geri bildirimler bireysel toplantı ya da yazılı olarak sunulur."
+                }
+              }
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://yazardandirekt.com/yazar-danismanligi#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "ANASAYFA",
+                "item": "https://yazardandirekt.com/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Hizmetlerimiz",
+                "item": "https://yazardandirekt.com/hizmetlerimiz"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Yazar Danışmanlığı",
+                "item": "https://yazardandirekt.com/yazar-danismanligi"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <!-- /shell:jsonld -->
   </head>
   <body>
     <!-- shell:header -->

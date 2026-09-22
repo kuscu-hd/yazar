@@ -14,6 +14,81 @@
     <link rel="stylesheet" href="/styles.css" />
     <script src="/script.js" defer></script>
     <!-- /shell:head -->
+    <!-- shell:jsonld -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Service",
+            "@id": "https://yazardandirekt.com/editorluk-hizmetleri#service",
+            "name": "Editörlük Hizmetleri",
+            "description": "Editörlük bir metni değiştirmekten çok onun özünü parlatmaktır. Yazım tutarlılığı, anlatım dili, yapı ve akış gibi unsurlarda dikkatli ve duyarlı bir gözle eşlik ediyor, eserinizi anlam bütünlüğü içinde güçlendiriyoruz.",
+            "provider": {
+              "@id": "https://yazardandirekt.com/#organization"
+            },
+            "url": "https://yazardandirekt.com/editorluk-hizmetleri",
+            "inLanguage": "tr"
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://yazardandirekt.com/editorluk-hizmetleri#faq",
+            "inLanguage": "tr",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Editörlük yalnızca yazım-dil bilgisi düzeltmesini mi kapsar?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Hayır. Hem dil bilgisi hem de anlatım bütünlüğü, ton uyumu ve içerik akışı da değerlendirilir."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Editörlüğü hangi aşamada almalıyım?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Dosyanız tamamlandıktan hemen sonra, yayımlama sürecine geçmeden önce önerilir."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Editörle birebir çalışabilir miyim?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Evet, dosyanızın editörü ile tüm süreç boyunca düzenli iletişim kurabilirsiniz."
+                }
+              }
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://yazardandirekt.com/editorluk-hizmetleri#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "ANASAYFA",
+                "item": "https://yazardandirekt.com/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Hizmetlerimiz",
+                "item": "https://yazardandirekt.com/hizmetlerimiz"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Editörlük Hizmetleri",
+                "item": "https://yazardandirekt.com/editorluk-hizmetleri"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <!-- /shell:jsonld -->
   </head>
   <body>
     <!-- shell:header -->

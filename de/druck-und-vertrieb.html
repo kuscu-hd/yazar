@@ -15,6 +15,81 @@
     <link rel="stylesheet" href="/styles.css" />
     <script src="/script.js" defer></script>
     <!-- /shell:head -->
+    <!-- shell:jsonld -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Service",
+            "@id": "https://yazardandirekt.com/de/druck-und-vertrieb#service",
+            "name": "Druck und Vertrieb",
+            "description": "Wir planen für Sie den Weg vom Druck bis zum Vertrieb und bringen Ihr Buch mit verlässlichen Lösungen zusammen. Mit hochwertigen Druckoptionen, einem weiten Vertriebsnetz und Lösungen rund um besondere Veranstaltungen erleichtern wir den Weg Ihres Buches zu den Lesenden.",
+            "provider": {
+              "@id": "https://yazardandirekt.com/#organization"
+            },
+            "url": "https://yazardandirekt.com/de/druck-und-vertrieb",
+            "inLanguage": "de"
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://yazardandirekt.com/de/druck-und-vertrieb#faq",
+            "inLanguage": "de",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Wie viele Exemplare werden gedruckt?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Das richtet sich nach dem Bedarf; meist wird eine kleine, flexible Auflage gewählt (Print-on-Demand)."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Wie funktioniert das Vertriebsnetz?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Ihr Buch erscheint in Online-Buchhandlungen, bei Partnergeschäften, auf Verlagsplattformen und auf unserer Verkaufsseite Heryerde Kitap."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Darf ich mein Buch auch selbst verkaufen?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Ja, ein Teil der gedruckten Bücher geht an Sie, und Sie dürfen selbst verkaufen."
+                }
+              }
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://yazardandirekt.com/de/druck-und-vertrieb#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "STARTSEITE",
+                "item": "https://yazardandirekt.com/de/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Leistungen",
+                "item": "https://yazardandirekt.com/de/leistungen"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Druck und Vertrieb",
+                "item": "https://yazardandirekt.com/de/druck-und-vertrieb"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <!-- /shell:jsonld -->
   </head>
   <body>
     <!-- shell:header -->

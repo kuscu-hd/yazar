@@ -14,6 +14,81 @@
     <link rel="stylesheet" href="/styles.css" />
     <script src="/script.js" defer></script>
     <!-- /shell:head -->
+    <!-- shell:jsonld -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Service",
+            "@id": "https://yazardandirekt.com/ekitap-formati#service",
+            "name": "E-Kitap Formatı",
+            "description": "Eserinizi e-kitap formatına dönüştürürken içerik yapısını, görsel düzenlemeleri ve teknik gereklilikleri titizlikle ele alıyoruz. Tüm dijital platformlara uyumlu okunabilir ve profesyonel dosyalarla kitabınızı dijital yayın dünyasına hazır hale getiriyoruz.",
+            "provider": {
+              "@id": "https://yazardandirekt.com/#organization"
+            },
+            "url": "https://yazardandirekt.com/ekitap-formati",
+            "inLanguage": "tr"
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://yazardandirekt.com/ekitap-formati#faq",
+            "inLanguage": "tr",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "E-kitap hangi formatta hazırlanıyor?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Genellikle EPUB ve MOBI formatlarında hazırlanır, PDF alternatifi de sunulur."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Hangi platformlarda yayımlanıyor?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Amazon Kindle, Google Books, Kobo, İdefix gibi global ve yerel platformlara uygun hale getirilir."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Tasarım e-kitapta da korunuyor mu?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "E-kitap tasarımları sadeleştirilir ama metnin özgün yapısı korunarak sunulur."
+                }
+              }
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://yazardandirekt.com/ekitap-formati#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "ANASAYFA",
+                "item": "https://yazardandirekt.com/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Hizmetlerimiz",
+                "item": "https://yazardandirekt.com/hizmetlerimiz"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "E-Kitap Formatı",
+                "item": "https://yazardandirekt.com/ekitap-formati"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <!-- /shell:jsonld -->
   </head>
   <body>
     <!-- shell:header -->

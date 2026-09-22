@@ -15,6 +15,81 @@
     <link rel="stylesheet" href="/styles.css" />
     <script src="/script.js" defer></script>
     <!-- /shell:head -->
+    <!-- shell:jsonld -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Service",
+            "@id": "https://yazardandirekt.com/de/uebersetzung#service",
+            "name": "Übersetzung",
+            "description": "Übersetzung will nicht nur Wörter, sondern auch den Geist der Erzählung, ihren kulturellen Kontext und die Stimme der Schreibenden in eine neue Sprache tragen. Mit Blick auf die Stimmigkeit von Sinn, Stil und Kontext bringen wir Ihr Werk sorgfältig zu Lesenden in aller Welt.",
+            "provider": {
+              "@id": "https://yazardandirekt.com/#organization"
+            },
+            "url": "https://yazardandirekt.com/de/uebersetzung",
+            "inLanguage": "de"
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://yazardandirekt.com/de/uebersetzung#faq",
+            "inLanguage": "de",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "In welche Sprachen wird übersetzt?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "In erster Linie ins Englische, auf Anfrage auch in weitere Sprachen."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Wie lange dauert eine Übersetzung?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Das hängt von Länge und Sprache des Textes ab; die voraussichtliche Dauer nennen wir nach der Sichtung."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Kann ich direkt mit der Übersetzerin oder dem Übersetzer sprechen?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Der Prozess läuft in Abstimmung mit Ihnen; bei Bedarf ist auch direkter Kontakt möglich."
+                }
+              }
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://yazardandirekt.com/de/uebersetzung#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "STARTSEITE",
+                "item": "https://yazardandirekt.com/de/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Leistungen",
+                "item": "https://yazardandirekt.com/de/leistungen"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Übersetzung",
+                "item": "https://yazardandirekt.com/de/uebersetzung"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <!-- /shell:jsonld -->
   </head>
   <body>
     <!-- shell:header -->
