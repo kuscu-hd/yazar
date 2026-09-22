@@ -1,0 +1,15 @@
+# =====================================================================
+# KOPFZEILEN.  Netlify wendet jede passende Regel an; eine genauere Regel
+# hebt "/*" nicht auf, sie kommt hinzu. Diese Datei muss im
+# veröffentlichten Verzeichnis liegen, sonst greift keine Regel.
+# =====================================================================
+
+# Die sitemap wird sonst je nach Erkennung als text/plain ausgeliefert.
+/sitemap.xml
+  Content-Type: application/xml; charset=utf-8
+
+# Für die ganze Seite. Noch keine CSP -- die kommt erst, wenn feststeht,
+# was von außen geladen werden darf.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
