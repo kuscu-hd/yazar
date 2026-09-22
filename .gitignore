@@ -1,0 +1,12 @@
+# Betriebssystem
+.DS_Store
+
+# falls je Abhängigkeiten dazukommen
+node_modules/
+
+# lokale Einstellungen des Assistenten
+.claude/
+
+# lokaler Server und Netlify-CLI
+.netlify/
+*.log
