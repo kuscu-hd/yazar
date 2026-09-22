@@ -10,3 +10,6 @@ node_modules/
 # lokaler Server und Netlify-CLI
 .netlify/
 *.log
+
+# Vorschaukopie für GitHub Pages (wird gebaut, nicht gepflegt)
+_site/
