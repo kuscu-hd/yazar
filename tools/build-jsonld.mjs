@@ -44,7 +44,9 @@ const ORG = {
   logo: `${ORIGIN}/assets/yazar_logo.png`,
 };
 
-const HOME_LABEL = { tr: "ANASAYFA", de: "STARTSEITE" };
+// Im Menü steht die Startseite in Großbuchstaben; als Krümel liest sich
+// die normale Schreibweise besser, gemeint ist derselbe Punkt.
+const HOME_LABEL = { tr: "Anasayfa", de: "Startseite" };
 
 /* ---------- aus der Seite lesen ---------- */
 
@@ -153,7 +155,11 @@ function region(page, lang, html, file) {
   const visible = strip(html.replace(/<script[\s\S]*?<\/script>/g, ""));
   const check = (v) => {
     if (typeof v === "string" && v.length > 3 && !v.startsWith("http") && !v.startsWith("+") && !v.includes("@")) {
-      if (!visible.includes(v)) throw new Error(`${file}: "${v.slice(0, 60)}" steht nicht auf der Seite`);
+      // Groß- und Kleinschreibung darf abweichen (der Krümel der
+      // Startseite), der Wortlaut nicht.
+      if (!visible.toLowerCase().includes(v.toLowerCase())) {
+        throw new Error(`${file}: "${v.slice(0, 60)}" steht nicht auf der Seite`);
+      }
     }
   };
   JSON.stringify(graph, (k, v) => (k === "name" || k === "description" || k === "text" ? (check(v), v) : v));
