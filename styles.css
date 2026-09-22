@@ -2231,6 +2231,42 @@ a {
   overflow: hidden;
 }
 
+/* ---------- Fehlerseite ---------- */
+
+.notfound-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px clamp(20px, 3vw, 36px);
+  align-items: center;
+  margin-top: clamp(24px, 3.4vh, 36px);
+}
+
+.notfound-actions .copy-link,
+.notfound-actions .route-link {
+  margin-top: 0;
+}
+
+/* Ein Satz auf Deutsch, damit deutsche Leser nicht in einer türkischen
+   Fehlerseite hängen bleiben. */
+.notfound-de {
+  margin: clamp(30px, 4vh, 44px) 0 0;
+  padding-top: clamp(20px, 2.6vh, 28px);
+  border-top: 1px solid var(--hair);
+  max-width: 52ch;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.notfound-de a {
+  color: var(--ink);
+  text-underline-offset: 2px;
+}
+
+.notfound-de a:hover {
+  color: var(--accent);
+}
+
 /* ---------- Rechtstexte ---------- */
 
 /* Eine Spalte, Zeilenlänge fürs Lesen begrenzt. Die Texte sind lang und

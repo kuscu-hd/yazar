@@ -30,6 +30,10 @@ export const PAGES = [
   { id: "contact", section: "contact", tr: ["iletisim.html", "/iletisim"], de: ["de/kontakt.html", "/de/kontakt"] },
   // Dankeseite nach dem Absenden: kein Menüpunkt, noindex, nicht in der sitemap.
   { id: "thanks", section: null, noindex: true, tr: ["tesekkurler.html", "/tesekkurler"], de: ["de/danke.html", "/de/danke"] },
+  // Die Fehlerseite. Netlify liefert 404.html aus dem Wurzelverzeichnis des
+  // veröffentlichten Ordners mit Status 404 aus. "bare": ohne canonical und
+  // ohne hreflang -- sie hat keine eigene Adresse, unter der man sie sucht.
+  { id: "notfound", section: null, noindex: true, bare: true, only: ["tr"], tr: ["404.html", "/404"], de: ["de/404.html", "/de/404"] },
   // Rechtstexte.
   { id: "kvkk", section: null, tr: ["aydinlatma-metni.html", "/aydinlatma-metni"], de: ["de/datenschutzhinweise.html", "/de/datenschutzhinweise"] },
   { id: "privacy", section: null, tr: ["gizlilik-ve-guvenlik-politikasi.html", "/gizlilik-ve-guvenlik-politikasi"], de: ["de/datenschutz-und-sicherheit.html", "/de/datenschutz-und-sicherheit"] },

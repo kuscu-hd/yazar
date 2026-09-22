@@ -114,6 +114,12 @@ const META = {
     de: ["Datenschutz und Sicherheit | Yazardan Direkt",
       "Die Datenschutz- und Sicherheitsrichtlinie von Yazardan Direkt: Umgang mit persönlichen Daten, Weitergabe, Sicherheit und Cookies."],
   },
+  notfound: {
+    tr: ["Sayfa bulunamadı | Yazardan Direkt",
+      "Aradığınız sayfa bulunamadı. Anasayfaya ya da hizmetlerimize göz atabilirsiniz."],
+    de: ["Seite nicht gefunden | Yazardan Direkt",
+      "Die gesuchte Seite gibt es nicht."],
+  },
   thanks: {
     tr: ["Teşekkürler | Yazardan Direkt",
       "Mesajınız bize ulaştı. Ön değerlendirmenin ardından size özel bir danışman sizinle iletişime geçer."],
@@ -287,10 +293,12 @@ function head(page, lang) {
     `<title>${esc(title)}</title>`,
     `<meta name="description" content="${attr(description)}" />`,
     ...(page.noindex ? [`<meta name="robots" content="noindex" />`] : []),
-    `<link rel="canonical" href="${abs(lang)}" />`,
+    // Die Fehlerseite nennt keine kanonische Adresse: sie antwortet unter
+    // jeder Adresse, die es nicht gibt.
+    ...(page.bare ? [] : [`<link rel="canonical" href="${abs(lang)}" />`]),
     // Solange es die Seite nur in einer Sprache gibt, wäre hreflang eine
     // Auskunft über eine Seite, die es nicht gibt.
-    ...(page.only
+    ...(page.only || page.bare
       ? []
       : [
           `<link rel="alternate" hreflang="tr" href="${abs("tr")}" />`,
@@ -321,11 +329,14 @@ function header(page, lang) {
   });
 
   // Umschalter: ein Link auf dieselbe Seite in der anderen Sprache.
-  const switcher = langs.map((l) => {
-    const on = l === lang;
+  // Auf der Fehlerseite gibt es diese Seite in keiner Sprache -- dort führen
+  // beide Knöpfe auf die jeweilige Startseite, und keiner ist "aktuell".
+  const switcher = (page.bare ? LANGS : langs).map((l) => {
+    const on = !page.bare && l === lang;
     const cls = on ? ' class="is-on"' : "";
     const cur = on ? ' aria-current="true"' : "";
-    return `    <a href="${attr(page[l][1])}" hreflang="${l}" title="${attr(t.langName[l])}"${cls}${cur}>${l.toUpperCase()}</a>`;
+    const href = page.bare ? url("home", l) : page[l][1];
+    return `    <a href="${attr(href)}" hreflang="${l}" title="${attr(t.langName[l])}"${cls}${cur}>${l.toUpperCase()}</a>`;
   });
 
   const sub = (href, text) => `          ${link(href, text, here)}`;
