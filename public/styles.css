@@ -2165,18 +2165,45 @@ span.team-dialog-photo {
 /* ---------- Stimmen ---------- */
 
 .voices {
-  /* Mauerwerk aus Spalten: die Zitate sind verschieden lang, in einem
-     Raster mit gleichen Zeilen bliebe unter den kurzen ein Loch. */
   margin-top: clamp(48px, 7vh, 88px);
-  columns: 3 300px;
-  column-gap: clamp(22px, 2.6vw, 42px);
+}
+
+/* Die Zitate liegen nebeneinander und werden seitlich durchgeblättert.
+   Gescrollt wird vom Browser selbst -- mit Wischen, Rollrad, den Pfeilen
+   daneben und, sobald die Spur den Fokus hat, mit den Pfeiltasten. Das
+   Skript bewegt sie nur auf Knopfdruck. */
+.voices-track {
+  display: flex;
+  gap: clamp(18px, 2.4vw, 34px);
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  /* Keine Leiste unter den Karten: gescrollt wird mit Wischen oder den
+     Pfeilen, und die Kante des nächsten Zitats zeigt, dass es weitergeht. */
+  scrollbar-width: none;
+}
+
+.voices-track::-webkit-scrollbar {
+  display: none;
+}
+
+.voices-track:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
 }
 
 .voices figure {
-  margin: 0 0 clamp(22px, 2.6vw, 38px);
+  /* Feste Breite, damit alle Karten gleich aussehen und eine Weiterschaltung
+     immer dasselbe Maß bewegt. Schmal genug, dass vom nächsten Zitat ein
+     Streifen stehen bleibt -- der zeigt, dass die Reihe weitergeht. */
+  flex: 0 0 clamp(250px, 22vw, 300px);
+  display: flex;
+  flex-direction: column;
+  margin: 0;
   padding: 24px 0 0;
   border-top: 1px solid var(--hair);
-  break-inside: avoid;
+  scroll-snap-align: start;
 }
 
 .voices blockquote {
@@ -2200,7 +2227,10 @@ span.team-dialog-photo {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 16px;
+  /* auto statt eines festen Abstands: so steht der Name auf allen Karten
+     auf derselben Linie, auch wenn die Zitate verschieden lang sind. */
+  margin-top: auto;
+  padding-top: 16px;
   color: var(--faint);
   font-size: 11px;
   font-weight: 600;
@@ -2217,6 +2247,42 @@ span.team-dialog-photo {
   border: 1px solid var(--hair);
   border-radius: 50%;
   object-fit: cover;
+}
+
+.voices-nav {
+  display: flex;
+  gap: 10px;
+  margin-top: clamp(20px, 2.4vw, 30px);
+}
+
+.voices-arrow {
+  display: grid;
+  place-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--hair-strong);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 220ms ease, color 220ms ease, border-color 220ms ease;
+}
+
+.voices-arrow:hover:not(:disabled),
+.voices-arrow:focus-visible {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Am Anfang und am Ende der Reihe: sichtbar, aber ohne Wirkung. */
+.voices-arrow:disabled {
+  border-color: var(--hair);
+  color: var(--faint);
+  cursor: default;
+  opacity: 0.5;
 }
 
 /* ---------- Sık sorulan sorular ---------- */
@@ -2781,8 +2847,8 @@ span.team-dialog-photo {
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }
 
-  .voices {
-    columns: 2 260px;
+  .voices figure {
+    flex-basis: 78vw;
   }
 
   /* Kein Zeiger auf dem Telefon: aus den Streifen werden Karten, auf denen
@@ -2856,8 +2922,8 @@ span.team-dialog-photo {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .voices {
-    columns: 1;
+  .voices figure {
+    flex-basis: 84vw;
   }
 
   .faq details p {
@@ -2902,6 +2968,11 @@ span.team-dialog-photo {
   .team-strip,
   .team-text {
     transition: none;
+  }
+
+  /* Die Pfeile setzen dann um, statt zu gleiten. */
+  .voices-track {
+    scroll-behavior: auto;
   }
 }
 

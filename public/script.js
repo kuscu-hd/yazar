@@ -1074,6 +1074,38 @@
     });
   }
 
+  /* ---------- Stimmen: seitlich blättern ---------- */
+
+  // Gescrollt wird vom Browser: Wischen, Rollrad und -- sobald die Spur den
+  // Fokus hat -- die Pfeiltasten gehen ohne Skript. Hier hängen nur die
+  // beiden Knöpfe dran, die um eine Karte weiterrücken, und die Prüfung,
+  // ob am Anfang oder Ende noch etwas kommt.
+  for (const voices of document.querySelectorAll(".voices")) {
+    const track = voices.querySelector(".voices-track");
+    const prev = voices.querySelector(".voices-arrow-prev");
+    const next = voices.querySelector(".voices-arrow-next");
+    if (!track || !prev || !next) continue;
+
+    const step = () => {
+      const cards = track.querySelectorAll("figure");
+      if (cards.length < 2) return track.clientWidth;
+      // Abstand zweier Karten: Breite plus Lücke, ohne beide zu messen.
+      return cards[1].offsetLeft - cards[0].offsetLeft;
+    };
+
+    const updateArrows = () => {
+      // 1px Spielraum: gerundete Bruchteile sollen das Ende nicht verfehlen.
+      prev.disabled = track.scrollLeft <= 1;
+      next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 1;
+    };
+
+    prev.addEventListener("click", () => track.scrollBy({ left: -step() }));
+    next.addEventListener("click", () => track.scrollBy({ left: step() }));
+    track.addEventListener("scroll", updateArrows, { passive: true });
+    window.addEventListener("resize", updateArrows);
+    updateArrows();
+  }
+
   const footerYear = document.querySelector(".site-footer-year");
   if (footerYear) footerYear.textContent = String(new Date().getFullYear());
 
