@@ -2193,21 +2193,27 @@ span.team-dialog-photo {
   outline-offset: 6px;
 }
 
+/* Jedes Zitat auf einer eigenen Karte, gebaut wie die Wegweiser auf der
+   Startseite: dieselbe Kante, derselbe Radius, derselbe helle Grund. */
 .voices figure {
   /* Feste Breite, damit alle Karten gleich aussehen und eine Weiterschaltung
-     immer dasselbe Maß bewegt. Schmal genug, dass vom nächsten Zitat ein
+     immer dasselbe Maß bewegt. Schmal genug, dass von der nächsten Karte ein
      Streifen stehen bleibt -- der zeigt, dass die Reihe weitergeht. */
   flex: 0 0 clamp(250px, 22vw, 300px);
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin: 0;
-  padding: 24px 0 0;
-  border-top: 1px solid var(--hair);
+  padding: clamp(26px, 2.4vw, 34px) clamp(20px, 2vw, 28px);
+  border: 1px solid var(--hair);
+  border-radius: 3px;
+  background: rgb(255 255 255 / 0.56);
+  text-align: center;
   scroll-snap-align: start;
 }
 
 .voices blockquote {
-  margin: 0;
+  margin: 8px 0 0;
   font-family: var(--serif);
   font-size: 1.02rem;
   line-height: 1.6;
@@ -2223,14 +2229,14 @@ span.team-dialog-photo {
   line-height: 1;
 }
 
+/* Bildnis und Name stehen oben auf der Karte, das Zitat darunter -- wie auf
+   der bisherigen Seite. Dafür steht die figcaption im HTML vor dem Zitat;
+   sie darf ohnehin nur erstes oder letztes Kind der figure sein. */
 .voices figcaption {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 12px;
-  /* auto statt eines festen Abstands: so steht der Name auf allen Karten
-     auf derselben Linie, auch wenn die Zitate verschieden lang sind. */
-  margin-top: auto;
-  padding-top: 16px;
   color: var(--faint);
   font-size: 11px;
   font-weight: 600;
@@ -2242,8 +2248,8 @@ span.team-dialog-photo {
    es im HTML ein leeres alt und wird nicht zweimal vorgelesen. */
 .voice-photo {
   flex: none;
-  width: 46px;
-  height: 46px;
+  width: 84px;
+  height: 84px;
   border: 1px solid var(--hair);
   border-radius: 50%;
   object-fit: cover;
