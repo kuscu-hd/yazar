@@ -1933,19 +1933,13 @@ a {
   list-style: none;
 }
 
-/* 0.4 als Ruhemaß, nicht 1: damit ist der offene Streifen im
-   Ausgangszustand genauso breit wie unter dem Zeiger. */
+/* Ausgangszustand: alle Streifen gleich breit. Erst unter dem Zeiger oder
+   am Tastaturfokus weitet sich einer, die übrigen weichen auf 0.4. */
 .team-strip {
   position: relative;
-  flex: 0.4 1 0;
+  flex: 1 1 0;
   min-width: 0;
   transition: flex-grow 1s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* Ausgangszustand: der erste Streifen ist offen, damit der Abschnitt nicht
-   leer wirkt, bevor jemand etwas anfasst. */
-.team-strip:first-child {
-  flex-grow: 4;
 }
 
 .team-row:hover .team-strip,
@@ -2024,11 +2018,6 @@ a {
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 700ms cubic-bezier(0.22, 1, 0.36, 1), transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.team-strip:first-child .team-text {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .team-row:hover .team-strip .team-text,
@@ -2176,18 +2165,45 @@ span.team-dialog-photo {
 /* ---------- Stimmen ---------- */
 
 .voices {
-  /* Mauerwerk aus Spalten: die Zitate sind verschieden lang, in einem
-     Raster mit gleichen Zeilen bliebe unter den kurzen ein Loch. */
   margin-top: clamp(48px, 7vh, 88px);
-  columns: 3 300px;
-  column-gap: clamp(22px, 2.6vw, 42px);
+}
+
+/* Die Zitate liegen nebeneinander und werden seitlich durchgeblättert.
+   Gescrollt wird vom Browser selbst -- mit Wischen, Rollrad, den Pfeilen
+   daneben und, sobald die Spur den Fokus hat, mit den Pfeiltasten. Das
+   Skript bewegt sie nur auf Knopfdruck. */
+.voices-track {
+  display: flex;
+  gap: clamp(18px, 2.4vw, 34px);
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  /* Keine Leiste unter den Karten: gescrollt wird mit Wischen oder den
+     Pfeilen, und die Kante des nächsten Zitats zeigt, dass es weitergeht. */
+  scrollbar-width: none;
+}
+
+.voices-track::-webkit-scrollbar {
+  display: none;
+}
+
+.voices-track:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
 }
 
 .voices figure {
-  margin: 0 0 clamp(22px, 2.6vw, 38px);
+  /* Feste Breite, damit alle Karten gleich aussehen und eine Weiterschaltung
+     immer dasselbe Maß bewegt. Schmal genug, dass vom nächsten Zitat ein
+     Streifen stehen bleibt -- der zeigt, dass die Reihe weitergeht. */
+  flex: 0 0 clamp(250px, 22vw, 300px);
+  display: flex;
+  flex-direction: column;
+  margin: 0;
   padding: 24px 0 0;
   border-top: 1px solid var(--hair);
-  break-inside: avoid;
+  scroll-snap-align: start;
 }
 
 .voices blockquote {
@@ -2208,12 +2224,65 @@ span.team-dialog-photo {
 }
 
 .voices figcaption {
-  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  /* auto statt eines festen Abstands: so steht der Name auf allen Karten
+     auf derselben Linie, auch wenn die Zitate verschieden lang sind. */
+  margin-top: auto;
+  padding-top: 16px;
   color: var(--faint);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+}
+
+/* Das Bildnis steht neben dem Namen und wiederholt ihn nur -- deshalb hat
+   es im HTML ein leeres alt und wird nicht zweimal vorgelesen. */
+.voice-photo {
+  flex: none;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--hair);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.voices-nav {
+  display: flex;
+  gap: 10px;
+  margin-top: clamp(20px, 2.4vw, 30px);
+}
+
+.voices-arrow {
+  display: grid;
+  place-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--hair-strong);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 220ms ease, color 220ms ease, border-color 220ms ease;
+}
+
+.voices-arrow:hover:not(:disabled),
+.voices-arrow:focus-visible {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Am Anfang und am Ende der Reihe: sichtbar, aber ohne Wirkung. */
+.voices-arrow:disabled {
+  border-color: var(--hair);
+  color: var(--faint);
+  cursor: default;
+  opacity: 0.5;
 }
 
 /* ---------- Sık sorulan sorular ---------- */
@@ -2778,8 +2847,8 @@ span.team-dialog-photo {
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }
 
-  .voices {
-    columns: 2 260px;
+  .voices figure {
+    flex-basis: 78vw;
   }
 
   /* Kein Zeiger auf dem Telefon: aus den Streifen werden Karten, auf denen
@@ -2792,7 +2861,6 @@ span.team-dialog-photo {
   }
 
   .team-strip,
-  .team-strip:first-child,
   .team-row:hover .team-strip,
   .team-row:focus-within .team-strip,
   .team-row .team-strip:hover,
@@ -2854,8 +2922,8 @@ span.team-dialog-photo {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .voices {
-    columns: 1;
+  .voices figure {
+    flex-basis: 84vw;
   }
 
   .faq details p {
@@ -2900,6 +2968,11 @@ span.team-dialog-photo {
   .team-strip,
   .team-text {
     transition: none;
+  }
+
+  /* Die Pfeile setzen dann um, statt zu gleiten. */
+  .voices-track {
+    scroll-behavior: auto;
   }
 }
 
