@@ -2857,6 +2857,13 @@ span.team-dialog-photo {
     flex-basis: 78vw;
   }
 
+  /* Nebeneinander sollen alle Karten gleich hoch sein. Auf dem Telefon ist
+     immer nur eine zu sehen -- dort wäre die gemeinsame Höhe der längsten
+     nur Leerraum unter den kurzen Zitaten. */
+  .voices-track {
+    align-items: flex-start;
+  }
+
   /* Kein Zeiger auf dem Telefon: aus den Streifen werden Karten, auf denen
      Name und Rolle immer stehen. Ein Tippen öffnet denselben Dialog. */
   .team-row {
