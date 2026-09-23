@@ -2197,12 +2197,26 @@ span.team-dialog-photo {
 }
 
 .voices figcaption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   margin-top: 16px;
   color: var(--faint);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+}
+
+/* Das Bildnis steht neben dem Namen und wiederholt ihn nur -- deshalb hat
+   es im HTML ein leeres alt und wird nicht zweimal vorgelesen. */
+.voice-photo {
+  flex: none;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--hair);
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 /* ---------- Sık sorulan sorular ---------- */
