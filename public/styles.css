@@ -1933,19 +1933,13 @@ a {
   list-style: none;
 }
 
-/* 0.4 als Ruhemaß, nicht 1: damit ist der offene Streifen im
-   Ausgangszustand genauso breit wie unter dem Zeiger. */
+/* Ausgangszustand: alle Streifen gleich breit. Erst unter dem Zeiger oder
+   am Tastaturfokus weitet sich einer, die übrigen weichen auf 0.4. */
 .team-strip {
   position: relative;
-  flex: 0.4 1 0;
+  flex: 1 1 0;
   min-width: 0;
   transition: flex-grow 1s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* Ausgangszustand: der erste Streifen ist offen, damit der Abschnitt nicht
-   leer wirkt, bevor jemand etwas anfasst. */
-.team-strip:first-child {
-  flex-grow: 4;
 }
 
 .team-row:hover .team-strip,
@@ -2024,11 +2018,6 @@ a {
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 700ms cubic-bezier(0.22, 1, 0.36, 1), transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.team-strip:first-child .team-text {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .team-row:hover .team-strip .team-text,
@@ -2792,7 +2781,6 @@ span.team-dialog-photo {
   }
 
   .team-strip,
-  .team-strip:first-child,
   .team-row:hover .team-strip,
   .team-row:focus-within .team-strip,
   .team-row .team-strip:hover,
