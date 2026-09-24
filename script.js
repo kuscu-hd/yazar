@@ -21,12 +21,16 @@
      .cinema-scroll in styles.css). */
   const TOTAL = 5900;
   /* Der Loop ist der Ruhezustand ganz oben; er läuft nach seiner eigenen Uhr,
-     solange die Seite dort steht. Sobald der Scroll den Anfang des Fahrplans
-     erreicht, friert er ein: die Stelle, an der er gerade steht, wird zum
-     Startpunkt von step1, und von da an führt der Scroll das Video bis ans
-     Ende des Abschnitts. Der Nutzer übernimmt das Bild also genau dort, wo er
-     es gesehen hat -- steht der Loop bei 2 von 5 Sekunden, scrollt er die
-     restlichen 3 ab.
+     solange die Seite wirklich dort steht. Beim ersten Rollen friert er ein:
+     die Stelle, an der er gerade steht, wird zum Startpunkt von step1, und
+     von da an führt der Scroll das Video bis ans Ende des Abschnitts. Der
+     Nutzer übernimmt das Bild also genau dort, wo er es gesehen hat -- steht
+     der Loop bei 2 von 5 Sekunden, scrollt er die restlichen 3 ab, und erst
+     danach beginnt step2.
+     Die Übergabe liegt deshalb am Anfang der Strecke und nicht erst nach
+     einigen hundert Pixeln: auf einer Leerstrecke liefe der Loop weiter,
+     erreichte sein Ende und spränge an den Anfang zurück -- ein harter
+     Schnitt mitten in der Bewegung des Nutzers.
      loop.mp4 ist eine zweite Kodierung derselben Aufnahme wie step1.mp4; an
      gleicher Stelle unterscheiden sich beide nur um 1.3 von 255, der Wechsel
      ist deshalb an keinem Punkt zu sehen. */
@@ -88,7 +92,11 @@
      so viel Weg, wie die Kamerabewegung braucht -- vorher lief die Seite auf
      einem Drittel der Strecke leer. */
   const TIMELINE = [
-    { from: 400, to: 1375, u0: 0, u1: 2, paced: true }, // step1 und step2 durchscrubben
+    // Gleich ab dem ersten Rollen, nicht erst nach einer Leerstrecke: sonst
+    // liefe der Loop währenddessen weiter und spränge an seinen Anfang
+    // zurück -- mitten in der Bewegung des Nutzers, also genau dort, wo es
+    // auffällt. So führt der Scroll das Bild von der ersten Umdrehung an.
+    { from: 12, to: 1375, u0: 0, u1: 2, paced: true }, // step1 und step2 durchscrubben
     { from: 1375, to: 2175, u0: 2, u1: 2, hold: 2 }, // Buch liegt geschlossen
     { from: 2175, to: 2675, u0: 2, u1: 3 }, // step3: es richtet sich auf
     { from: 2675, to: 3475, u0: 3, u1: 3, hold: 3 }, // Buch steht -- Kapitelwahl
@@ -123,8 +131,10 @@
     center: (seg.from + seg.to) / 2,
     unit: seg.hold,
   }));
-  // Bis hierher ruht die Seite und der Loop läuft frei; ab hier führt der
-  // Scroll das Video.
+  /* Bis hierher läuft der Loop frei; ab hier führt der Scroll das Video.
+     Zwölf Pixel sind kein Weg, sondern nur die Schwelle, unterhalb derer
+     die Seite als "ganz oben" gilt -- ein Wackeln am Trackpad soll die
+     Übergabe noch nicht auslösen. */
   const HANDOVER_AT = TIMELINE[0].from;
   const SNAP_DELAY = 170; // ms Ruhe, bevor gefangen wird
   const SNAP_MAX = 420; // weiter als das wird nie gezogen
