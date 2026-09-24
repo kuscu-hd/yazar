@@ -237,25 +237,32 @@ a {
   filter: invert(1);
 }
 
+/* Die Leiste trägt dieselben acht Punkte wie das Menü der bisherigen
+   Seite. Damit sie nebeneinander passen -- auf Deutsch mit langen
+   Wörtern --, sind Schrift und Abstände enger als bei vier Punkten. */
 .nav-primary {
   display: flex;
   align-items: center;
-  gap: clamp(18px, 2vw, 38px);
+  gap: clamp(12px, 1.4vw, 24px);
 }
 
-.nav-primary a {
+.nav-primary > a,
+.nav-item > a {
   position: relative;
   padding-bottom: 4px;
-  font-size: 13px;
+  font-size: 11.5px;
   font-weight: 600;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.07em;
+  white-space: nowrap;
   color: rgba(22, 18, 26, 0.72);
   text-decoration: none;
   transition: color 200ms ease;
 }
 
-/* Unterstrich wächst aus der Mitte statt einfach aufzupoppen. */
-.nav-primary a::after {
+/* Unterstrich wächst aus der Mitte statt einfach aufzupoppen. Nur für die
+   Punkte der Leiste selbst, nicht für die Einträge im Untermenü. */
+.nav-primary > a::after,
+.nav-item > a::after {
   content: "";
   position: absolute;
   left: 0;
@@ -267,14 +274,185 @@ a {
   transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.nav-primary a:hover,
-.nav-primary a:focus-visible {
+.nav-primary > a:hover,
+.nav-primary > a:focus-visible,
+.nav-item > a:hover,
+.nav-item > a:focus-visible {
   color: var(--ink);
 }
 
-.nav-primary a:hover::after,
-.nav-primary a:focus-visible::after {
+.nav-primary > a:hover::after,
+.nav-primary > a:focus-visible::after,
+.nav-item > a:hover::after,
+.nav-item > a:focus-visible::after {
   transform: scaleX(1);
+}
+
+/* Punkte, die das Haus verlassen: ein kleiner Pfeil sagt es vorher. */
+.nav-out-mark {
+  margin-left: 4px;
+  font-size: 0.92em;
+  opacity: 0.45;
+}
+
+/* Acht Punkte nebeneinander brauchen Platz. Darüber steht die ganze
+   Leiste, darunter übernimmt die Tafel hinter dem Knopf -- dort steht
+   ohnehin dasselbe Menü, nur untereinander. */
+@media (min-width: 1181px) {
+  /* mit .site-header davor, damit die Regel die Grundregel weiter unten
+     schlägt -- sonst entscheidet die Reihenfolge in der Datei */
+  .site-header .nav-toggle {
+    display: none;
+  }
+}
+
+@media (max-width: 1180px) {
+  .site-header .nav-primary {
+    display: none;
+  }
+}
+
+/* ---------- Untermenü der Leistungen ---------- */
+
+.nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.nav-caret {
+  display: grid;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  place-content: center;
+  border: 0;
+  background: none;
+  color: rgba(22, 18, 26, 0.5);
+  cursor: pointer;
+}
+
+.nav-caret-mark {
+  display: block;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-right: 1.4px solid currentColor;
+  border-bottom: 1.4px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), color 200ms ease;
+}
+
+.nav-item:hover .nav-caret,
+.nav-caret[aria-expanded="true"] {
+  color: var(--ink);
+}
+
+.nav-item:hover .nav-caret-mark,
+.nav-caret[aria-expanded="true"] .nav-caret-mark {
+  margin-top: 3px;
+  transform: rotate(225deg);
+}
+
+.nav-drop {
+  position: absolute;
+  top: calc(100% + 16px);
+  left: -16px;
+  min-width: 264px;
+  padding: 12px;
+  border: 1px solid var(--hair);
+  border-radius: 3px;
+  background: rgb(255 255 255 / 0.97);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  backdrop-filter: blur(14px) saturate(1.3);
+  box-shadow: 0 20px 54px rgb(22 18 26 / 0.13);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 220ms ease, transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 220ms;
+}
+
+/* Brücke über die Lücke: sonst fällt das Untermenü zu, sobald der Zeiger
+   den Zwischenraum überquert. */
+.nav-drop::before {
+  content: "";
+  position: absolute;
+  top: -16px;
+  left: 0;
+  right: 0;
+  height: 16px;
+}
+
+/* Beim Überfahren klappt es auf; mit der Tastatur erst auf Knopfdruck.
+   Kein :focus-within -- sonst ließe es sich mit Escape nicht schließen,
+   solange der Fokus noch am Knopf steht. */
+.nav-item:hover .nav-drop,
+.nav-caret[aria-expanded="true"] + .nav-drop {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.nav-drop ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-drop li + li {
+  border-top: 1px solid var(--hair);
+}
+
+.nav-drop li a {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 10px;
+  border-radius: 2px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.nav-drop li a:hover,
+.nav-drop li a:focus-visible {
+  background: rgb(22 18 26 / 0.045);
+  color: var(--ink);
+}
+
+.nav-drop li a[aria-current="page"] {
+  color: var(--ink);
+}
+
+.nav-drop-index {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--faint);
+}
+
+.nav-drop-all {
+  display: block;
+  margin-top: 10px;
+  padding: 12px 10px 4px;
+  border-top: 1px solid var(--hair-strong);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.nav-drop-all:hover,
+.nav-drop-all:focus-visible {
+  color: var(--ink);
 }
 
 .nav-toggle {
@@ -1322,13 +1500,17 @@ a {
 /* aria-current steht nur am Link auf genau diese Seite. Eine Unterseite
    (etwa eine einzelne Leistung) markiert ihren Bereich mit .is-active --
    aria-current="page" wäre dort eine falsche Auskunft. */
-.nav-primary a[aria-current="page"],
-.nav-primary a.is-active {
+.nav-primary > a[aria-current="page"],
+.nav-primary > a.is-active,
+.nav-item > a[aria-current="page"],
+.nav-item > a.is-active {
   color: var(--ink);
 }
 
-.nav-primary a[aria-current="page"]::after,
-.nav-primary a.is-active::after {
+.nav-primary > a[aria-current="page"]::after,
+.nav-primary > a.is-active::after,
+.nav-item > a[aria-current="page"]::after,
+.nav-item > a.is-active::after {
   transform: scaleX(1);
   background: var(--ink);
 }
@@ -2938,10 +3120,6 @@ span.team-dialog-photo {
     top: auto;
     bottom: 0;
     transform: translateY(var(--copy-y, 0px));
-  }
-
-  .nav-primary {
-    display: none;
   }
 
   .scroll-hint {
