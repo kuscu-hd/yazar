@@ -135,6 +135,9 @@
      die Seite als "ganz oben" gilt -- ein Wackeln am Trackpad soll die
      Übergabe noch nicht auslösen. */
   const HANDOVER_AT = TIMELINE[0].from;
+  // Der Loop nimmt seinen Lauf erst wieder auf, wenn die Seite wirklich
+  // ganz oben steht -- nicht schon einen Pixel unter der Übergabe.
+  const HANDOVER_BACK = 2;
   const SNAP_DELAY = 170; // ms Ruhe, bevor gefangen wird
   const SNAP_MAX = 420; // weiter als das wird nie gezogen
   const SNAP_MIN = 26; // darunter lohnt es nicht
@@ -281,6 +284,7 @@
   let snapTimer = 0;
   let snapAnchor = -1;
   let loopDone = false; // Loop hat übergeben, der Scroll führt
+  let swapped = false; // steht der Clipstapel schon? (siehe handoverFade)
   let handoverTime = 0; // Stelle im Loop, an der er übergeben hat
   let activeClip = -1; // welcher der vier Abschnitte gerade sichtbar ist
   let fitIndex = -1; // Abschnitt, auf den die Videobox gerade eingestellt ist
@@ -863,17 +867,18 @@
   // Läuft vor der Auflösung der Scrollposition, damit step1 im selben Bild
   // schon von dieser Stelle aus rechnet.
   function armHandover() {
-    const led = smoothScroll >= HANDOVER_AT;
-
-    if (led && !loopDone) {
+    if (smoothScroll >= HANDOVER_AT && !loopDone) {
       loopDone = true;
       handoverTime = loopVideo && Number.isFinite(loopVideo.currentTime) ? loopVideo.currentTime : 0;
       if (loopVideo) loopVideo.loop = false;
     }
 
-    // Zurück in den Ruhezustand: der Loop nimmt seinen Lauf genau dort wieder
-    // auf, wo er übergeben hat -- das Bild bleibt dabei stehen.
-    if (!led && loopDone) {
+    /* Zurück in den Ruhezustand: der Loop nimmt seinen Lauf genau dort
+       wieder auf, wo er übergeben hat -- das Bild bleibt dabei stehen.
+       Der Rückweg liegt tiefer als der Hinweg. Lägen beide auf derselben
+       Schwelle, schaltete ein Zittern um diese Zahl herum zwischen
+       laufendem und geführtem Bild hin und her, und das zuckt. */
+    if (smoothScroll <= HANDOVER_BACK && loopDone) {
       loopDone = false;
       if (loopVideo) {
         loopVideo.loop = true;
@@ -892,15 +897,28 @@
      derselben Stelle ohnehin dasselbe Bild zeigen, ist der harte Schnitt
      nicht zu sehen; die Blende war es. */
   function handoverFade(clip) {
-    if (!loopDone) return 0;
+    if (!loopDone) {
+      swapped = false;
+      return 0;
+    }
     if (reduceMotion.matches) return 1;
-    const v = clipVideos[clip.index];
-    const ready =
-      !v ||
-      !Number.isFinite(v.duration) ||
-      v.duration <= 0 ||
-      Math.abs(v.currentTime - clip.time) <= 1 / 24;
-    return ready ? 1 : 0;
+
+    /* Einmal umgeschaltet, bleibt umgeschaltet. Die Bereitschaft wird nur
+       vor dem ersten Mal geprüft: beim schnellen Scrollen hinkt das Suchen
+       dem Scroll hinterher, und würde man jedes Bild neu prüfen, fiele der
+       Stapel währenddessen immer wieder auf den Loop zurück -- der steht
+       aber eingefroren auf einem ganz anderen Bild. Genau das zuckte. */
+    if (!swapped) {
+      const v = clipVideos[clip.index];
+      const ready =
+        !v ||
+        !Number.isFinite(v.duration) ||
+        v.duration <= 0 ||
+        Math.abs(v.currentTime - clip.time) <= 1 / 24;
+      if (!ready) return 0;
+      swapped = true;
+    }
+    return 1;
   }
 
   function update() {
