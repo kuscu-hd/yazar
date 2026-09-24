@@ -34,7 +34,6 @@
      loop.mp4 ist eine zweite Kodierung derselben Aufnahme wie step1.mp4; an
      gleicher Stelle unterscheiden sich beide nur um 1.3 von 255, der Wechsel
      ist deshalb an keinem Punkt zu sehen. */
-  const OUTRO_MS = 260; // Dauer der Überblendung -- beide zeigen dasselbe Bild
 
   /* Die vier Abschnitte hängen hintereinander an einer gemeinsamen Skala:
      Abschnitt i belegt [i, i+1], das Ende der Strecke ist also 4. Ein
@@ -283,7 +282,6 @@
   let snapAnchor = -1;
   let loopDone = false; // Loop hat übergeben, der Scroll führt
   let handoverTime = 0; // Stelle im Loop, an der er übergeben hat
-  let fadeStart = 0;
   let activeClip = -1; // welcher der vier Abschnitte gerade sichtbar ist
   let fitIndex = -1; // Abschnitt, auf den die Videobox gerade eingestellt ist
 
@@ -869,7 +867,6 @@
 
     if (led && !loopDone) {
       loopDone = true;
-      fadeStart = 0; // erst blenden, wenn step1 wirklich auf der Stelle steht
       handoverTime = loopVideo && Number.isFinite(loopVideo.currentTime) ? loopVideo.currentTime : 0;
       if (loopVideo) loopVideo.loop = false;
     }
@@ -878,7 +875,6 @@
     // auf, wo er übergeben hat -- das Bild bleibt dabei stehen.
     if (!led && loopDone) {
       loopDone = false;
-      fadeStart = 0;
       if (loopVideo) {
         loopVideo.loop = true;
         if (Number.isFinite(loopVideo.duration)) loopVideo.currentTime = handoverTime;
@@ -886,34 +882,29 @@
     }
   }
 
-  // Deckkraft des Clipstapels. Die Blende hängt an der Zeit, nicht am Scroll
-  // -- sie kaschiert nur den Wechsel, die Bewegung selbst führt der Scroll.
-  function handoverFade(now, clip) {
+  /* Deckkraft des Clipstapels: 0 oder 1, nichts dazwischen. Umgeschaltet
+     wird in dem Bild, in dem der Abschnitt sein Bild wirklich zeigt.
+
+     Früher lag dazwischen eine Blende. Sie sollte den Wechsel kaschieren,
+     zeigte aber das Gegenteil: während der Blende liegen zwei Videos
+     übereinander, und wo beide halb durchsichtig sind, schimmert der helle
+     Grund durch -- die Stelle hellt kurz auf. Da Loop und step1 an
+     derselben Stelle ohnehin dasselbe Bild zeigen, ist der harte Schnitt
+     nicht zu sehen; die Blende war es. */
+  function handoverFade(clip) {
     if (!loopDone) return 0;
     if (reduceMotion.matches) return 1;
-
-    // Erst blenden, wenn der sichtbare Abschnitt sein Bild wirklich zeigt --
-    // sonst mischte die Blende zwei verschiedene Bilder.
-    if (!fadeStart) {
-      const v = clipVideos[clip.index];
-      const ready =
-        !v ||
-        !Number.isFinite(v.duration) ||
-        v.duration <= 0 ||
-        Math.abs(v.currentTime - clip.time) <= 1 / 24;
-      if (!ready) return 0;
-      // Geblendet wird nur die Übergabe an step1: dort zeigen Loop und Clip
-      // dasselbe Bild. Wer mitten in die Seite springt, sieht im Loop etwas
-      // ganz anderes -- da wird hart umgeschaltet.
-      fadeStart = clip.index === 0 ? now : now - OUTRO_MS;
-    }
-
-    return clamp((now - fadeStart) / OUTRO_MS);
+    const v = clipVideos[clip.index];
+    const ready =
+      !v ||
+      !Number.isFinite(v.duration) ||
+      v.duration <= 0 ||
+      Math.abs(v.currentTime - clip.time) <= 1 / 24;
+    return ready ? 1 : 0;
   }
 
-  function update(timestamp) {
+  function update() {
     rafPending = false;
-    const now = timestamp || performance.now();
 
     targetScroll = getScrollDistance();
 
@@ -927,14 +918,14 @@
 
     armHandover();
     const clip = resolveClip(scrubUnit(smoothScroll));
-    const mainFade = handoverFade(now, clip);
+    const mainFade = handoverFade(clip);
     const revealFade = smoothstep(REVEAL_FADE_START, REVEAL_FADE_END, smoothScroll);
     const revealOpen = smoothstep(REVEAL_OPEN_START, REVEAL_OPEN_END, smoothScroll);
 
-    // Der Loop verschwindet erst, wenn der Clipstapel ihn praktisch deckt --
-    // sonst dippt die Überblendung. Danach bleibt er weg, damit er beim
-    // Wechsel aufs Standbild nicht wieder auftaucht.
-    root.style.setProperty("--film-loop-opacity", 1 - smoothstep(0.88, 1, mainFade));
+    // Der Loop geht in dem Bild aus, in dem der Clipstapel angeht -- beide
+    // zeigen dann dasselbe. Danach bleibt er weg, damit er beim Wechsel aufs
+    // Standbild nicht wieder auftaucht.
+    root.style.setProperty("--film-loop-opacity", 1 - mainFade);
     root.style.setProperty("--film-main-opacity", mainFade * (1 - revealFade));
     root.style.setProperty("--rv-opacity", revealFade);
     const progress = clamp(smoothScroll / TOTAL);
