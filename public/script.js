@@ -981,6 +981,40 @@
     });
   }
 
+  /* ---------- Untermenü in der Leiste ---------- */
+
+  // Aufklappen beim Überfahren macht die Stilvorlage allein. Hier hängt nur
+  // der Knopf daran -- für die Tastatur und für Finger, die nicht überfahren
+  // können.
+  for (const caret of document.querySelectorAll(".nav-caret")) {
+    caret.addEventListener("click", () => {
+      const open = caret.getAttribute("aria-expanded") === "true";
+      caret.setAttribute("aria-expanded", String(!open));
+    });
+  }
+
+  const closeCarets = (except) => {
+    for (const caret of document.querySelectorAll('.nav-caret[aria-expanded="true"]')) {
+      if (caret !== except) caret.setAttribute("aria-expanded", "false");
+    }
+  };
+
+  document.addEventListener("click", (event) => {
+    const caret = event.target.closest(".nav-caret");
+    // Ein Klick außerhalb des offenen Untermenüs schließt es.
+    if (!caret && !event.target.closest(".nav-drop")) closeCarets();
+    else closeCarets(caret);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    // Steht der Fokus im Untermenü, muss er zuerst heraus: die Stilvorlage
+    // hält es offen, solange etwas darin den Fokus hat.
+    const inside = document.activeElement?.closest?.(".nav-drop");
+    if (inside) inside.parentElement.querySelector(".nav-caret")?.focus();
+    closeCarets();
+  });
+
   /* ---------- Kopfzeile über dem Lesebereich ---------- */
 
   // Auf der Bühne steht die Kopfzeile frei im Bild. Sobald der Lesebereich

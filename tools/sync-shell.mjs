@@ -156,6 +156,8 @@ const TEXT = {
     menuAll: "Tüm menü",
     menuOpen: "Menüyü aç",
     menuClose: "Menüyü kapat",
+    menuServices: "Hizmetler alt menüsü",
+    menuAllServices: "Tüm hizmetler",
     langLabel: "Dil seçimi",
     langName: { tr: "Türkçe", de: "Almanca" },
     nav: {
@@ -170,6 +172,9 @@ const TEXT = {
       shop: "HERYERDEKİTAP – KİTAP SATIŞ",
       blog: "BLOG",
       authors: "YAZARLARIMIZ",
+      // Kurzformen für die Leiste, wo acht Punkte nebeneinander stehen
+      shopShort: "HERYERDEKİTAP",
+      authorsShort: "YAZARLARIMIZ",
     },
     service: {
       consult: "Yazar Danışmanlığı",
@@ -214,6 +219,8 @@ const TEXT = {
     menuAll: "Gesamtes Menü",
     menuOpen: "Menü öffnen",
     menuClose: "Menü schließen",
+    menuServices: "Untermenü Leistungen",
+    menuAllServices: "Alle Leistungen",
     langLabel: "Sprachwahl",
     langName: { tr: "Türkisch", de: "Deutsch" },
     nav: {
@@ -228,6 +235,9 @@ const TEXT = {
       shop: "HERYERDEKİTAP – BUCHVERKAUF",
       blog: "BLOG",
       authors: "UNSERE AUTORINNEN & AUTOREN",
+      // Kurzformen für die Leiste, wo acht Punkte nebeneinander stehen
+      shopShort: "HERYERDEKİTAP",
+      authorsShort: "AUTORINNEN & AUTOREN",
     },
     service: {
       consult: "Autorenberatung",
@@ -318,15 +328,59 @@ function header(page, lang) {
   const other = lang === "tr" ? "de" : "tr";
   const home = page.id === "home" ? "#top" : url("home", lang);
 
+  /* Die Leiste trägt dieselben Punkte wie das Menü der bisherigen Seite,
+     in derselben Reihenfolge. Unter "Hizmetlerimiz" klappt dort ein
+     Untermenü auf; hier ebenso, nur dass es auch mit der Tastatur zu
+     öffnen ist. Heryerdekitap steht in der Leiste ohne den Zusatz
+     "Kitap Satış" -- in der Tafel und in der Fußzeile steht er ganz. */
+  const item = (section, href, text, extraClass = "") => {
+    const active = href !== here && section === page.section ? " is-active" : "";
+    const cls = extraClass || active ? ` class="${(extraClass + active).trim()}"` : "";
+    return link(href, text, here, cls);
+  };
+
+  // Punkte, die das Haus verlassen, tragen einen kleinen Pfeil. Er steht
+  // als Zeichen im Text, nicht als ::after -- dort sitzt schon der
+  // Unterstrich, der beim Überfahren aufwächst.
+  const out = (href, text) =>
+    `<a href="${attr(href)}" class="nav-out">${esc(text)}` +
+    `<span class="nav-out-mark" aria-hidden="true">↗</span></a>`;
+
+  const dropItems = SERVICE_IDS.map(
+    (id, i) =>
+      `        <li>` +
+      `<a href="${attr(url(id, lang))}"${url(id, lang) === here ? ' aria-current="page"' : ""}>` +
+      `<span class="nav-drop-index" aria-hidden="true">0${i + 1}</span>` +
+      `${esc(t.service[id])}</a></li>`
+  );
+
   const primary = [
-    ["services", url("services", lang), t.nav.services],
-    ["about", url("about", lang), t.nav.about],
-    ["amazon", url("amazon", lang), t.nav.amazon],
-    ["contact", url("contact", lang), t.nav.contact],
-  ].map(([section, href, text]) => {
-    const active = href !== here && section === page.section ? ' class="is-active"' : "";
-    return `    ${link(href, text, here, active)}`;
-  });
+    `    ${item("home", url("home", lang), t.nav.home)}`,
+    `    <div class="nav-item">`,
+    `      ${item("services", url("services", lang), t.nav.services)}`,
+    `      <button`,
+    `        class="nav-caret"`,
+    `        type="button"`,
+    `        aria-expanded="false"`,
+    `        aria-controls="nav-drop-services"`,
+    `        aria-label="${attr(t.menuServices)}"`,
+    `      >`,
+    `        <span class="nav-caret-mark" aria-hidden="true"></span>`,
+    `      </button>`,
+    `      <div class="nav-drop" id="nav-drop-services">`,
+    `        <ul>`,
+    ...dropItems,
+    `        </ul>`,
+    `        <a class="nav-drop-all" href="${attr(url("services", lang))}">${esc(t.menuAllServices)}</a>`,
+    `      </div>`,
+    `    </div>`,
+    `    ${item("about", url("about", lang), t.nav.about)}`,
+    `    ${item("amazon", url("amazon", lang), t.nav.amazon)}`,
+    `    ${out(EXTERNAL.shop, t.nav.shopShort)}`,
+    `    ${out(EXTERNAL.blog, t.nav.blog)}`,
+    `    ${out(EXTERNAL.authors, t.nav.authorsShort)}`,
+    `    ${item("contact", url("contact", lang), t.nav.contact)}`,
+  ];
 
   // Umschalter: ein Link auf dieselbe Seite in der anderen Sprache.
   // Auf der Fehlerseite gibt es diese Seite in keiner Sprache -- dort führen
