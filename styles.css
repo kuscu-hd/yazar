@@ -1972,6 +1972,24 @@ a {
   align-items: start;
 }
 
+/* Aufnahme und Stichpunkte stehen in derselben schmalen Spalte: das Bild
+   gibt der Seite einen Halt, ohne dem Fließtext Breite zu nehmen. */
+.service-aside {
+  display: grid;
+  gap: clamp(24px, 3vw, 36px);
+}
+
+.service-figure {
+  margin: 0;
+}
+
+.service-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 3px;
+}
+
 .service-prose .prose:first-child {
   margin-top: 0;
 }
@@ -2377,6 +2395,33 @@ span.team-dialog-photo {
 .team-dialog-close:hover {
   background: var(--accent);
   color: #fff;
+}
+
+/* ---------- Aufnahmen im Text ---------- */
+
+/* Einleitung und Aufnahme nebeneinander, wie auf der bisherigen Seite.
+   Der Text bleibt die breitere Spalte. */
+.intro-with-video {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: start;
+}
+
+/* Ohne Ton, ohne Bedienung, ohne Text: die Aufnahmen zeigen nur, wovon
+   die Seite handelt. */
+.deco-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 3px;
+  background: var(--page-quiet);
+}
+
+@media (max-width: 900px) {
+  .intro-with-video {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 /* ---------- Plattformen ---------- */

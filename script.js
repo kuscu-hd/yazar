@@ -1159,6 +1159,29 @@
     updateArrows();
   }
 
+  /* ---------- Aufnahmen im Text ---------- */
+
+  // Sie laufen stumm in der Schleife. Wer weniger Bewegung eingestellt
+  // hat, bekommt das stehende erste Bild -- die Aufnahmen tragen keine
+  // Aussage, es fehlt also nichts.
+  for (const video of document.querySelectorAll(".deco-video")) {
+    const quiet = () => {
+      if (!reduceMotion.matches) {
+        play(video);
+        return;
+      }
+      video.pause();
+      // Das erste Bild ist bei beiden Aufnahmen fast weiß. Steht das Video
+      // still, taugt es nicht -- ein Drittel hinein steht das Motiv.
+      if (Number.isFinite(video.duration) && video.duration > 0) {
+        video.currentTime = video.duration / 3;
+      }
+    };
+    quiet();
+    video.addEventListener("loadedmetadata", quiet);
+    reduceMotion.addEventListener("change", quiet);
+  }
+
   const footerYear = document.querySelector(".site-footer-year");
   if (footerYear) footerYear.textContent = String(new Date().getFullYear());
 
