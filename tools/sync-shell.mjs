@@ -146,6 +146,17 @@ const ADDRESS = {
   city: "Maltepe / İstanbul",
 };
 const HOURS = { tr: "Hafta içi 09:00 – 18:00", de: "Wochentags 09:00 – 18:00" };
+
+/* Das Bild, das ein Messenger zeigt, wenn jemand die Adresse weitergibt.
+   1200x630 ist das Maß, das Facebook, WhatsApp, LinkedIn und iMessage
+   gleichermaßen erwarten. */
+const SHARE = {
+  image: `${ORIGIN}/assets/share.jpg`,
+  width: 1200,
+  height: 630,
+  alt: { tr: "Kitaplarla dolu bir oturma odası", de: "Ein Wohnraum voller Bücher" },
+  locale: { tr: "tr_TR", de: "de_DE" },
+};
 const WHATSAPP = "https://wa.me/905398225698?text=Merhaba%2C%20destek%20almak%20istiyorum.";
 const PROVISIONAL = "<!-- PROVISIONAL: number not yet confirmed -->";
 
@@ -327,6 +338,20 @@ function head(page, lang) {
           `<link rel="alternate" hreflang="de" href="${abs("de")}" />`,
           `<link rel="alternate" hreflang="x-default" href="${abs("tr")}" />`,
         ]),
+    // Was ein Messenger zeigt, wenn jemand die Adresse weitergibt. Titel und
+    // Beschreibung sind dieselben wie oben -- zwei Fassungen davon wären
+    // zwei Gelegenheiten, auseinanderzulaufen.
+    `<meta property="og:type" content="website" />`,
+    `<meta property="og:site_name" content="Yazardan Direkt" />`,
+    `<meta property="og:title" content="${attr(title)}" />`,
+    `<meta property="og:description" content="${attr(description)}" />`,
+    ...(page.bare ? [] : [`<meta property="og:url" content="${abs(lang)}" />`]),
+    `<meta property="og:locale" content="${SHARE.locale[lang]}" />`,
+    `<meta property="og:image" content="${SHARE.image}" />`,
+    `<meta property="og:image:width" content="${SHARE.width}" />`,
+    `<meta property="og:image:height" content="${SHARE.height}" />`,
+    `<meta property="og:image:alt" content="${attr(SHARE.alt[lang])}" />`,
+    `<meta name="twitter:card" content="summary_large_image" />`,
     `<link rel="icon" href="data:," />`,
     `<link rel="stylesheet" href="/styles.css" />`,
     `<script src="/script.js" defer></script>`,
