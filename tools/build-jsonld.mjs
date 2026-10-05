@@ -42,6 +42,15 @@ const ORG = {
   email: "info@yazardandirekt.com",
   telephone: "+902163011213", // wie im tel:-Link der Seite
   logo: `${ORIGIN}/assets/yazar_logo.png`,
+  /* Anschrift und Zeiten stehen in der Fußzeile jeder Seite -- deshalb darf
+     das hier stehen, ohne etwas zu behaupten, was nicht zu lesen wäre.
+     Postleitzahl fehlt: sie steht nirgends, und geraten wird nicht. */
+  street: "Altıntepe Mah. Bahar Sok. No: 8B",
+  locality: "Maltepe",
+  region: "İstanbul",
+  country: "TR",
+  opens: "09:00",
+  closes: "18:00",
 };
 
 // Im Menü steht die Startseite in Großbuchstaben; als Krümel liest sich
@@ -80,14 +89,32 @@ function read(html) {
 
 /* ---------- Bausteine ---------- */
 
+/* LocalBusiness statt Organization: erst dieser Typ trägt Anschrift und
+   Öffnungszeiten, und erst damit kann die örtliche Suche den Verlag
+   überhaupt verorten. LocalBusiness ist eine Organization, die Verweise
+   der Leistungsseiten auf @id bleiben also gültig. */
 const organization = () => ({
-  "@type": "Organization",
+  "@type": "LocalBusiness",
   "@id": ORG_ID,
   name: ORG.name,
   url: `${ORIGIN}/`,
   logo: ORG.logo,
+  image: ORG.logo,
   email: ORG.email,
   telephone: ORG.telephone,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: ORG.street,
+    addressLocality: ORG.locality,
+    addressRegion: ORG.region,
+    addressCountry: ORG.country,
+  },
+  openingHoursSpecification: {
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    opens: ORG.opens,
+    closes: ORG.closes,
+  },
 });
 
 const service = (page, lang, data) => ({
@@ -168,6 +195,11 @@ function region(page, lang, html, file) {
       if (!html.includes(v)) throw new Error(`${file}: ${v} steht nicht auf der Seite`);
     }
     if (!html.includes(`tel:${ORG.telephone}`)) throw new Error(`${file}: Telefonnummer fehlt`);
+    // Anschrift und Zeiten müssen auf der Seite stehen, sonst behauptet der
+    // Block etwas, das niemand nachlesen kann.
+    for (const v of [ORG.street, ORG.locality, ORG.region, ORG.opens, ORG.closes]) {
+      if (!visible.includes(v)) throw new Error(`${file}: "${v}" steht nicht auf der Seite`);
+    }
     if (!html.includes('src="/assets/yazar_logo.png"')) throw new Error(`${file}: Logo fehlt`);
   }
   const body = toJson(graph)

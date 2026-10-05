@@ -136,6 +136,16 @@ const META = {
 
 /* Vorläufige Nummern -- noch nicht bestätigt. Beide stehen nur hier. */
 const MOBILE = { tel: "+905333568256", show: "+90 533 356 8256" };
+
+/* Die Anschrift, bestätigt am 5. Oktober 2026. ACHTUNG: in den Rechtstexten
+   steht eine andere ("İstasyon Yolu Sokak No:3"); die bleibt dort unberührt
+   und weiter als UNCONFIRMED markiert, bis jemand sagt, welche von beiden
+   die eingetragene ist. */
+const ADDRESS = {
+  street: "Altıntepe Mah. Bahar Sok. No: 8B",
+  city: "Maltepe / İstanbul",
+};
+const HOURS = { tr: "Hafta içi 09:00 – 18:00", de: "Wochentags 09:00 – 18:00" };
 const WHATSAPP = "https://wa.me/905398225698?text=Merhaba%2C%20destek%20almak%20istiyorum.";
 const PROVISIONAL = "<!-- PROVISIONAL: number not yet confirmed -->";
 
@@ -156,6 +166,7 @@ const TEXT = {
     menuAll: "Tüm menü",
     menuOpen: "Menüyü aç",
     menuClose: "Menüyü kapat",
+    whatsappWrite: "WhatsApp'tan yazın",
     menuServices: "Hizmetler alt menüsü",
     menuAllServices: "Tüm hizmetler",
     langLabel: "Dil seçimi",
@@ -219,6 +230,7 @@ const TEXT = {
     menuAll: "Gesamtes Menü",
     menuOpen: "Menü öffnen",
     menuClose: "Menü schließen",
+    whatsappWrite: "Auf WhatsApp schreiben",
     menuServices: "Untermenü Leistungen",
     menuAllServices: "Alle Leistungen",
     langLabel: "Sprachwahl",
@@ -468,6 +480,17 @@ function header(page, lang) {
     `    <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>`,
     `  </div>`,
     `</div>`,
+    ``,
+    `<!-- Direkt schreiben, von jeder Seite aus. Steht unten rechts und`,
+    `     wandert nicht mit dem Inhalt. -->`,
+    `<a`,
+    `  class="wa-float"`,
+    `  href="${attr(WHATSAPP)}"`,
+    `  rel="noopener"`,
+    `  aria-label="${attr(t.whatsappWrite)}"`,
+    `>`,
+    `  ${WA_ICON}`,
+    `</a>`,
   ];
 }
 
@@ -505,6 +528,12 @@ function footer(page, lang) {
     `        ${PROVISIONAL}`,
     `        <a href="tel:${MOBILE.tel}">${MOBILE.show}</a>`,
     `        <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>`,
+    // Anschrift und Zeiten auf jeder Seite: so steht überall dasselbe, und
+    // die strukturierten Daten behaupten nichts, was nicht zu lesen wäre.
+    `        <address class="site-footer-address">`,
+    `          ${esc(ADDRESS.street)}<br />${esc(ADDRESS.city)}`,
+    `        </address>`,
+    `        <p class="site-footer-hours">${esc(HOURS[lang])}</p>`,
     `        ${PROVISIONAL}`,
     ...(lang === "de" ? [`        <!-- DE: unreviewed -->`] : []),
     `        <a class="whatsapp-link" href="${attr(WHATSAPP)}" rel="noopener">`,
