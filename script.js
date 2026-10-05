@@ -1249,6 +1249,38 @@
   window.yazarQuads = (on = true) => coverPick?.classList.toggle("show-quads", on);
   if (location.hash === "#quads") window.yazarQuads(true);
 
+  /* ---------- Die späteren Abschnitte nachholen ---------- */
+
+  /* Gebraucht wird am Anfang nur der Loop und step1; step2 bis step4
+     kommen erst nach einigen hundert Pixeln Scrollweg. Sie stehen im HTML
+     deshalb auf preload="metadata". Vorher lud die Startseite alle fünf
+     sofort -- auf dem Telefon 8,7 MB, bevor überhaupt etwas zu sehen war.
+
+     Geholt werden sie mit fetch, nicht mit video.load(): load() setzt das
+     Element zurück, und wer in diesem Moment gerade in diesem Abschnitt
+     scrollt, sieht für einen Augenblick nichts. Der Umweg über fetch legt
+     die Datei nur in den Zwischenspeicher des Browsers; das Videoelement
+     findet sie dort, sobald es sie braucht, und wird dabei nie angefasst.
+     Deshalb steht in public/_headers eine lange Haltbarkeit für /assets/. */
+  async function warmClips() {
+    for (const v of clipVideos.slice(1)) {
+      const src = v.currentSrc || v.getAttribute("src");
+      if (!src) continue;
+      try {
+        await fetch(src, { cache: "force-cache" });
+      } catch {
+        // Kein Netz oder abgebrochen: dann lädt das Video eben später
+        // selbst. Ein Fehler hier darf die Seite nicht aufhalten.
+      }
+      v.preload = "auto";
+    }
+  }
+
+  if (clipVideos.length > 1) {
+    if (document.readyState === "complete") warmClips();
+    else window.addEventListener("load", warmClips, { once: true });
+  }
+
   buildProgressMarks();
   prepareCopyReveal();
   activeClip = 0;
