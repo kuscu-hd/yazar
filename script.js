@@ -1208,18 +1208,24 @@
     requestAnimationFrame(step);
   }
 
+  /* Beobachtet wird der ganze Streifen, nicht die einzelne Zahl. Hing der
+     Auslöser an der Zahl, begann das Zählen, sobald sie den unteren
+     Bildrand streifte: gemessen bei 824 von 900 Pixeln Fensterhöhe. Bis
+     jemand hinsah, war es vorbei. Der Rand von 22 Prozent zieht die
+     Auslöselinie nach oben, der Schwellwert verlangt, dass ein gutes
+     Stück des Streifens wirklich im Bild steht. */
   if (counters.length && !reduceMotion.matches && "IntersectionObserver" in window) {
     const watcher = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;
           watcher.unobserve(entry.target);
-          countUp(entry.target);
+          for (const el of entry.target.querySelectorAll(".stats-value > span")) countUp(el);
         }
       },
-      { threshold: 0.6 }
+      { threshold: 0.4, rootMargin: "0px 0px -22% 0px" }
     );
-    for (const el of counters) watcher.observe(el);
+    for (const list of document.querySelectorAll(".stats")) watcher.observe(list);
   }
 
   const footerYear = document.querySelector(".site-footer-year");
