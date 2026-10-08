@@ -2964,7 +2964,10 @@ span.team-dialog-photo {
 
 /* Ein Satz auf Deutsch, damit deutsche Leser nicht in einer türkischen
    Fehlerseite hängen bleiben. */
-.notfound-de {
+/* Die Fehlerseite ist türkisch. Darunter je eine Zeile für die beiden
+   anderen Sprachen; nur die erste trägt die Trennlinie, sonst stünden
+   zwei Linien untereinander. */
+.notfound-alt {
   margin: clamp(30px, 4vh, 44px) 0 0;
   padding-top: clamp(20px, 2.6vh, 28px);
   border-top: 1px solid var(--hair);
@@ -2972,6 +2975,12 @@ span.team-dialog-photo {
   font-size: 0.95rem;
   line-height: 1.6;
   color: var(--muted);
+}
+
+.notfound-alt + .notfound-alt {
+  margin-top: 10px;
+  padding-top: 0;
+  border-top: 0;
 }
 
 .notfound-de a {
