@@ -28,7 +28,7 @@
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { ORIGIN, LANGS, PAGES, SERVICE_IDS, url, langsOf } from "./pages.mjs";
+import { ORIGIN, LANGS, PAGES, SERVICE_IDS, url, urlOr, langOf, langsOf } from "./pages.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "public");
 const CHECK = process.argv.includes("--check");
@@ -41,66 +41,88 @@ const META = {
       "Standartların ötesinde yayıncılık. Yazar danışmanlığı, editörlük, tasarım, çeviri, basım-dağıtım ve Amazon'da yayınlama."],
     de: ["Yazardan Direkt | Verlagsarbeit jenseits des Üblichen",
       "Verlagsarbeit jenseits des Üblichen. Autorenberatung, Lektorat, Gestaltung, Übersetzung, Druck und Vertrieb sowie Veröffentlichung auf Amazon."],
+    en: ["Yazardan Direkt | Publishing Beyond the Ordinary",
+      "Publishing beyond the ordinary. Author consulting, editing, design, translation, printing and distribution, and publishing on Amazon."],
   },
   services: {
     tr: ["Yayıncılık Hizmetleri | Yazardan Direkt",
       "Yazar danışmanlığı, editörlük, tasarım, çeviri, basım-dağıtım ve e-kitap: modüler hizmetlerle tek bir adımı ya da tüm yayın sürecini birlikte yürütüyoruz."],
     de: ["Leistungen für Autorinnen und Autoren | Yazardan Direkt",
       "Autorenberatung, Lektorat, Gestaltung, Übersetzung, Druck und Vertrieb, E-Book-Format – modular: ein einzelner Schritt oder der ganze Weg zum Buch."],
+    en: ["Publishing Services | Yazardan Direkt",
+      "Author consulting, editing, design, translation, printing and distribution, e-book format – modular: a single step or the whole way to your book."],
   },
   consult: {
     tr: ["Yazar Danışmanlığı | Yazardan Direkt",
       "Fikrinizin şekillenmesinden yayın kararına kadar kişiye özel, stratejik yazar danışmanlığı: hedef kitle, tür, başlık, zamanlama ve yayın modeli."],
     de: ["Autorenberatung | Yazardan Direkt",
       "Persönliche, strategische Beratung von der Idee bis zur Entscheidung über die Veröffentlichung: Zielgruppe, Genre, Titel, Zeitplanung und Modell."],
+    en: ["Author Consulting | Yazardan Direkt",
+      "Personal, strategic guidance from the first idea to the decision to publish: readership, genre, title, timing and publishing model."],
   },
   editing: {
     tr: ["Kitap Editörlüğü | Yazardan Direkt",
       "Editörlük bir metni değiştirmekten çok onun özünü parlatmaktır: yazım tutarlılığı, anlatım dili, yapı ve akışta yazarın sesine saygılı editörlük."],
     de: ["Lektorat | Yazardan Direkt",
       "Lektorat heißt, den Kern eines Textes zum Leuchten zu bringen: sprachliche Stimmigkeit, Ausdruck, Aufbau und Fluss – mit Achtung vor Ihrer Stimme."],
+    en: ["Book Editing | Yazardan Direkt",
+      "Editing means bringing out the core of a text rather than changing it: consistency, voice, structure and flow, with respect for your own sound."],
   },
   design: {
     tr: ["Kitap Kapağı ve Sayfa Tasarımı | Yazardan Direkt",
       "Kapaktan sayfa yerleşimine, tipografiden illüstrasyona: kitabınızın ruhunu yansıtan, baskıya ve dijital formatlara uygun kitap tasarımı."],
     de: ["Buchgestaltung: Umschlag und Satz | Yazardan Direkt",
       "Vom Umschlag bis zum Seitenlayout, von der Typografie bis zur Illustration: Buchgestaltung, die den Geist Ihres Werkes trägt – für Druck und Bildschirm."],
+    en: ["Book Design: Cover and Typesetting | Yazardan Direkt",
+      "From the cover to the page layout, from typography to illustration: book design that carries the spirit of your work, for print and for screens."],
   },
   translation: {
     tr: ["Kitap Çevirisi | Yazardan Direkt",
       "Anlamı korumak, kültürü aktarmak: alanında yetkin çevirmenler, iki aşamalı kontrol ve editörle uyumlu bir süreçle, İngilizce başta olmak üzere kitap çevirisi."],
     de: ["Buchübersetzung | Yazardan Direkt",
       "Den Sinn bewahren, die Kultur vermitteln: Buchübersetzung durch fachkundige Übersetzerinnen und Übersetzer, zweistufig geprüft und mit dem Lektorat abgestimmt."],
+    en: ["Book Translation | Yazardan Direkt",
+      "Keeping the meaning, carrying the culture: book translation by qualified translators, checked in two stages and matched with the editing."],
   },
   print: {
     tr: ["Basım ve Dağıtım | Yazardan Direkt",
       "İstek üzerine basımdan yüksek tirajlara, kitabevi ağından Her Yerde Kitap'a: kitabınızın okura ulaşması için baskı ve dağıtım süreci."],
     de: ["Druck und Vertrieb | Yazardan Direkt",
       "Von Print-on-Demand bis zu hohen Auflagen, vom Buchhandel bis zu Her Yerde Kitap: Druck und Vertrieb, damit Ihr Buch seine Lesenden erreicht."],
+    en: ["Printing and Distribution | Yazardan Direkt",
+      "From print-on-demand to large runs, from the bookshop network to Her Yerde Kitap: printing and distribution, so your book reaches its readers."],
   },
   ebook: {
     tr: ["E-Kitap Formatı: ePub ve Mobi | Yazardan Direkt",
       "Eserinizi tüm dijital platformlara uygun ePub ve Mobi dosyalarına dönüştürüyoruz: içindekiler, bağlantılar, görsel düzen ve dosya kontrolü dahil."],
     de: ["E-Book-Format: ePub und Mobi | Yazardan Direkt",
       "Wir machen Ihr Werk zu ePub- und Mobi-Dateien für alle digitalen Plattformen – mit Inhaltsverzeichnis, Verlinkungen, stimmigem Layout und Dateiprüfung."],
+    en: ["E-Book Format: ePub and Mobi | Yazardan Direkt",
+      "We turn your work into ePub and Mobi files for every digital platform – table of contents, links, layout and a file check included."],
   },
   amazon: {
     tr: ["Amazon'da Yayınla | Yazardan Direkt",
       "Kitabınızı İngilizceye çevirip Amazon'da Kindle ve Print-on-Demand olarak yayımlayın. Amazon ve İstanbul Books hakkında sık sorulan sorular."],
     de: ["Auf Amazon veröffentlichen | Yazardan Direkt",
       "Ihr Buch ins Englische übersetzt und auf Amazon als Kindle-E-Book und Print-on-Demand veröffentlicht. Häufige Fragen zu Amazon und İstanbul Books."],
+    en: ["Publish on Amazon | Yazardan Direkt",
+      "Your book translated into English and published on Amazon as a Kindle e-book and print-on-demand. Common questions about Amazon and İstanbul Books."],
   },
   about: {
     tr: ["Hakkımızda | Yazardan Direkt",
       "Üretimi yücelten, emeği kutsayan bir yayınevi: Yazardan Direkt'in yayıncılık anlayışı, ekibi ve yazarlarımızın anlattıkları."],
     de: ["Über uns | Yazardan Direkt",
       "Ein Verlag, der das Schaffen erhöht und die Arbeit achtet: die Haltung von Yazardan Direkt, das Team und was unsere Autorinnen und Autoren sagen."],
+    en: ["About Us | Yazardan Direkt",
+      "A publisher that honours the making and the work behind it: how Yazardan Direkt sees publishing, the team, and what our authors say."],
   },
   global: {
     tr: ["Yurt Dışında Yayın: Amazon ve İstanbul Books | Yazardan Direkt",
       "İngilizce eserleriniz için Amazon, Türkçe kitaplarınız için İstanbul Books: eserinizi istek üzerine basımla dünyanın dört bir yanındaki okurlarla buluşturuyoruz."],
     de: ["Amazon und İstanbul Books | Yazardan Direkt",
       "Amazon für Ihre englischsprachigen Werke, İstanbul Books für Ihre türkischsprachigen Bücher: per Print-on-Demand zu Lesenden in aller Welt."],
+    en: ["Amazon and İstanbul Books | Yazardan Direkt",
+      "Amazon for your English works, İstanbul Books for your Turkish books: print-on-demand that reaches readers all over the world."],
   },
   kvkk: {
     tr: ["Aydınlatma Metni | Yazardan Direkt",
@@ -125,12 +147,16 @@ const META = {
       "Mesajınız bize ulaştı. Ön değerlendirmenin ardından size özel bir danışman sizinle iletişime geçer."],
     de: ["Vielen Dank | Yazardan Direkt",
       "Ihre Nachricht ist bei uns angekommen. Nach der ersten Sichtung meldet sich eine persönliche Ansprechperson bei Ihnen."],
+    en: ["Thank You | Yazardan Direkt",
+      "Your message has reached us. After a first review, a consultant of your own will be in touch."],
   },
   contact: {
     tr: ["İletişim | Yazardan Direkt",
       "Eserinizi bize ulaştırın: +90-0216-301-1213, info@yazardandirekt.com, hafta içi 09:00–18:00. Ön değerlendirmenin ardından danışmanınız size ulaşır."],
     de: ["Kontakt | Yazardan Direkt",
       "Senden Sie uns Ihr Werk: +90-0216-301-1213, info@yazardandirekt.com, Montag bis Freitag 9–18 Uhr. Nach der Sichtung meldet sich Ihre Ansprechperson."],
+    en: ["Contact | Yazardan Direkt",
+      "Send us your manuscript and we begin together. After a first review a consultant of your own will be in touch – by phone, e-mail or WhatsApp."],
   },
 };
 
@@ -145,7 +171,11 @@ const ADDRESS = {
   street: "Altıntepe Mah. Bahar Sok. No: 8B",
   city: "Maltepe / İstanbul",
 };
-const HOURS = { tr: "Hafta içi 09:00 – 18:00", de: "Wochentags 09:00 – 18:00" };
+const HOURS = {
+  tr: "Hafta içi 09:00 – 18:00",
+  de: "Wochentags 09:00 – 18:00",
+  en: "Weekdays 09:00 – 18:00",
+};
 
 /* Das Bild, das ein Messenger zeigt, wenn jemand die Adresse weitergibt.
    1200x630 ist das Maß, das Facebook, WhatsApp, LinkedIn und iMessage
@@ -154,8 +184,12 @@ const SHARE = {
   image: `${ORIGIN}/assets/share.jpg`,
   width: 1200,
   height: 630,
-  alt: { tr: "Kitaplarla dolu bir oturma odası", de: "Ein Wohnraum voller Bücher" },
-  locale: { tr: "tr_TR", de: "de_DE" },
+  alt: {
+    tr: "Kitaplarla dolu bir oturma odası",
+    de: "Ein Wohnraum voller Bücher",
+    en: "A living room full of books",
+  },
+  locale: { tr: "tr_TR", de: "de_DE", en: "en_GB" },
 };
 const WHATSAPP = "https://wa.me/905398225698?text=Merhaba%2C%20destek%20almak%20istiyorum.";
 const PROVISIONAL = "<!-- PROVISIONAL: number not yet confirmed -->";
@@ -181,7 +215,7 @@ const TEXT = {
     menuServices: "Hizmetler alt menüsü",
     menuAllServices: "Tüm hizmetler",
     langLabel: "Dil seçimi",
-    langName: { tr: "Türkçe", de: "Almanca" },
+    langName: { tr: "Türkçe", de: "Almanca", en: "İngilizce" },
     nav: {
       home: "ANASAYFA",
       services: "HİZMETLERİMİZ",
@@ -245,7 +279,7 @@ const TEXT = {
     menuServices: "Untermenü Leistungen",
     menuAllServices: "Alle Leistungen",
     langLabel: "Sprachwahl",
-    langName: { tr: "Türkisch", de: "Deutsch" },
+    langName: { tr: "Türkisch", de: "Deutsch", en: "Englisch" },
     nav: {
       home: "STARTSEITE",
       services: "LEISTUNGEN",
@@ -294,6 +328,67 @@ const TEXT = {
       kvkk: "Datenschutzhinweise",
     },
   },
+  /* Englisch: übersetzt aus dem Türkischen, in den Seiten als unreviewed
+     markiert. Die beiden Rechtstexte gibt es auf Englisch nicht -- die
+     Fußzeile führt von hier auf die türkischen. */
+  en: {
+    brand: "Yazardan Direkt",
+    menuMain: "Main menu",
+    menuAll: "Full menu",
+    menuOpen: "Open menu",
+    menuClose: "Close menu",
+    whatsappWrite: "Write on WhatsApp",
+    menuServices: "Services submenu",
+    menuAllServices: "All services",
+    langLabel: "Language",
+    langName: { tr: "Turkish", de: "German", en: "English" },
+    nav: {
+      home: "HOME",
+      services: "SERVICES",
+      about: "ABOUT US",
+      amazon: "PUBLISH ON AMAZON",
+      contact: "CONTACT",
+      team: "OUR TEAM",
+      global: "Beyond Borders",
+      faq: "FREQUENTLY ASKED",
+      shop: "HERYERDEKİTAP – BOOK SALES",
+      blog: "BLOG",
+      authors: "OUR AUTHORS",
+      shopShort: "HERYERDEKİTAP",
+      authorsShort: "OUR AUTHORS",
+    },
+    service: {
+      consult: "Author Consulting",
+      editing: "Editing",
+      design: "Design",
+      translation: "Translation",
+      print: "Printing and Distribution",
+      ebook: "E-Book Format",
+    },
+    credo:
+      "We look at the world from a place that honours the making and holds the work sacred. We look for the worth of a word not only in bestseller lists but in the right hearts.",
+    footer: {
+      credo:
+        "We believe the power lies with the author and the meaning with the reader. What matters is not that a book stands on a shelf but that it finds a place in a heart.",
+      services: "Services",
+      company: "Company",
+      reach: "Reach us",
+      rights: "All rights reserved.",
+      legalLabel: "Legal",
+      top: "Back to top",
+      about: "About us",
+      team: "Our team",
+      amazon: "Publish on Amazon",
+      global: "Beyond Borders",
+      shop: "HeryerdeKitap – Book Sales",
+      blog: "Blog",
+      authors: "Our authors",
+      faq: "Frequently asked questions",
+      whatsapp: "WhatsApp",
+      privacy: "Privacy Policy",
+      kvkk: "Data Protection Notice",
+    },
+  },
 };
 
 /* ---------------------------------------------------------------------
@@ -322,20 +417,24 @@ function head(page, lang) {
   return [
     `<meta charset="UTF-8" />`,
     `<meta name="viewport" content="width=device-width, initial-scale=1.0" />`,
-    ...(lang === "de" ? [`<!-- DE: unreviewed -->`] : []),
+    ...(lang === "tr" ? [] : [`<!-- ${lang.toUpperCase()}: unreviewed -->`]),
     `<title>${esc(title)}</title>`,
     `<meta name="description" content="${attr(description)}" />`,
     ...(page.noindex ? [`<meta name="robots" content="noindex" />`] : []),
     // Die Fehlerseite nennt keine kanonische Adresse: sie antwortet unter
     // jeder Adresse, die es nicht gibt.
     ...(page.bare ? [] : [`<link rel="canonical" href="${abs(lang)}" />`]),
-    // Solange es die Seite nur in einer Sprache gibt, wäre hreflang eine
-    // Auskunft über eine Seite, die es nicht gibt.
-    ...(page.only || page.bare
+    // Gibt es die Seite nur in einer Sprache, wäre hreflang eine Auskunft
+    // über eine Seite, die es nicht gibt.
+    ...(page.bare || langsOf(page).length < 2
       ? []
       : [
-          `<link rel="alternate" hreflang="tr" href="${abs("tr")}" />`,
-          `<link rel="alternate" hreflang="de" href="${abs("de")}" />`,
+          // Eine Zeile je Sprache, die es von dieser Seite gibt -- nicht
+          // fest verdrahtet, sonst fehlt beim Hinzufügen einer Sprache der
+          // Rückverweis und die Angaben widersprechen sich gegenseitig.
+          ...langsOf(page).map(
+            (l) => `<link rel="alternate" hreflang="${l}" href="${abs(l)}" />`
+          ),
           `<link rel="alternate" hreflang="x-default" href="${abs("tr")}" />`,
         ]),
     // Was ein Messenger zeigt, wenn jemand die Adresse weitergibt. Titel und
@@ -433,7 +532,9 @@ function header(page, lang) {
   const sub = (href, text) => `          ${link(href, text, here)}`;
   const services = SERVICE_IDS.map((id) => sub(url(id, lang), t.service[id]));
 
-  const sep = switcher.length > 1 ? [`    <span class="lang-switch-sep" aria-hidden="true"></span>`] : [];
+  // Ein Trenner zwischen je zwei Knöpfen, nicht nur hinter dem ersten.
+  const SEP = `    <span class="lang-switch-sep" aria-hidden="true"></span>`;
+  const switcherRow = switcher.flatMap((item, i) => (i === 0 ? [item] : [SEP, item]));
   return [
     `<header class="site-header">`,
     `  <a class="brand" href="${home}" aria-label="${attr(t.brand)}">`,
@@ -445,9 +546,7 @@ function header(page, lang) {
     `  </nav>`,
     ``,
     `  <nav class="lang-switch" aria-label="${attr(t.langLabel)}">`,
-    switcher[0],
-    ...sep,
-    ...switcher.slice(1),
+    ...switcherRow,
     `  </nav>`,
     ``,
     `  <button`,
@@ -524,6 +623,11 @@ function footer(page, lang) {
   const f = t.footer;
   const here = page[lang][1];
   const a = (href, text) => `        ${link(href, text, here)}`;
+  const legal = (id, text) => {
+    const target = langOf(id, lang);
+    const extra = target === lang ? "" : ` hreflang="${target}"`;
+    return link(urlOr(id, lang), text, here, extra);
+  };
   return [
     `<footer class="site-footer">`,
     `  <div class="wrap">`,
@@ -560,7 +664,7 @@ function footer(page, lang) {
     `        </address>`,
     `        <p class="site-footer-hours">${esc(HOURS[lang])}</p>`,
     `        ${PROVISIONAL}`,
-    ...(lang === "de" ? [`        <!-- DE: unreviewed -->`] : []),
+    ...(lang === "tr" ? [] : [`        <!-- ${lang.toUpperCase()}: unreviewed -->`]),
     `        <a class="whatsapp-link" href="${attr(WHATSAPP)}" rel="noopener">`,
     `          ${WA_ICON}`,
     `          <span>${esc(f.whatsapp)}</span>`,
@@ -570,10 +674,13 @@ function footer(page, lang) {
     `    <div class="site-footer-base">`,
     `      <p>© <span class="site-footer-year">2026</span> Yazardan Direkt. <span>${esc(f.rights)}</span></p>`,
     `      <nav class="site-footer-legal" aria-label="${attr(f.legalLabel)}">`,
-    ...(lang === "de" ? [`        <!-- DE: unreviewed -->`] : []),
-    `        ${link(url("privacy", lang), f.privacy, here)}`,
-    ...(lang === "de" ? [`        <!-- DE: unreviewed -->`] : []),
-    `        ${link(url("kvkk", lang), f.kvkk, here)}`,
+    // Die Rechtstexte gibt es nur auf Türkisch und Deutsch. Von einer
+    // englischen Seite führt der Weg deshalb auf die türkische Fassung --
+    // mit hreflang, damit der Sprachwechsel angesagt ist.
+    ...(lang === "tr" ? [] : [`        <!-- ${lang.toUpperCase()}: unreviewed -->`]),
+    `        ${legal("privacy", f.privacy)}`,
+    ...(lang === "tr" ? [] : [`        <!-- ${lang.toUpperCase()}: unreviewed -->`]),
+    `        ${legal("kvkk", f.kvkk)}`,
     `      </nav>`,
     `      <a href="#top">${esc(f.top)}</a>`,
     `    </div>`,

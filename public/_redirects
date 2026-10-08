@@ -57,6 +57,19 @@
 /de/datenschutzhinweise.html                  /de/datenschutzhinweise               301!
 /gizlilik-ve-guvenlik-politikasi.html         /gizlilik-ve-guvenlik-politikasi      301!
 /de/datenschutz-und-sicherheit.html           /de/datenschutz-und-sicherheit        301!
+/en/index.html                                /en/                                  301!
+/en/services.html                             /en/services                          301!
+/en/author-consulting.html                    /en/author-consulting                 301!
+/en/editing.html                              /en/editing                           301!
+/en/design.html                               /en/design                            301!
+/en/translation.html                          /en/translation                       301!
+/en/printing-and-distribution.html            /en/printing-and-distribution         301!
+/en/e-book-format.html                        /en/e-book-format                     301!
+/en/publish-on-amazon.html                    /en/publish-on-amazon                 301!
+/en/about-us.html                             /en/about-us                          301!
+/en/international.html                        /en/international                     301!
+/en/contact.html                              /en/contact                           301!
+/en/thank-you.html                            /en/thank-you                         301!
 
 # Die Fehlerseite selbst. Sie ist über ihren Dateinamen erreichbar, und
 # /404 löst Netlify genauso auf 404.html auf wie /tasarim auf tasarim.html --

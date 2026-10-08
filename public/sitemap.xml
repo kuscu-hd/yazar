@@ -7,10 +7,16 @@
     <loc>https://yazardandirekt.com/de/</loc>
   </url>
   <url>
+    <loc>https://yazardandirekt.com/en/</loc>
+  </url>
+  <url>
     <loc>https://yazardandirekt.com/hizmetlerimiz</loc>
   </url>
   <url>
     <loc>https://yazardandirekt.com/de/leistungen</loc>
+  </url>
+  <url>
+    <loc>https://yazardandirekt.com/en/services</loc>
   </url>
   <url>
     <loc>https://yazardandirekt.com/yazar-danismanligi</loc>
@@ -19,10 +25,16 @@
     <loc>https://yazardandirekt.com/de/autorenberatung</loc>
   </url>
   <url>
+    <loc>https://yazardandirekt.com/en/author-consulting</loc>
+  </url>
+  <url>
     <loc>https://yazardandirekt.com/editorluk-hizmetleri</loc>
   </url>
   <url>
     <loc>https://yazardandirekt.com/de/lektorat</loc>
+  </url>
+  <url>
+    <loc>https://yazardandirekt.com/en/editing</loc>
   </url>
   <url>
     <loc>https://yazardandirekt.com/tasarim</loc>
@@ -31,10 +43,16 @@
     <loc>https://yazardandirekt.com/de/gestaltung</loc>
   </url>
   <url>
+    <loc>https://yazardandirekt.com/en/design</loc>
+  </url>
+  <url>
     <loc>https://yazardandirekt.com/ceviri</loc>
   </url>
   <url>
     <loc>https://yazardandirekt.com/de/uebersetzung</loc>
+  </url>
+  <url>
+    <loc>https://yazardandirekt.com/en/translation</loc>
   </url>
   <url>
     <loc>https://yazardandirekt.com/basim-dagitim</loc>
@@ -43,10 +61,16 @@
     <loc>https://yazardandirekt.com/de/druck-und-vertrieb</loc>
   </url>
   <url>
+    <loc>https://yazardandirekt.com/en/printing-and-distribution</loc>
+  </url>
+  <url>
     <loc>https://yazardandirekt.com/ekitap-formati</loc>
   </url>
   <url>
     <loc>https://yazardandirekt.com/de/e-book-format</loc>
+  </url>
+  <url>
+    <loc>https://yazardandirekt.com/en/e-book-format</loc>
   </url>
   <url>
     <loc>https://yazardandirekt.com/amazonda-yayinla</loc>
@@ -55,10 +79,16 @@
     <loc>https://yazardandirekt.com/de/auf-amazon-veroeffentlichen</loc>
   </url>
   <url>
+    <loc>https://yazardandirekt.com/en/publish-on-amazon</loc>
+  </url>
+  <url>
     <loc>https://yazardandirekt.com/hakkimizda</loc>
   </url>
   <url>
     <loc>https://yazardandirekt.com/de/ueber-uns</loc>
+  </url>
+  <url>
+    <loc>https://yazardandirekt.com/en/about-us</loc>
   </url>
   <url>
     <loc>https://yazardandirekt.com/yurtdisi-hizmetler</loc>
@@ -67,10 +97,16 @@
     <loc>https://yazardandirekt.com/de/international</loc>
   </url>
   <url>
+    <loc>https://yazardandirekt.com/en/international</loc>
+  </url>
+  <url>
     <loc>https://yazardandirekt.com/iletisim</loc>
   </url>
   <url>
     <loc>https://yazardandirekt.com/de/kontakt</loc>
+  </url>
+  <url>
+    <loc>https://yazardandirekt.com/en/contact</loc>
   </url>
   <url>
     <loc>https://yazardandirekt.com/aydinlatma-metni</loc>
