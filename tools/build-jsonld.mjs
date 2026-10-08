@@ -55,7 +55,7 @@ const ORG = {
 
 // Im Menü steht die Startseite in Großbuchstaben; als Krümel liest sich
 // die normale Schreibweise besser, gemeint ist derselbe Punkt.
-const HOME_LABEL = { tr: "Anasayfa", de: "Startseite" };
+const HOME_LABEL = { tr: "Anasayfa", de: "Startseite", en: "Home" };
 
 /* ---------- aus der Seite lesen ---------- */
 
@@ -181,6 +181,12 @@ function region(page, lang, html, file) {
   // Prüfen, dass jede Angabe wirklich auf der Seite steht.
   const visible = strip(html.replace(/<script[\s\S]*?<\/script>/g, ""));
   const check = (v) => {
+    // Fehlt der Wert ganz, ist der Block ungültig -- ein ListItem ohne
+    // name wird verworfen. Vorher rutschte das durch, weil der Wächter
+    // nur Zeichenketten ansah.
+    if (v === undefined || v === null || v === "") {
+      throw new Error(`${file}: ein name/description/text fehlt`);
+    }
     if (typeof v === "string" && v.length > 3 && !v.startsWith("http") && !v.startsWith("+") && !v.includes("@")) {
       // Groß- und Kleinschreibung darf abweichen (der Krümel der
       // Startseite), der Wortlaut nicht.
