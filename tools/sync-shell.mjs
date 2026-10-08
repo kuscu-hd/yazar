@@ -451,7 +451,13 @@ function head(page, lang) {
     `<meta property="og:image:height" content="${SHARE.height}" />`,
     `<meta property="og:image:alt" content="${attr(SHARE.alt[lang])}" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
-    `<link rel="icon" href="data:," />`,
+    /* Vorher stand hier href="data:," -- das sparte eine Anfrage, ließ den
+       Reiter aber leer. Jetzt das Markenzeichen: im Reiter ein "Y", weil
+       bei 16 Pixeln von der Strichzeichnung nur ein Fleck bleibt; auf dem
+       Startbildschirm, wo Platz ist, das Emblem selbst.
+       favicon.ico holen Browser von sich aus aus dem Wurzelverzeichnis. */
+    `<link rel="icon" href="/favicon.ico" sizes="any" />`,
+    `<link rel="apple-touch-icon" href="/assets/icon-180.png" />`,
     `<link rel="stylesheet" href="/styles.css" />`,
     `<script src="/script.js" defer></script>`,
   ];
