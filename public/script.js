@@ -1182,6 +1182,46 @@
     reduceMotion.addEventListener("change", quiet);
   }
 
+  /* ---------- Zahlen hochzählen ---------- */
+
+  /* Die Zahl steht ausgeschrieben im HTML und bleibt dort stehen, auch
+     wenn dieses Skript nie läuft. Hier zählt sie nur hoch, sobald sie ins
+     Bild kommt, und zwar einmal -- beim zweiten Vorbeiscrollen wäre es
+     Zappeln statt Ankunft. Wer weniger Bewegung eingestellt hat, sieht
+     gleich die fertige Zahl. */
+  const counters = document.querySelectorAll(".stats-value > span");
+
+  function countUp(el) {
+    const target = Number(String(el.textContent).replace(/\D/g, ""));
+    if (!Number.isFinite(target) || target <= 0) return;
+    const DURATION = 1100;
+    const begin = performance.now();
+    // Schnell los, sanft aus: die letzte Ziffer soll zur Ruhe kommen.
+    const ease = (t) => 1 - Math.pow(1 - t, 3);
+    const step = (now) => {
+      const p = Math.min(1, (now - begin) / DURATION);
+      el.textContent = String(Math.round(ease(p) * target));
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = String(target);
+    };
+    el.textContent = "0";
+    requestAnimationFrame(step);
+  }
+
+  if (counters.length && !reduceMotion.matches && "IntersectionObserver" in window) {
+    const watcher = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          watcher.unobserve(entry.target);
+          countUp(entry.target);
+        }
+      },
+      { threshold: 0.6 }
+    );
+    for (const el of counters) watcher.observe(el);
+  }
+
   const footerYear = document.querySelector(".site-footer-year");
   if (footerYear) footerYear.textContent = String(new Date().getFullYear());
 
