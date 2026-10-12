@@ -226,7 +226,21 @@
     <!-- /shell:header -->
 
     <main class="site-shell">
-      <section class="page-head" id="top">
+      <section class="page-head page-head-has-photo" id="top">
+        <!-- Die Aufnahme vom Kopf der bisherigen Seite, hier als Grund.
+             Sie trägt keine Aussage, die nicht auch im Text steht -- deshalb
+             ein leeres alt. Nach unten läuft sie über eine Maske aus; der
+             Text steht darüber. -->
+        <!-- DE: unreviewed -->
+        <img
+          class="page-head-photo"
+          src="/assets/hizmetler/ekitap-formati-ustu.webp"
+          alt=""
+          width="1100"
+          height="630"
+          loading="eager"
+          decoding="async"
+        />
         <div class="wrap">
           <a class="kicker kicker-link" href="/de/leistungen">Leistungen</a>
           <h1>E-Book-Format</h1>
@@ -234,20 +248,6 @@
           <p class="page-tagline">Makellose Formatierung für die digitale Veröffentlichung</p>
           <!-- DE: unreviewed -->
           <p class="lede">Wenn wir Ihr Werk ins E-Book-Format überführen, behandeln wir Inhaltsstruktur, Bildgestaltung und technische Anforderungen mit Sorgfalt. Mit gut lesbaren, professionellen Dateien, die auf allen digitalen Plattformen funktionieren, machen wir Ihr Buch bereit für die digitale Veröffentlichung.</p>
-          <!-- Die Aufnahme vom Kopf der bisherigen Seite. Genommen ist der
-               textfreie Teil: der Seitentitel steht im Original als Schrift
-               im Bild und stünde hier doppelt -- und auf den anderen
-               Sprachen falsch. -->
-          <!-- DE: unreviewed -->
-          <figure class="page-hero">
-            <img
-              src="/assets/hizmetler/ekitap-formati-ustu.webp"
-              alt="Ein Buch, geöffnet auf einem Laptop und einem E-Book-Reader"
-              width="1100"
-              height="630"
-              loading="lazy"
-            />
-          </figure>
         </div>
       </section>
 
@@ -314,13 +314,43 @@
       <section class="band" aria-labelledby="more-h">
         <div class="wrap">
           <h2 class="band-h" id="more-h">Leistungen</h2>
-          <ul class="service-links">
-            <li><a href="/de/autorenberatung">Autorenberatung</a></li>
-            <li><a href="/de/lektorat">Lektorat</a></li>
-            <li><a href="/de/gestaltung">Gestaltung</a></li>
-            <li><a href="/de/uebersetzung">Übersetzung</a></li>
-            <li><a href="/de/druck-und-vertrieb">Druck und Vertrieb</a></li>
-            <li><a href="/de/e-book-format" aria-current="page">E-Book-Format</a></li>
+          <ul class="service-links service-links-icons">
+            <li>
+              <a href="/de/autorenberatung">
+                <img src="/assets/hizmetler/simge/consult.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>Autorenberatung</span>
+              </a>
+            </li>
+            <li>
+              <a href="/de/lektorat">
+                <img src="/assets/hizmetler/simge/editing.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>Lektorat</span>
+              </a>
+            </li>
+            <li>
+              <a href="/de/gestaltung">
+                <img src="/assets/hizmetler/simge/design.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>Gestaltung</span>
+              </a>
+            </li>
+            <li>
+              <a href="/de/uebersetzung">
+                <img src="/assets/hizmetler/simge/translation.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>Übersetzung</span>
+              </a>
+            </li>
+            <li>
+              <a href="/de/druck-und-vertrieb">
+                <img src="/assets/hizmetler/simge/print.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>Druck und Vertrieb</span>
+              </a>
+            </li>
+            <li>
+              <a href="/de/e-book-format" aria-current="page">
+                <img src="/assets/hizmetler/simge/ebook.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>E-Book-Format</span>
+              </a>
+            </li>
           </ul>
         </div>
       </section>
