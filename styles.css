@@ -1972,6 +1972,31 @@ a {
   align-items: start;
 }
 
+/* Die Aufnahme am Kopf einer Leistungsseite. Sie steht in der Textspalte
+   und nicht über die ganze Breite: die Vorlagen sind nur rund 900 Pixel
+   breit, über das ganze Fenster gezogen würden sie weich. So wird nichts
+   hochgerechnet und das Bild bleibt scharf. */
+.page-hero {
+  margin: clamp(32px, 4vh, 56px) 0 0;
+}
+
+.page-hero img {
+  display: block;
+  width: 100%;
+  /* Flaches Band statt Postkarte: der Kopf der Seite soll nicht nach unten
+     wegrutschen. Der Ausschnitt beschneidet oben und unten, nie seitlich --
+     seitlich stünde wieder Schrift im Bild. */
+  aspect-ratio: 16 / 7;
+  object-fit: cover;
+  border-radius: 3px;
+}
+
+@media (max-width: 640px) {
+  .page-hero img {
+    aspect-ratio: 3 / 2;
+  }
+}
+
 /* Aufnahme und Stichpunkte stehen in derselben schmalen Spalte: das Bild
    gibt der Seite einen Halt, ohne dem Fließtext Breite zu nehmen. */
 .service-aside {
