@@ -2477,14 +2477,34 @@ span.team-dialog-photo {
 
 .platforms-list {
   display: flex;
-  gap: clamp(18px, 2.6vw, 44px);
+  align-items: center;
+  gap: clamp(26px, 3.4vw, 60px);
   margin: 0;
-  padding: 0 clamp(9px, 1.3vw, 22px) 0 0;
+  padding: 0 clamp(13px, 1.7vw, 30px) 0 0;
   list-style: none;
 }
 
 .platforms-list li {
+  display: flex;
+  align-items: center;
   white-space: nowrap;
+}
+
+/* Die gelieferten Zeichen sind farbig und aus verschiedenen Häusern. Hier
+   wird jedes auf Schwarz gesetzt: so steht die Reihe ruhig und gehört zur
+   Seite, statt in fünf Hausfarben zu flackern. Die Datei bleibt
+   unverändert, das Einfärben macht der Browser. */
+.platform-logo img {
+  display: block;
+  width: auto;
+  height: clamp(26px, 3vw, 38px);
+  filter: brightness(0);
+  opacity: 0.78;
+  transition: opacity 240ms ease;
+}
+
+.platform-logo img:hover {
+  opacity: 1;
 }
 
 .platforms-list li {
