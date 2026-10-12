@@ -2444,13 +2444,47 @@ span.team-dialog-photo {
   text-transform: uppercase;
 }
 
+/* Das Band läuft von selbst. Zwei gleiche Listen hintereinander, das
+   Gespann wandert um genau eine Listenbreite -- in dem Augenblick steht
+   die Kopie exakt dort, wo das Original begann, und der Sprung zurück
+   ist nicht zu sehen. Die weichen Kanten links und rechts lassen die
+   Namen auftauchen und verschwinden, statt an einer Linie abzureißen. */
+.platform-marquee {
+  margin-top: 18px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+}
+
+.platform-track {
+  display: flex;
+  width: max-content;
+  animation: platform-run 34s linear infinite;
+}
+
+/* Unter dem Zeiger hält es an -- wer einen Namen lesen will, soll ihn
+   nicht verfolgen müssen. */
+.platform-marquee:hover .platform-track,
+.platform-marquee:focus-within .platform-track {
+  animation-play-state: paused;
+}
+
+@keyframes platform-run {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 .platforms-list {
   display: flex;
-  flex-wrap: wrap;
   gap: clamp(18px, 2.6vw, 44px);
-  margin: 18px 0 0;
-  padding: 0;
+  margin: 0;
+  padding: 0 clamp(9px, 1.3vw, 22px) 0 0;
   list-style: none;
+}
+
+.platforms-list li {
+  white-space: nowrap;
 }
 
 .platforms-list li {
@@ -3422,6 +3456,27 @@ span.team-dialog-photo {
   /* Die Pfeile setzen dann um, statt zu gleiten. */
   .voices-track {
     scroll-behavior: auto;
+  }
+
+  /* Das Band steht still und bricht um; die Kopie wäre dann nur doppelt. */
+  .platform-track {
+    animation: none;
+    flex-wrap: wrap;
+    width: auto;
+  }
+
+  .platform-marquee {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .platform-track .platforms-list[aria-hidden="true"] {
+    display: none;
+  }
+
+  .platforms-list {
+    flex-wrap: wrap;
+    row-gap: 10px;
   }
 }
 
