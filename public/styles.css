@@ -2035,11 +2035,23 @@ a {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  /* Seitlich wird nie beschnitten -- dort stünde wieder Schrift im Bild. */
-  object-position: center;
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 34%, transparent 92%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 34%, transparent 92%);
+  /* contain, nicht cover: über die ganze Breite gezogen müsste die Vorlage
+     um das Anderthalbfache hochgerechnet werden, und das Motiv stünde dann
+     riesig und angeschnitten da. So steht es in seiner eigenen Größe
+     rechts neben dem Titel -- kleiner, dafür ganz zu sehen. */
+  object-fit: contain;
+  object-position: right center;
+  /* Zwei Verläufe, die sich schneiden: nach unten löst sich das Bild auf,
+     nach links verschwindet es vor dem Text. Dadurch braucht der Schleier
+     darüber viel weniger Deckung, und das Bild bleibt sichtbar. */
+  /* Oben beginnt das Bild erst unterhalb der festen Kopfzeile: dort steht
+     das Menü, und auf einem Motiv wäre es schwer zu lesen. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 2%, #000 24%, #000 60%, transparent 97%),
+    linear-gradient(to right, transparent 4%, #000 46%);
+  mask-image: linear-gradient(to bottom, transparent 2%, #000 24%, #000 60%, transparent 97%),
+    linear-gradient(to right, transparent 4%, #000 46%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
 
 .page-head-has-photo::before {
@@ -2049,9 +2061,9 @@ a {
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgb(var(--page-rgb) / 0.74) 0%,
-    rgb(var(--page-rgb) / 0.82) 45%,
-    rgb(var(--page-rgb) / 0.97) 85%,
+    rgb(var(--page-rgb) / 0.3) 0%,
+    rgb(var(--page-rgb) / 0.42) 50%,
+    rgb(var(--page-rgb) / 0.86) 88%,
     rgb(var(--page-rgb)) 100%
   );
 }
@@ -2060,18 +2072,26 @@ a {
    er am Rechner steht -- das Motiv drängt sich dort viel stärker an die
    Zeilen. Deshalb dichter Schleier und früheres Auslaufen. */
 @media (max-width: 760px) {
+  /* Schmal hilft die Aufteilung links Text, rechts Bild nicht weiter --
+     nebeneinander ist dort kein Platz. Das Motiv legt sich deshalb wieder
+     über die ganze Breite, nur eben flach und mit dichterem Schleier. */
+  .page-head-photo {
+    object-fit: cover;
+    object-position: center 38%;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 14%, #000 32%, #000 56%, transparent 90%);
+    mask-image: linear-gradient(to bottom, transparent 14%, #000 32%, #000 56%, transparent 90%);
+    -webkit-mask-composite: source-over;
+    mask-composite: add;
+  }
+
   .page-head-has-photo::before {
     background: linear-gradient(
       to bottom,
-      rgb(var(--page-rgb) / 0.86) 0%,
-      rgb(var(--page-rgb) / 0.92) 40%,
-      rgb(var(--page-rgb)) 88%
+      rgb(var(--page-rgb) / 0.58) 0%,
+      rgb(var(--page-rgb) / 0.72) 45%,
+      rgb(var(--page-rgb) / 0.95) 86%,
+      rgb(var(--page-rgb)) 100%
     );
-  }
-
-  .page-head-photo {
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 22%, transparent 72%);
-    mask-image: linear-gradient(to bottom, #000 0%, #000 22%, transparent 72%);
   }
 }
 
