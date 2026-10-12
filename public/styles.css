@@ -2429,14 +2429,21 @@ span.team-dialog-photo {
 /* Die bisherige Seite zeigt hier ein Banner mit fremden Logos. Namen in
    unserer Schrift sagen dasselbe, fügen sich in die Seite und bleiben
    scharf -- und wir setzen keine Marken, die uns nicht gehören. */
+/* Eigene Fläche, damit das Band als eigener Gegenstand steht und nicht
+   als Fußnote der Zahlen darüber. Hell, weil die Zeichen schwarz sind. */
 .platforms {
   margin-top: clamp(40px, 5vh, 68px);
-  padding-top: clamp(22px, 2.4vw, 32px);
-  border-top: 1px solid var(--hair);
+  padding: clamp(24px, 2.8vw, 36px) 0;
+  border: 1px solid var(--hair);
+  border-radius: 3px;
+  background: rgb(255 255 255 / 0.72);
 }
 
 .platforms-label {
+  /* Der Streifen selbst läuft von Kante zu Kante, nur die Beschriftung
+     rückt ein. */
   margin: 0;
+  padding: 0 clamp(20px, 3vw, 40px);
   color: var(--faint);
   font-size: 11px;
   font-weight: 600;
@@ -2450,7 +2457,7 @@ span.team-dialog-photo {
    ist nicht zu sehen. Die weichen Kanten links und rechts lassen die
    Namen auftauchen und verschwinden, statt an einer Linie abzureißen. */
 .platform-marquee {
-  margin-top: 18px;
+  margin-top: clamp(18px, 2.2vw, 26px);
   overflow: hidden;
   -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
   mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
@@ -2497,7 +2504,12 @@ span.team-dialog-photo {
 .platform-logo img {
   display: block;
   width: auto;
-  height: clamp(26px, 3vw, 38px);
+  height: clamp(34px, 4.2vw, 56px);
+  /* Zusätzlich die Breite deckeln: die Schriftzüge sind verschieden lang,
+     und ohne Deckel überragt "hepsiburada" das kurze "kobo" um das
+     Dreifache. Mit contain bleibt das Seitenverhältnis erhalten. */
+  max-width: clamp(140px, 17vw, 230px);
+  object-fit: contain;
   filter: brightness(0);
   opacity: 0.78;
   transition: opacity 240ms ease;
@@ -3496,7 +3508,8 @@ span.team-dialog-photo {
 
   .platforms-list {
     flex-wrap: wrap;
-    row-gap: 10px;
+    row-gap: 14px;
+    padding: 0 clamp(20px, 3vw, 40px);
   }
 }
 
