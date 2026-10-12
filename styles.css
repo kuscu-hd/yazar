@@ -2032,24 +2032,24 @@ a {
 .page-head-photo {
   position: absolute;
   z-index: -2;
+  /* inset + margin:auto setzt das Bild in die Mitte des Kopfbereichs.
+     Hoehe fuellen, Breite daraus: so steht das Element genau auf dem
+     Bild und nicht auf der ganzen Zeile -- nur deshalb trifft die
+     seitliche Blende unten die echte Bildkante, bei jedem Motiv gleich,
+     obwohl die sechs Vorlagen unterschiedlich breit sind. */
   inset: 0;
-  width: 100%;
+  margin: auto;
   height: 100%;
-  /* contain, nicht cover: über die ganze Breite gezogen müsste die Vorlage
-     um das Anderthalbfache hochgerechnet werden, und das Motiv stünde dann
-     riesig und angeschnitten da. So steht es in seiner eigenen Größe
-     rechts neben dem Titel -- kleiner, dafür ganz zu sehen. */
+  width: auto;
+  max-width: 100%;
   object-fit: contain;
-  object-position: right center;
-  /* Zwei Verläufe, die sich schneiden: nach unten löst sich das Bild auf,
-     nach links verschwindet es vor dem Text. Dadurch braucht der Schleier
-     darüber viel weniger Deckung, und das Bild bleibt sichtbar. */
   /* Oben beginnt das Bild erst unterhalb der festen Kopfzeile: dort steht
-     das Menü, und auf einem Motiv wäre es schwer zu lesen. */
-  -webkit-mask-image: linear-gradient(to bottom, transparent 2%, #000 24%, #000 60%, transparent 97%),
-    linear-gradient(to right, transparent 4%, #000 46%);
-  mask-image: linear-gradient(to bottom, transparent 2%, #000 24%, #000 60%, transparent 97%),
-    linear-gradient(to right, transparent 4%, #000 46%);
+     das Menue, und auf einem Motiv waere es schwer zu lesen. Nach unten
+     loest es sich in die Seitenfarbe auf, seitlich ebenso. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 2%, #000 24%, #000 58%, transparent 97%),
+    linear-gradient(to right, transparent 0%, #000 13%, #000 87%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 2%, #000 24%, #000 58%, transparent 97%),
+    linear-gradient(to right, transparent 0%, #000 13%, #000 87%, transparent 100%);
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
 }
@@ -2061,9 +2061,9 @@ a {
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgb(var(--page-rgb) / 0.3) 0%,
-    rgb(var(--page-rgb) / 0.42) 50%,
-    rgb(var(--page-rgb) / 0.86) 88%,
+    rgb(var(--page-rgb) / 0.52) 0%,
+    rgb(var(--page-rgb) / 0.62) 50%,
+    rgb(var(--page-rgb) / 0.92) 88%,
     rgb(var(--page-rgb)) 100%
   );
 }
@@ -2076,6 +2076,10 @@ a {
      nebeneinander ist dort kein Platz. Das Motiv legt sich deshalb wieder
      über die ganze Breite, nur eben flach und mit dichterem Schleier. */
   .page-head-photo {
+    /* Hier füllt das Bild wieder die ganze Breite, also muss das Element
+       auch wieder so breit sein wie der Kopfbereich. */
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     object-position: center 38%;
     -webkit-mask-image: linear-gradient(to bottom, transparent 14%, #000 32%, #000 56%, transparent 90%);
