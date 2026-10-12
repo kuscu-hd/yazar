@@ -1945,6 +1945,52 @@ a {
   transition: color 200ms ease;
 }
 
+/* Mit Symbolen: sechs Felder nebeneinander, Zeichen über dem Namen --
+   wie die Reihe unter der Einleitung der bisherigen Leistungsseiten.
+   Die Zeichen sind farbig und bleiben es: sie sind der einzige Farbfleck
+   auf diesen Seiten, und schwarz eingefärbt zerfielen die Illustrationen
+   zu Klecksen. */
+.service-links-icons {
+  grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+  gap: clamp(14px, 2vw, 26px);
+}
+
+.service-links-icons a {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  padding: clamp(18px, 2.2vw, 26px) 10px;
+  border-top: 0;
+  border: 1px solid var(--hair);
+  border-radius: 3px;
+  background: rgb(255 255 255 / 0.56);
+  font-size: 0.98rem;
+  line-height: 1.3;
+  text-align: center;
+  transition: border-color 220ms ease, color 200ms ease;
+}
+
+.service-links-icons a img {
+  display: block;
+  width: clamp(44px, 5vw, 60px);
+  height: auto;
+  /* Auf der eigenen Seite tritt das Zeichen zurück. */
+  transition: opacity 220ms ease;
+}
+
+.service-links-icons a:hover {
+  border-color: var(--hair-strong);
+}
+
+.service-links-icons a[aria-current="page"] {
+  background: rgb(255 255 255 / 0.9);
+  border-color: var(--hair-strong);
+}
+
+.service-links-icons a[aria-current="page"] img {
+  opacity: 0.45;
+}
+
 .service-links a:hover {
   color: var(--accent);
 }
@@ -1972,28 +2018,60 @@ a {
   align-items: start;
 }
 
-/* Die Aufnahme am Kopf einer Leistungsseite. Sie steht in der Textspalte
-   und nicht über die ganze Breite: die Vorlagen sind nur rund 900 Pixel
-   breit, über das ganze Fenster gezogen würden sie weich. So wird nichts
-   hochgerechnet und das Bild bleibt scharf. */
-.page-hero {
-  margin: clamp(32px, 4vh, 56px) 0 0;
+/* Die Aufnahme vom Kopf der bisherigen Seite liegt hinter dem Titel und
+   läuft nach unten aus. Zwei Schichten machen das:
+   die Maske löst das Bild selbst auf, der Schleier darüber nimmt ihm so
+   viel Kraft, dass die dunkle Schrift darauf sicher zu lesen bleibt.
+   Ein Bild, das nach unten verschwindet, gehört zur Seite -- ein Kasten
+   mit harter Kante steht nur davor. */
+.page-head-has-photo {
+  isolation: isolate;
+  padding-bottom: clamp(56px, 8vh, 104px);
 }
 
-.page-hero img {
-  display: block;
+.page-head-photo {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
   width: 100%;
-  /* Flaches Band statt Postkarte: der Kopf der Seite soll nicht nach unten
-     wegrutschen. Der Ausschnitt beschneidet oben und unten, nie seitlich --
-     seitlich stünde wieder Schrift im Bild. */
-  aspect-ratio: 16 / 7;
+  height: 100%;
   object-fit: cover;
-  border-radius: 3px;
+  /* Seitlich wird nie beschnitten -- dort stünde wieder Schrift im Bild. */
+  object-position: center;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 34%, transparent 92%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 34%, transparent 92%);
 }
 
-@media (max-width: 640px) {
-  .page-hero img {
-    aspect-ratio: 3 / 2;
+.page-head-has-photo::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--page-rgb) / 0.74) 0%,
+    rgb(var(--page-rgb) / 0.82) 45%,
+    rgb(var(--page-rgb) / 0.97) 85%,
+    rgb(var(--page-rgb)) 100%
+  );
+}
+
+/* Auf dem Telefon steht der Text auf einem Sechstel der Fläche, auf der
+   er am Rechner steht -- das Motiv drängt sich dort viel stärker an die
+   Zeilen. Deshalb dichter Schleier und früheres Auslaufen. */
+@media (max-width: 760px) {
+  .page-head-has-photo::before {
+    background: linear-gradient(
+      to bottom,
+      rgb(var(--page-rgb) / 0.86) 0%,
+      rgb(var(--page-rgb) / 0.92) 40%,
+      rgb(var(--page-rgb)) 88%
+    );
+  }
+
+  .page-head-photo {
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 22%, transparent 72%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 22%, transparent 72%);
   }
 }
 

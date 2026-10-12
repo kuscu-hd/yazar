@@ -226,25 +226,25 @@
     <!-- /shell:header -->
 
     <main class="site-shell">
-      <section class="page-head" id="top">
+      <section class="page-head page-head-has-photo" id="top">
+        <!-- Die Aufnahme vom Kopf der bisherigen Seite, hier als Grund.
+             Sie trägt keine Aussage, die nicht auch im Text steht -- deshalb
+             ein leeres alt. Nach unten läuft sie über eine Maske aus; der
+             Text steht darüber. -->
+        <img
+          class="page-head-photo"
+          src="/yazar/assets/hizmetler/tasarim-ustu.webp"
+          alt=""
+          width="793"
+          height="630"
+          loading="eager"
+          decoding="async"
+        />
         <div class="wrap">
           <a class="kicker kicker-link" href="/yazar/hizmetlerimiz">Hizmetlerimiz</a>
           <h1>Tasarım</h1>
           <p class="page-tagline">Kapaktan Satıra Bütünlük</p>
           <p class="lede">Kapaktan sayfa yerleşimine kadar her tasarım öğesi kitabınızın ruhunu yansıtmalı. Okunabilirlik, estetik denge ve içerikle bütünlük içinde ilerleyen tasarım sürecimizle kitabınızın yalnızca dikkat çekici değil aynı zamanda amacına hizmet eden bir yapıya kavuşmasını sağlıyoruz.</p>
-          <!-- Die Aufnahme vom Kopf der bisherigen Seite. Genommen ist der
-               textfreie Teil: der Seitentitel steht im Original als Schrift
-               im Bild und stünde hier doppelt -- und auf den anderen
-               Sprachen falsch. -->
-          <figure class="page-hero">
-            <img
-              src="/yazar/assets/hizmetler/tasarim-ustu.webp"
-              alt="Renk kartelaları ve fotoğraflarla dolu bir ilham panosu"
-              width="793"
-              height="630"
-              loading="lazy"
-            />
-          </figure>
         </div>
       </section>
 
@@ -309,13 +309,43 @@ Yalnızca görsel çekicilik sunan değil, eserin ruhunu yansıtan, içerikle b�
       <section class="band" aria-labelledby="more-h">
         <div class="wrap">
           <h2 class="band-h" id="more-h">Hizmetlerimiz</h2>
-          <ul class="service-links">
-            <li><a href="/yazar/yazar-danismanligi">Yazar Danışmanlığı</a></li>
-            <li><a href="/yazar/editorluk-hizmetleri">Editörlük Hizmetleri</a></li>
-            <li><a href="/yazar/tasarim" aria-current="page">Tasarım</a></li>
-            <li><a href="/yazar/ceviri">Çeviri</a></li>
-            <li><a href="/yazar/basim-dagitim">Basım-Dağıtım</a></li>
-            <li><a href="/yazar/ekitap-formati">E-Kitap Formatı</a></li>
+          <ul class="service-links service-links-icons">
+            <li>
+              <a href="/yazar/yazar-danismanligi">
+                <img src="/yazar/assets/hizmetler/simge/consult.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>Yazar Danışmanlığı</span>
+              </a>
+            </li>
+            <li>
+              <a href="/yazar/editorluk-hizmetleri">
+                <img src="/yazar/assets/hizmetler/simge/editing.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>Editörlük Hizmetleri</span>
+              </a>
+            </li>
+            <li>
+              <a href="/yazar/tasarim" aria-current="page">
+                <img src="/yazar/assets/hizmetler/simge/design.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>Tasarım</span>
+              </a>
+            </li>
+            <li>
+              <a href="/yazar/ceviri">
+                <img src="/yazar/assets/hizmetler/simge/translation.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>Çeviri</span>
+              </a>
+            </li>
+            <li>
+              <a href="/yazar/basim-dagitim">
+                <img src="/yazar/assets/hizmetler/simge/print.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>Basım-Dağıtım</span>
+              </a>
+            </li>
+            <li>
+              <a href="/yazar/ekitap-formati">
+                <img src="/yazar/assets/hizmetler/simge/ebook.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>E-Kitap Formatı</span>
+              </a>
+            </li>
           </ul>
         </div>
       </section>

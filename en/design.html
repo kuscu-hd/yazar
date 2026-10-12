@@ -227,7 +227,21 @@
     <!-- /shell:header -->
 
     <main class="site-shell">
-      <section class="page-head" id="top">
+      <section class="page-head page-head-has-photo" id="top">
+        <!-- Die Aufnahme vom Kopf der bisherigen Seite, hier als Grund.
+             Sie trägt keine Aussage, die nicht auch im Text steht -- deshalb
+             ein leeres alt. Nach unten läuft sie über eine Maske aus; der
+             Text steht darüber. -->
+        <!-- EN: unreviewed -->
+        <img
+          class="page-head-photo"
+          src="/yazar/assets/hizmetler/tasarim-ustu.webp"
+          alt=""
+          width="793"
+          height="630"
+          loading="eager"
+          decoding="async"
+        />
         <div class="wrap">
           <a class="kicker kicker-link" href="/yazar/en/services">Services</a>
           <h1>Design</h1>
@@ -235,20 +249,6 @@
           <p class="page-tagline">Coherence from the cover to the line</p>
           <!-- EN: unreviewed -->
           <p class="lede">From the cover to the page layout, every element of the design should carry the spirit of your book. With a design process that joins readability, aesthetic balance and coherence with the content, we see to it that your book does not merely catch the eye but serves its purpose.</p>
-          <!-- Die Aufnahme vom Kopf der bisherigen Seite. Genommen ist der
-               textfreie Teil: der Seitentitel steht im Original als Schrift
-               im Bild und stünde hier doppelt -- und auf den anderen
-               Sprachen falsch. -->
-          <!-- EN: unreviewed -->
-          <figure class="page-hero">
-            <img
-              src="/yazar/assets/hizmetler/tasarim-ustu.webp"
-              alt="A mood board with colour swatches and photographs"
-              width="793"
-              height="630"
-              loading="lazy"
-            />
-          </figure>
         </div>
       </section>
 
@@ -321,13 +321,43 @@ We aim for designs that do not only please the eye but carry the spirit of the w
       <section class="band" aria-labelledby="more-h">
         <div class="wrap">
           <h2 class="band-h" id="more-h">Services</h2>
-          <ul class="service-links">
-          <li><a href="/yazar/en/author-consulting">Author Consulting</a></li>
-          <li><a href="/yazar/en/editing">Editing</a></li>
-          <li><a href="/yazar/en/design" aria-current="page">Design</a></li>
-          <li><a href="/yazar/en/translation">Translation</a></li>
-          <li><a href="/yazar/en/printing-and-distribution">Printing and Distribution</a></li>
-          <li><a href="/yazar/en/e-book-format">E-Book Format</a></li>
+          <ul class="service-links service-links-icons">
+            <li>
+              <a href="/yazar/en/author-consulting">
+                <img src="/yazar/assets/hizmetler/simge/consult.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>Author Consulting</span>
+              </a>
+            </li>
+            <li>
+              <a href="/yazar/en/editing">
+                <img src="/yazar/assets/hizmetler/simge/editing.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>Editing</span>
+              </a>
+            </li>
+            <li>
+              <a href="/yazar/en/design" aria-current="page">
+                <img src="/yazar/assets/hizmetler/simge/design.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>Design</span>
+              </a>
+            </li>
+            <li>
+              <a href="/yazar/en/translation">
+                <img src="/yazar/assets/hizmetler/simge/translation.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>Translation</span>
+              </a>
+            </li>
+            <li>
+              <a href="/yazar/en/printing-and-distribution">
+                <img src="/yazar/assets/hizmetler/simge/print.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>Printing and Distribution</span>
+              </a>
+            </li>
+            <li>
+              <a href="/yazar/en/e-book-format">
+                <img src="/yazar/assets/hizmetler/simge/ebook.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>E-Book Format</span>
+              </a>
+            </li>
           </ul>
         </div>
       </section>

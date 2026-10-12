@@ -227,7 +227,21 @@
     <!-- /shell:header -->
 
     <main class="site-shell">
-      <section class="page-head" id="top">
+      <section class="page-head page-head-has-photo" id="top">
+        <!-- Die Aufnahme vom Kopf der bisherigen Seite, hier als Grund.
+             Sie trägt keine Aussage, die nicht auch im Text steht -- deshalb
+             ein leeres alt. Nach unten läuft sie über eine Maske aus; der
+             Text steht darüber. -->
+        <!-- DE: unreviewed -->
+        <img
+          class="page-head-photo"
+          src="/yazar/assets/hizmetler/yazar-danismanligi-ustu.webp"
+          alt=""
+          width="860"
+          height="630"
+          loading="eager"
+          decoding="async"
+        />
         <div class="wrap">
           <a class="kicker kicker-link" href="/yazar/de/leistungen">Leistungen</a>
           <h1>Autorenberatung</h1>
@@ -235,20 +249,6 @@
           <p class="page-tagline">Auf demselben Weg wie Ihre Feder</p>
           <!-- DE: unreviewed -->
           <p class="lede">Für jede schreibende Person ist ihr Buch ein eigener Daseinsraum, die greifbarste Gestalt ihrer Arbeit, ihres Gefühls und ihrer Vorstellungskraft. Wir beobachten Ihren Schreibprozess nicht nur, wir begleiten Sie. Mit unserem persönlichen Ansatz bieten wir Ihnen auf dem Weg von der Idee zum Werk strategische, verlässliche und konstruktive Unterstützung.</p>
-          <!-- Die Aufnahme vom Kopf der bisherigen Seite. Genommen ist der
-               textfreie Teil: der Seitentitel steht im Original als Schrift
-               im Bild und stünde hier doppelt -- und auf den anderen
-               Sprachen falsch. -->
-          <!-- DE: unreviewed -->
-          <figure class="page-hero">
-            <img
-              src="/yazar/assets/hizmetler/yazar-danismanligi-ustu.webp"
-              alt="Notizbuch, Stift und eine Tasse Kaffee auf dem Tisch"
-              width="860"
-              height="630"
-              loading="lazy"
-            />
-          </figure>
         </div>
       </section>
 
@@ -314,13 +314,43 @@
       <section class="band" aria-labelledby="more-h">
         <div class="wrap">
           <h2 class="band-h" id="more-h">Leistungen</h2>
-          <ul class="service-links">
-            <li><a href="/yazar/de/autorenberatung" aria-current="page">Autorenberatung</a></li>
-            <li><a href="/yazar/de/lektorat">Lektorat</a></li>
-            <li><a href="/yazar/de/gestaltung">Gestaltung</a></li>
-            <li><a href="/yazar/de/uebersetzung">Übersetzung</a></li>
-            <li><a href="/yazar/de/druck-und-vertrieb">Druck und Vertrieb</a></li>
-            <li><a href="/yazar/de/e-book-format">E-Book-Format</a></li>
+          <ul class="service-links service-links-icons">
+            <li>
+              <a href="/yazar/de/autorenberatung" aria-current="page">
+                <img src="/yazar/assets/hizmetler/simge/consult.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>Autorenberatung</span>
+              </a>
+            </li>
+            <li>
+              <a href="/yazar/de/lektorat">
+                <img src="/yazar/assets/hizmetler/simge/editing.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>Lektorat</span>
+              </a>
+            </li>
+            <li>
+              <a href="/yazar/de/gestaltung">
+                <img src="/yazar/assets/hizmetler/simge/design.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>Gestaltung</span>
+              </a>
+            </li>
+            <li>
+              <a href="/yazar/de/uebersetzung">
+                <img src="/yazar/assets/hizmetler/simge/translation.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>Übersetzung</span>
+              </a>
+            </li>
+            <li>
+              <a href="/yazar/de/druck-und-vertrieb">
+                <img src="/yazar/assets/hizmetler/simge/print.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>Druck und Vertrieb</span>
+              </a>
+            </li>
+            <li>
+              <a href="/yazar/de/e-book-format">
+                <img src="/yazar/assets/hizmetler/simge/ebook.svg" alt="" width="64" height="64" loading="lazy" />
+                <span>E-Book-Format</span>
+              </a>
+            </li>
           </ul>
         </div>
       </section>
