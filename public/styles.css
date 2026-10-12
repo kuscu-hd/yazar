@@ -2459,8 +2459,12 @@ span.team-dialog-photo {
 .platform-marquee {
   margin-top: clamp(18px, 2.2vw, 26px);
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
-  mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+  /* Die Blende muss länger sein als ein Zeichen breit ist, sonst steht an
+     der Kante ein halb sichtbares Logo und die Fläche wirkt beschnitten
+     statt ausgelaufen. 18 Prozent sind bei 1050 Pixeln rund 190 -- etwa
+     eine Zeichenbreite. */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 18%, #000 82%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 18%, #000 82%, transparent);
 }
 
 .platform-track {
