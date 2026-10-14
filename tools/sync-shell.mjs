@@ -544,7 +544,7 @@ function header(page, lang) {
   return [
     `<header class="site-header">`,
     `  <a class="brand" href="${home}" aria-label="${attr(t.brand)}">`,
-    `    <img src="/assets/yazar_logo.png" alt="Yazardan Direkt" />`,
+    `    <img src="/assets/yazar_logo.webp" alt="Yazardan Direkt" width="480" height="156" />`,
     `  </a>`,
     ``,
     `  <nav class="nav-primary" aria-label="${attr(t.menuMain)}">`,
@@ -639,7 +639,7 @@ function footer(page, lang) {
     `  <div class="wrap">`,
     `    <div class="site-footer-top">`,
     `      <div>`,
-    `        <img class="site-footer-logo" src="/assets/yazar_logo.png" alt="Yazardan Direkt" />`,
+    `        <img class="site-footer-logo" src="/assets/yazar_logo.webp" alt="Yazardan Direkt" width="480" height="156" loading="lazy" />`,
     `        <p class="site-footer-credo">${esc(f.credo)}</p>`,
     `      </div>`,
     `      <nav class="site-footer-nav" aria-label="${attr(f.services)}">`,

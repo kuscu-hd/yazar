@@ -955,6 +955,7 @@ a {
 }
 
 .cover-swatch {
+  position: relative;
   width: 20px;
   height: 20px;
   padding: 0;
@@ -974,6 +975,27 @@ a {
   border-color: var(--ink);
   transform: scale(1.14);
   box-shadow: 0 0 0 2px var(--page), 0 0 0 3px var(--accent);
+}
+
+/* Mit dem Finger trifft man die 20 Pixel der Farbpunkte nicht zuverlässig.
+   Auf Geräten ohne Mauszeiger werden sie etwas größer, und ein unsichtbarer
+   Rahmen legt die Trefferfläche auf 38 Pixel -- so weit, wie der Abstand
+   zum Nachbarn es zulässt, ohne dass sich zwei Flächen überlappen. */
+@media (hover: none) {
+  .cover-swatches {
+    gap: 10px;
+  }
+
+  .cover-swatch {
+    width: 28px;
+    height: 28px;
+  }
+
+  .cover-swatch::after {
+    content: "";
+    position: absolute;
+    inset: -5px;
+  }
 }
 
 /* Anfassbar erst, wenn die Auswahl wirklich steht -- während der Blende
@@ -1295,6 +1317,15 @@ a {
 
 .lang-switch a:hover {
   color: var(--ink);
+}
+
+/* Dieselbe Überlegung für den Sprachumschalter: 38 x 30 ist mit der Maus
+   genug, mit dem Daumen nicht. */
+@media (hover: none) {
+  .lang-switch a {
+    min-width: 44px;
+    height: 40px;
+  }
 }
 
 .lang-switch a.is-on {

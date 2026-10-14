@@ -41,7 +41,7 @@ const ORG = {
   name: "Yazardan Direkt",
   email: "info@yazardandirekt.com",
   telephone: "+902163011213", // wie im tel:-Link der Seite
-  logo: `${ORIGIN}/assets/yazar_logo.png`,
+  logo: `${ORIGIN}/assets/yazar_logo.webp`,
   /* Anschrift und Zeiten stehen in der Fußzeile jeder Seite -- deshalb darf
      das hier stehen, ohne etwas zu behaupten, was nicht zu lesen wäre.
      Postleitzahl fehlt: sie steht nirgends, und geraten wird nicht. */
@@ -206,7 +206,7 @@ function region(page, lang, html, file) {
     for (const v of [ORG.street, ORG.locality, ORG.region, ORG.opens, ORG.closes]) {
       if (!visible.includes(v)) throw new Error(`${file}: "${v}" steht nicht auf der Seite`);
     }
-    if (!html.includes('src="/assets/yazar_logo.png"')) throw new Error(`${file}: Logo fehlt`);
+    if (!html.includes('src="/assets/yazar_logo.webp"')) throw new Error(`${file}: Logo fehlt`);
   }
   const body = toJson(graph)
     .split("\n")
