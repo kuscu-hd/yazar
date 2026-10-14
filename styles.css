@@ -1560,6 +1560,21 @@ a {
 
 /* Die Zeile zwischen Überschrift und Karten; sie soll dicht an der
    Überschrift stehen, nicht wie ein eigener Absatz wirken. */
+/* Der Einstieg unter dem Film: zwei Absätze, der erste größer. Schmaler
+   als der Rest der Seite, weil fortlaufender Text sich sonst nicht lesen
+   lässt -- 62 Zeichen je Zeile sind die Grenze, an der das Auge den
+   Zeilenanfang noch zuverlässig wiederfindet. */
+.site-intro .lede {
+  margin-top: 18px;
+}
+
+.site-intro-text {
+  margin: 16px 0 0;
+  max-width: 62ch;
+  line-height: 1.68;
+  color: var(--muted);
+}
+
 .signposts-lede {
   margin-top: 14px;
   max-width: 54ch;
