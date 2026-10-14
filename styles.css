@@ -2651,7 +2651,7 @@ span.team-dialog-photo {
 .platform-track {
   display: flex;
   width: max-content;
-  animation: platform-run 34s linear infinite;
+  animation: platform-run 62s linear infinite;
 }
 
 /* Unter dem Zeiger hält es an -- wer einen Namen lesen will, soll ihn
@@ -2695,8 +2695,12 @@ span.team-dialog-photo {
      Dreifache. Mit contain bleibt das Seitenverhältnis erhalten. */
   max-width: clamp(140px, 17vw, 230px);
   object-fit: contain;
-  filter: brightness(0);
-  opacity: 0.78;
+  /* In den eigenen Farben, nicht als schwarze Silhouette: D&R, Kırmızı
+     Kedi und das Maskottchen von Kitapyurdu sind Bildmarken mit heller
+     Schrift im farbigen Feld -- eingeschwärzt bliebe von ihnen ein Klotz.
+     Fremde Marken umzufärben ist ohnehin das, was Markenrichtlinien
+     üblicherweise untersagen. */
+  opacity: 0.92;
   transition: opacity 240ms ease;
 }
 
