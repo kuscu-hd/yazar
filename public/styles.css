@@ -2777,6 +2777,13 @@ span.team-dialog-photo {
   color: var(--faint);
 }
 
+/* Die Jahreszahl steht neben dem Monat, nicht darunter: "EKİM 2025" liest
+   sich als eine Angabe. Sie erscheint nur, wenn die Spalte "jahr" in der
+   Tabelle gefüllt ist. */
+.event-year {
+  margin-left: 0.5em;
+}
+
 .event-kind {
   margin: 0;
   color: var(--accent);

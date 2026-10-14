@@ -23,7 +23,7 @@
 
    AUFBAU DER TABELLE -- eine Zeile je Veranstaltung UND Sprache:
 
-     id | sprache | tag | monat | art | titel | wo | text
+     id | sprache | tag | monat | art | titel | wo | text | [jahr]
 
    Die id hält die drei Sprachfassungen einer Veranstaltung zusammen; in
    welcher Reihenfolge die ids zuerst auftauchen, in der stehen sie auf der
@@ -31,9 +31,15 @@
    auf der eine Veranstaltung fehlt, wäre schlimmer als ein geplatzter Bau.
    Netlify behält bei einem Fehlschlag die zuletzt gelungene Fassung online.
 
-   Jahreszahlen trägt der Abschnitt bewusst nicht -- sie standen auch auf der
-   bisherigen Seite nicht und sind nicht bestätigt. Eine Spalte dafür wäre
-   später leicht ergänzt.
+   Die Reihenfolge der Spalten ist gleichgültig, gelesen wird nach Namen.
+   "jahr" darf fehlen oder leer bleiben; dann steht wie bisher nur der Monat
+   da. Weitere Spalten in der Tabelle stören nicht, sie werden übergangen.
+
+   Drei Zeilen sind besonders: id = "kopf" trägt keine Veranstaltung, sondern
+   die Überschrift des Abschnitts -- "art" ist die kleine Zeile darüber,
+   "titel" die Überschrift. Fehlen sie, gelten die Vorgaben weiter unten.
+
+     kopf | de |  |  | Veranstaltungen | Begegnungen mit unseren Lesenden |  |
 
    Dieses Skript liegt außerhalb von public/ und wird nicht veröffentlicht.
    ===================================================================== */
@@ -61,6 +67,25 @@ const TARGETS = [
 
 const LANGS = ["tr", "de", "en"];
 const COLUMNS = ["id", "sprache", "tag", "monat", "art", "titel", "wo", "text"];
+
+/* "jahr" muss nicht in der Tabelle stehen. Steht die Spalte da und ist
+   gefüllt, erscheint die Jahreszahl hinter dem Monat; bleibt sie leer,
+   sieht die Seite aus wie bisher. Die Zahl gehört zur Veranstaltung, nicht
+   zur Sprache -- es genügt also, sie in einer der drei Zeilen zu schreiben,
+   und sie gilt für alle drei. */
+const OPTIONAL = ["jahr"];
+
+/* Kicker und Überschrift des Abschnitts. Steht in der Tabelle eine Zeile
+   mit der id "kopf", gilt deren "art" als Kicker und deren "titel" als
+   Überschrift; fehlt sie, bleibt es bei diesen Vorgaben -- denselben
+   Texten, die vorher im HTML standen. Für die Kopfzeile gelten die
+   Pflichtfelder tag, monat, wo und text nicht. */
+const HEAD_ID = "kopf";
+const HEADINGS = {
+  tr: { kicker: "Etkinlikler", titel: "Yazar-Okur Buluşmaları" },
+  de: { kicker: "Veranstaltungen", titel: "Begegnungen mit unseren Lesenden" },
+  en: { kicker: "Events", titel: "Meetings with our readers" },
+};
 
 /* ---------- CSV lesen ----------
    Eigener Leser statt einer Abhängigkeit: das Projekt hat keine
@@ -98,23 +123,43 @@ function readTable(text, herkunft) {
       throw new Error(`${herkunft}: die Spalte "${col}" fehlt. Erwartet: ${COLUMNS.join(", ")}`);
     }
   }
-  const idx = Object.fromEntries(COLUMNS.map((c) => [c, head.indexOf(c)]));
+  const idx = Object.fromEntries([...COLUMNS, ...OPTIONAL].map((c) => [c, head.indexOf(c)]));
   const events = new Map();
+  const jahre = new Map();
+  const kopf = {};
   const order = [];
   rows.slice(1).forEach((r, n) => {
     const zeile = n + 2; // Kopfzeile ist Zeile 1
-    const get = (c) => (r[idx[c]] ?? "").trim();
+    const get = (c) => (idx[c] < 0 ? "" : (r[idx[c]] ?? "")).trim();
     const id = get("id");
     const lang = get("sprache").toLowerCase();
     if (!id) throw new Error(`${herkunft}, Zeile ${zeile}: die Spalte "id" ist leer`);
     if (!LANGS.includes(lang)) {
       throw new Error(`${herkunft}, Zeile ${zeile}: "${get("sprache")}" ist keine der Sprachen ${LANGS.join(", ")}`);
     }
+    if (id === HEAD_ID) {
+      for (const c of ["art", "titel"]) {
+        if (!get(c)) throw new Error(`${herkunft}, Zeile ${zeile} (${HEAD_ID}/${lang}): die Spalte "${c}" ist leer`);
+      }
+      kopf[lang] = { kicker: get("art"), titel: get("titel") };
+      return;
+    }
     for (const c of ["tag", "monat", "art", "titel", "wo", "text"]) {
       if (!get(c)) throw new Error(`${herkunft}, Zeile ${zeile} (${id}/${lang}): die Spalte "${c}" ist leer`);
     }
     if (!events.has(id)) { events.set(id, {}); order.push(id); }
     if (events.get(id)[lang]) throw new Error(`${herkunft}, Zeile ${zeile}: ${id}/${lang} steht zweimal in der Tabelle`);
+    const jahr = get("jahr");
+    if (jahr) {
+      if (!/^\d{4}$/.test(jahr)) {
+        throw new Error(`${herkunft}, Zeile ${zeile} (${id}): "${jahr}" ist keine vierstellige Jahreszahl`);
+      }
+      const bekannt = jahre.get(id);
+      if (bekannt && bekannt !== jahr) {
+        throw new Error(`${herkunft}, Zeile ${zeile}: zu "${id}" stehen zwei verschiedene Jahre (${bekannt} und ${jahr})`);
+      }
+      jahre.set(id, jahr);
+    }
     events.get(id)[lang] = {
       tag: get("tag"), monat: get("monat"), art: get("art"),
       titel: get("titel"), wo: get("wo"), text: get("text"),
@@ -125,7 +170,8 @@ function readTable(text, herkunft) {
     if (fehlt.length) throw new Error(`${herkunft}: zu "${id}" fehlt die Zeile für ${fehlt.join(" und ")}`);
   }
   if (!order.length) throw new Error(`${herkunft}: keine einzige Veranstaltung gefunden`);
-  return { order, events };
+  for (const l of LANGS) if (!kopf[l]) kopf[l] = HEADINGS[l];
+  return { order, events, jahre, kopf };
 }
 
 /* ---------- Quelle wählen ---------- */
@@ -166,15 +212,21 @@ async function load() {
 /* ---------- Block bauen ---------- */
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-function block({ order, events }, lang) {
-  const lines = ['<ol class="events">'];
+function block({ order, events, jahre, kopf }, lang) {
+  const lines = [
+    `<p class="kicker">${esc(kopf[lang].kicker)}</p>`,
+    `<h2 class="band-h" id="events-h">${esc(kopf[lang].titel)}</h2>`,
+    '<ol class="events">',
+  ];
   for (const id of order) {
     const e = events.get(id)[lang];
     lines.push(
       "  <li>",
       '    <p class="event-date">',
       `      <span class="event-day">${esc(e.tag)}</span>`,
-      `      <span class="event-month">${esc(e.monat)}</span>`,
+      jahre.get(id)
+        ? `      <span class="event-month">${esc(e.monat)}<span class="event-year">${esc(jahre.get(id))}</span></span>`
+        : `      <span class="event-month">${esc(e.monat)}</span>`,
       "    </p>",
       '    <div class="event-say">',
       `      <p class="event-kind">${esc(e.art)}</p>`,
