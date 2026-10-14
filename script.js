@@ -267,7 +267,7 @@
      gleichgueltig. "label" nennt das data-Attribut an .cover-pick, in dem
      die Beschriftung in der Sprache der Seite steht. */
   const COVER_LOGOS = [
-    { src: "/yazar/assets/yazar_logo.png", label: "labelBrand" },
+    { src: "/yazar/assets/yazar_logo.webp", label: "labelBrand" },
     { text: true, label: "labelOwn" },
   ];
 
