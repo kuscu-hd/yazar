@@ -3,10 +3,17 @@
 # Repository -- tools/, dev-server.mjs, Notizen -- bleibt damit außen vor,
 # und zwar auch alles, was später dazukommt.
 #
-# Kein Bauschritt: die Dateien in public/ gehen so raus, wie sie hier
-# liegen. _redirects, _headers, robots.txt, sitemap.xml und 404.html
+# Ein einziger Bauschritt: build-events.mjs holt die Veranstaltungen aus
+# der veröffentlichten Google-Tabelle (EVENTS_CSV_URL in den Netlify-
+# Einstellungen) und schreibt sie in die sechs Seiten, die den Abschnitt
+# tragen. Ist die Adresse nicht gesetzt oder Google nicht erreichbar, gilt
+# content/events.csv aus dem Repository -- gebaut wird dann trotzdem.
+#
+# Sonst keine Verarbeitung: die Dateien in public/ gehen so raus, wie sie
+# hier liegen. _redirects, _headers, robots.txt, sitemap.xml und 404.html
 # müssen deshalb IN public/ liegen, sonst greifen sie nicht.
 # =====================================================================
 
 [build]
   publish = "public"
+  command = "node tools/build-events.mjs"
