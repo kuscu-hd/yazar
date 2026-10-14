@@ -2651,7 +2651,7 @@ span.team-dialog-photo {
 .platform-track {
   display: flex;
   width: max-content;
-  animation: platform-run 62s linear infinite;
+  animation: platform-run 56s linear infinite;
 }
 
 /* Unter dem Zeiger hält es an -- wer einen Namen lesen will, soll ihn
