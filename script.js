@@ -1322,9 +1322,36 @@
     }
   }
 
+  /* Geholt wird erst, wenn jemand anfängt zu scrollen -- also wenn er den
+     Film überhaupt sehen will. Wer die Startseite nur kurz ansieht, zahlt
+     die 7,8 MB der vier Abschnitte nie. Zeit genug bleibt trotzdem: die
+     ersten Scrollbewegungen laufen noch durch den Loop, erst danach wird
+     step1 gebraucht.
+
+     Bei eingeschaltetem Datensparmodus und in langsamen Netzen bleibt es
+     ganz aus; dort lädt jedes Video selbst, wenn es an der Reihe ist. */
   if (clipVideos.length > 1) {
-    if (document.readyState === "complete") warmClips();
-    else window.addEventListener("load", warmClips, { once: true });
+    const net = navigator.connection || {};
+    const thrifty = net.saveData === true || /(^|-)2g$/.test(net.effectiveType || "");
+    if (!thrifty) {
+      const once = { once: true, passive: true };
+      let warmed = false;
+      const go = () => {
+        if (warmed) return;
+        warmed = true;
+        window.removeEventListener("wheel", go);
+        window.removeEventListener("touchstart", go);
+        window.removeEventListener("scroll", go);
+        window.removeEventListener("keydown", go);
+        warmClips();
+      };
+      window.addEventListener("wheel", go, once);
+      window.addEventListener("touchstart", go, once);
+      window.addEventListener("scroll", go, once);
+      window.addEventListener("keydown", go, once);
+      // Wer gar nichts tut, aber bleibt: nach zwölf Sekunden still nachladen.
+      setTimeout(go, 12000);
+    }
   }
 
   buildProgressMarks();
