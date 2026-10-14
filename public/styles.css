@@ -2704,8 +2704,23 @@ span.team-dialog-photo {
   transition: opacity 240ms ease;
 }
 
-.platform-logo img:hover {
+/* Jedes Zeichen führt zur Startseite des Händlers. Der Verweis legt sich
+   um das Bild, nicht um das li: so bleibt die Trefferfläche genau das
+   Zeichen und nicht der Abstand daneben. In einem neuen Reiter, weil der
+   Weg hier aus der Seite heraus zu einem fremden Haus führt. */
+.platform-logo a {
+  display: block;
+  border-radius: 4px;
+}
+
+.platform-logo a:hover img,
+.platform-logo a:focus-visible img {
   opacity: 1;
+}
+
+.platform-logo a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
 }
 
 .platforms-list li {
