@@ -160,9 +160,6 @@ const META = {
   },
 };
 
-/* Vorläufige Nummern -- noch nicht bestätigt. Beide stehen nur hier. */
-const MOBILE = { tel: "+905333568256", show: "+90 533 356 8256" };
-
 /* Die Anschrift, bestätigt am 5. Oktober 2026. ACHTUNG: in den Rechtstexten
    steht eine andere ("İstasyon Yolu Sokak No:3"); die bleibt dort unberührt
    und weiter als UNCONFIRMED markiert, bis jemand sagt, welche von beiden
@@ -192,7 +189,6 @@ const SHARE = {
   locale: { tr: "tr_TR", de: "de_DE", en: "en_GB" },
 };
 const WHATSAPP = "https://wa.me/905398225698?text=Merhaba%2C%20destek%20almak%20istiyorum.";
-const PROVISIONAL = "<!-- PROVISIONAL: number not yet confirmed -->";
 
 const EXTERNAL = {
   shop: "https://heryerdekitap.com",
@@ -660,8 +656,6 @@ function footer(page, lang) {
     `      <div class="site-footer-nav">`,
     `        <p class="site-footer-head">${esc(f.reach)}</p>`,
     `        <a href="tel:+902163011213">+90-0216-301-1213</a>`,
-    `        ${PROVISIONAL}`,
-    `        <a href="tel:${MOBILE.tel}">${MOBILE.show}</a>`,
     `        <a href="mailto:info@yazardandirekt.com">info@yazardandirekt.com</a>`,
     // Anschrift und Zeiten auf jeder Seite: so steht überall dasselbe, und
     // die strukturierten Daten behaupten nichts, was nicht zu lesen wäre.
@@ -669,7 +663,6 @@ function footer(page, lang) {
     `          ${esc(ADDRESS.street)}<br />${esc(ADDRESS.city)}`,
     `        </address>`,
     `        <p class="site-footer-hours">${esc(HOURS[lang])}</p>`,
-    `        ${PROVISIONAL}`,
     ...(lang === "tr" ? [] : [`        <!-- ${lang.toUpperCase()}: unreviewed -->`]),
     `        <a class="whatsapp-link" href="${attr(WHATSAPP)}" rel="noopener">`,
     `          ${WA_ICON}`,
