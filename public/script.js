@@ -154,32 +154,47 @@
      yazarQuads() eingeben -- dann werden beide Flächen umrandet.
      =================================================================== */
 
+  /* Die Werte sind an der Silhouette im ersten Bild von step4 ausgemessen,
+     nicht geschätzt: dunkle Fläche gegen hellen Grund abgeschwellt, je Spalte
+     der lange Lauf genommen (der kurze darüber ist die Oberkante über dem
+     Papierschnitt). Die Falzrille liegt bei x=322 -- quer gemessen fällt die
+     Helligkeit dort auf 1 von 255, während der helle Falzwulst daneben bei
+     x=317 auf 71 steigt und der Deckel bei 53 liegt.
+
+     Beide Flächen teilen sich die Naht x=322, y=85 bis y=474. Teilten sie
+     sie nicht, bliebe dort eine Haarlinie ungefärbt. */
+
   // Vorderdeckel: die ganze Lederfläche rechts der Falzrille. Der neue Band
   // hat keine Goldbordüre mehr, die Fläche geht also bis an die Silhouette.
-  // Gemessen: 322,86 / 483,44 / 481,407 / 322,476
+  // Gemessen: 322,85 / 482,45 / 479,403 / 322,474
   const COVER_QUAD = {
-    tl: [0.4193, 0.1680],
-    tr: [0.6289, 0.0859],
-    br: [0.6263, 0.7949],
-    bl: [0.4193, 0.9297],
+    tl: [0.4193, 0.1660],
+    tr: [0.6276, 0.0879],
+    br: [0.6237, 0.7871],
+    bl: [0.4193, 0.9258],
   };
 
   // Buchrücken, die linke Seitenfläche. Rechts bis an die Falzrille,
   // links an die Silhouette.
-  // Gemessen: 256,72 / 322,86 / 322,476 / 260,453
+  // Gemessen: 255,79 / 322,85 / 322,474 / 261,466
   const COVER_SPINE_QUAD = {
-    tl: [0.3333, 0.1406],
-    tr: [0.4193, 0.1680],
-    br: [0.4193, 0.9297],
-    bl: [0.3385, 0.8848],
+    tl: [0.3320, 0.1543],
+    tr: [0.4193, 0.1660],
+    br: [0.4193, 0.9258],
+    bl: [0.3398, 0.9102],
   };
 
-  /* Feinjustierung. Die Vierecke liegen auf der Kante, und außerhalb davon
-     ist jetzt heller Grund statt Schwarz -- ein Überstand würde also sofort
-     auffallen. Deshalb keine Aufweitung mehr, sondern eher ein Hauch nach
-     innen; die weiche Maske im CSS fängt die gerundeten Ecken ab. */
-  const COVER_GROW = 0.99;
-  const COVER_SPINE_GROW = 0.97;
+  /* Feinjustierung. Früher standen hier 0,99 und 0,97, ein Hauch nach innen,
+     weil die Ecken noch nicht genau saßen. Jetzt sitzen sie, und das
+     Zusammenziehen war genau das, was die Ränder offenließ: an der Naht eine
+     Haarlinie, an der linken Rückenkante zwei bis drei Pixel und am Fuß ein
+     Keil. Ohne Verkleinerung sind 99,2 Prozent der Lederfläche gedeckt, bei
+     49 Pixeln Überstand -- die fängt die weiche Maske im CSS ab.
+
+     Was bleibt, ist der Fuß: er ist gerundet, und ein Viereck kann einer
+     Rundung nicht folgen. Dort fehlen noch wenige Pixel. */
+  const COVER_GROW = 1;
+  const COVER_SPINE_GROW = 1;
   /* Der Rücken liegt im Schatten und ist fast reines Schwarz (gemessen: 5 von
      255, der Deckel liegt bei 50). Die Aufhellung der Ledertöne allein käme
      dort nicht an, deshalb bekommt er einen eigenen Vorfaktor. Viel höher
