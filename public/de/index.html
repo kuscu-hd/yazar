@@ -310,6 +310,41 @@ Ihr Logo</span></div>
               <article class="copy-block copy-block-lead" data-in="-500" data-out="1150">
                 <h1>VERLAGSARBEIT<br />JENSEITS DES<br />ÜBLICHEN</h1>
                 <p class="copy-lede">Jede Autorin, jeder Autor geht in einem eigenen Rhythmus voran. Yazardan Direkt hört diesem Rhythmus zu.</p>
+                <!-- Kurzer Kontakt direkt unter dem Titel. Nur E-Mail und ein
+                     paar Zeilen -- wer mehr sagen will, findet auf /de/kontakt
+                     das vollständige Formular. Geht an dieselbe Stelle wie
+                     alle anderen, zu erkennen am Feld "sayfa". -->
+                <form
+                  class="hero-cta"
+                  name="hizli-iletisim"
+                  method="POST"
+                  action="/de/danke"
+                  data-netlify="true"
+                  netlify-honeypot="bot-field"
+                  data-msg-required="Bitte füllen Sie dieses Feld aus."
+                  data-msg-email="Bitte geben Sie eine gültige E-Mail-Adresse ein."
+                  data-msg-consent="Bitte setzen Sie das Häkchen, um fortzufahren."
+                >
+                  <input type="hidden" name="sayfa" value="/de/" />
+                  <p class="form-honeypot" aria-hidden="true">
+                    <label>Dieses Feld bitte leer lassen: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+                  </p>
+                  <div class="hero-cta-row">
+                    <label class="hero-cta-field">
+                      <span class="visually-hidden">Ihre E-Mail-Adresse</span>
+                      <input type="email" name="email" autocomplete="email" placeholder="Ihre E-Mail-Adresse" required />
+                    </label>
+                    <button type="submit">Senden</button>
+                  </div>
+                  <label class="hero-cta-field">
+                    <span class="visually-hidden">Ihre kurze Nachricht</span>
+                    <textarea name="mesaj" rows="2" maxlength="400" placeholder="Ihre kurze Nachricht"></textarea>
+                  </label>
+                  <label class="hero-cta-consent">
+                    <input type="checkbox" name="onay" value="evet" required />
+                    <span>Ich habe die <a href="/de/datenschutzhinweise" target="_blank" rel="noopener">Datenschutzhinweise</a> gelesen und bin einverstanden, dass meine Angaben verarbeitet werden.</span>
+                  </label>
+                </form>
               </article>
 
               <article class="copy-block" data-in="1150" data-out="2400">

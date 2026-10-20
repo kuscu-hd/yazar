@@ -1196,6 +1196,121 @@ a {
   color: var(--accent);
 }
 
+/* Nur für Vorleseprogramme: die Beschriftung der beiden Felder im
+   Titelblock. Sichtbar steht sie als placeholder im Feld, aber ein
+   placeholder allein ist keine Beschriftung -- er verschwindet beim
+   Tippen und wird nicht überall vorgelesen. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* KURZER KONTAKT IM TITELBLOCK.
+   Die Textspalte ist als Ganzes nicht anfassbar (.copy-rail hat
+   pointer-events: none, damit man durch den Text hindurch das Video
+   greifen kann). Das Formular muss sich das einzeln zurückholen. */
+.hero-cta {
+  pointer-events: auto;
+  display: grid;
+  gap: 10px;
+  margin-top: 26px;
+  max-width: 420px;
+}
+
+.hero-cta-row {
+  display: flex;
+  gap: 8px;
+}
+
+.hero-cta-field {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.hero-cta input[type="email"],
+.hero-cta textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid rgb(22 18 26 / 0.18);
+  border-radius: 10px;
+  /* Nicht ganz deckend: darunter läuft der Film weiter, und ein weißer
+     Kasten stünde wie ein Fremdkörper darauf. */
+  background: rgb(255 255 255 / 0.82);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.hero-cta textarea {
+  resize: vertical;
+  min-height: 62px;
+}
+
+.hero-cta input[type="email"]:focus-visible,
+.hero-cta textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  background: #fff;
+}
+
+.hero-cta button {
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 200ms ease, transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-cta button:hover {
+  filter: brightness(1.08);
+}
+
+.hero-cta-consent {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.hero-cta-consent input {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  accent-color: var(--accent);
+}
+
+.hero-cta-consent a {
+  color: inherit;
+}
+
+@media (max-width: 860px) {
+  .hero-cta {
+    margin-top: 18px;
+    max-width: none;
+  }
+
+  .hero-cta textarea {
+    min-height: 52px;
+  }
+}
+
 .copy-link {
   position: relative;
   display: inline-flex;

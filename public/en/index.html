@@ -310,6 +310,41 @@ Your logo</span></div>
               <article class="copy-block copy-block-lead" data-in="-500" data-out="1150">
                 <h1>PUBLISHING<br />BEYOND THE<br />ORDINARY</h1>
                 <p class="copy-lede">Every author moves at a rhythm of their own. Yazardan Direkt listens to that rhythm.</p>
+                <!-- Kurzer Kontakt direkt unter dem Titel. Nur E-Mail und ein
+                     paar Zeilen -- wer mehr sagen will, findet auf /en/contact
+                     das vollständige Formular. Geht an dieselbe Stelle wie
+                     alle anderen, zu erkennen am Feld "sayfa". -->
+                <form
+                  class="hero-cta"
+                  name="hizli-iletisim"
+                  method="POST"
+                  action="/en/thank-you"
+                  data-netlify="true"
+                  netlify-honeypot="bot-field"
+                  data-msg-required="Please fill in this field."
+                  data-msg-email="Please enter a valid e-mail address."
+                  data-msg-consent="Please tick the box to continue."
+                >
+                  <input type="hidden" name="sayfa" value="/en/" />
+                  <p class="form-honeypot" aria-hidden="true">
+                    <label>Please leave this field empty: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+                  </p>
+                  <div class="hero-cta-row">
+                    <label class="hero-cta-field">
+                      <span class="visually-hidden">Your e-mail address</span>
+                      <input type="email" name="email" autocomplete="email" placeholder="Your e-mail address" required />
+                    </label>
+                    <button type="submit">Send</button>
+                  </div>
+                  <label class="hero-cta-field">
+                    <span class="visually-hidden">Your short message</span>
+                    <textarea name="mesaj" rows="2" maxlength="400" placeholder="Your short message"></textarea>
+                  </label>
+                  <label class="hero-cta-consent">
+                    <input type="checkbox" name="onay" value="evet" required />
+                    <span>I have read the <a href="/aydinlatma-metni" hreflang="tr" target="_blank" rel="noopener">data protection notice</a> (in Turkish) and agree that my details may be processed.</span>
+                  </label>
+                </form>
               </article>
 
               <article class="copy-block" data-in="1150" data-out="2400">

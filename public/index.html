@@ -309,6 +309,41 @@ burada olabilir</span></div>
               <article class="copy-block copy-block-lead" data-in="-500" data-out="1150">
                 <h1>STANDARTLARIN<br />ÖTESİNDE<br />YAYINCILIK</h1>
                 <p class="copy-lede">Her yazar, kendine ait bir ritimle ilerler. Yazardan Direkt, bu ritme kulak verir.</p>
+                <!-- Kurzer Kontakt direkt unter dem Titel. Nur E-Mail und ein
+                     paar Zeilen -- wer mehr sagen will, findet auf /iletisim
+                     das vollständige Formular. Geht an dieselbe Stelle wie
+                     alle anderen, zu erkennen am Feld "sayfa". -->
+                <form
+                  class="hero-cta"
+                  name="hizli-iletisim"
+                  method="POST"
+                  action="/tesekkurler"
+                  data-netlify="true"
+                  netlify-honeypot="bot-field"
+                  data-msg-required="Lütfen bu alanı doldurun."
+                  data-msg-email="Lütfen geçerli bir e-posta adresi girin."
+                  data-msg-consent="Devam etmek için lütfen onay kutusunu işaretleyin."
+                >
+                  <input type="hidden" name="sayfa" value="/" />
+                  <p class="form-honeypot" aria-hidden="true">
+                    <label>Bu alanı boş bırakın: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+                  </p>
+                  <div class="hero-cta-row">
+                    <label class="hero-cta-field">
+                      <span class="visually-hidden">E-posta adresiniz</span>
+                      <input type="email" name="email" autocomplete="email" placeholder="E-posta adresiniz" required />
+                    </label>
+                    <button type="submit">Gönder</button>
+                  </div>
+                  <label class="hero-cta-field">
+                    <span class="visually-hidden">Kısa mesajınız</span>
+                    <textarea name="mesaj" rows="2" maxlength="400" placeholder="Kısa mesajınız"></textarea>
+                  </label>
+                  <label class="hero-cta-consent">
+                    <input type="checkbox" name="onay" value="evet" required />
+                    <span><a href="/aydinlatma-metni" target="_blank" rel="noopener">Aydınlatma Metni</a>'ni okudum, kişisel verilerimin işlenmesini kabul ediyorum.</span>
+                  </label>
+                </form>
               </article>
 
               <article class="copy-block" data-in="1150" data-out="2400">
