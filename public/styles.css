@@ -1196,119 +1196,93 @@ a {
   color: var(--accent);
 }
 
-/* Nur für Vorleseprogramme: die Beschriftung der beiden Felder im
-   Titelblock. Sichtbar steht sie als placeholder im Feld, aber ein
-   placeholder allein ist keine Beschriftung -- er verschwindet beim
-   Tippen und wird nicht überall vorgelesen. */
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-/* KURZER KONTAKT IM TITELBLOCK.
-   Die Textspalte ist als Ganzes nicht anfassbar (.copy-rail hat
-   pointer-events: none, damit man durch den Text hindurch das Video
-   greifen kann). Das Formular muss sich das einzeln zurückholen. */
-.hero-cta {
+/* KURZER KONTAKT -- Knopf im Titelblock, Formular im Dialog.
+   Im Titel selbst stand das Formular zunächst offen; es trug aber einen
+   weißen Kasten mitten in den Film und passte nicht zur Seite. Jetzt
+   steht dort nur der Knopf im Stil der übrigen, und das Formular kommt
+   erst auf Klick. */
+.copy-block button {
   pointer-events: auto;
-  display: grid;
-  gap: 10px;
-  margin-top: 26px;
-  max-width: 420px;
 }
 
-.hero-cta-row {
-  display: flex;
-  gap: 8px;
-}
-
-.hero-cta-field {
-  display: block;
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-.hero-cta input[type="email"],
-.hero-cta textarea {
-  width: 100%;
-  padding: 11px 14px;
-  border: 1px solid rgb(22 18 26 / 0.18);
-  border-radius: 10px;
-  /* Nicht ganz deckend: darunter läuft der Film weiter, und ein weißer
-     Kasten stünde wie ein Fremdkörper darauf. */
-  background: rgb(255 255 255 / 0.82);
-  color: var(--ink);
-  font: inherit;
-  font-size: 0.95rem;
-  line-height: 1.45;
-}
-
-.hero-cta textarea {
-  resize: vertical;
-  min-height: 62px;
-}
-
-.hero-cta input[type="email"]:focus-visible,
-.hero-cta textarea:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
-  background: #fff;
-}
-
-.hero-cta button {
-  flex: 0 0 auto;
-  min-height: 44px;
-  padding: 0 22px;
+button.copy-link {
   border: 0;
-  border-radius: 10px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* Dunkel wie die Biografie-Dialoge auf der Hakkımızda-Seite -- dieselbe
+   Art Fenster, also dasselbe Aussehen. Das trägt noch etwas anderes: die
+   Formularstile der Kontaktseite (.contact-form) sind durchweg für
+   dunklen Grund geschrieben und greifen hier unverändert. Auf hellem
+   Grund waren Beschriftungen und Rahmen schlicht unsichtbar. */
+.cta-dialog {
+  width: min(560px, calc(100vw - 32px));
+  max-height: min(88vh, 760px);
+  padding: 0;
+  overflow: visible;
+  border: 1px solid var(--hair-on-dark);
+  border-radius: 6px;
+  background: #14101a;
+  color: var(--ink-on-dark);
+}
+
+.cta-dialog::backdrop {
+  background: rgb(10 8 12 / 0.62);
+  backdrop-filter: blur(3px);
+}
+
+.cta-dialog-inner {
+  position: relative;
+  max-height: inherit;
+  padding: clamp(26px, 4vw, 42px);
+  overflow-y: auto;
+}
+
+.cta-dialog-close {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-content: center;
+  border: 1px solid var(--hair-on-dark);
+  border-radius: 999px;
+  background: #14101a;
+  color: var(--ink-on-dark);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 200ms ease, color 200ms ease;
+}
+
+.cta-dialog-close:hover {
   background: var(--accent);
   color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: filter 200ms ease, transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.hero-cta button:hover {
-  filter: brightness(1.08);
+.cta-dialog .kicker {
+  color: var(--gold);
 }
 
-.hero-cta-consent {
-  display: flex;
-  gap: 9px;
-  align-items: flex-start;
-  font-size: 12px;
-  line-height: 1.45;
-  color: var(--muted);
+.cta-dialog-title {
+  margin: 10px 0 0;
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-weight: 400;
+  line-height: 1.12;
 }
 
-.hero-cta-consent input {
-  flex: 0 0 auto;
-  width: 16px;
-  height: 16px;
-  margin-top: 2px;
-  accent-color: var(--accent);
+.cta-dialog-lead {
+  margin: 12px 0 0;
+  max-width: 46ch;
+  line-height: 1.6;
+  color: var(--muted-on-dark);
 }
 
-.hero-cta-consent a {
-  color: inherit;
-}
-
-@media (max-width: 860px) {
-  .hero-cta {
-    margin-top: 18px;
-    max-width: none;
-  }
-
-  .hero-cta textarea {
-    min-height: 52px;
-  }
+.cta-form {
+  margin-top: 24px;
 }
 
 .copy-link {
