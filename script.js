@@ -811,11 +811,29 @@
     }
   }
 
+  /* Im Titelblock steht ein Formular. Blendete der Block aus, während
+     jemand darin schreibt, verlöre das Feld den Fokus und die nächsten
+     Tastenanschläge gingen ins Leere -- geschrieben wäre weiter nichts
+     verloren, aber man tippt gegen eine unsichtbare Wand. Solange der
+     Fokus drinsteht, bleibt der Block deshalb stehen. */
+  function haeltFokus(block) {
+    const form = block.querySelector("form");
+    return !!form && form.contains(document.activeElement);
+  }
+
   function updateCopy(scroll) {
     for (const block of copyBlocks) {
       const from = Number(block.dataset.in);
       const to = Number(block.dataset.out);
       if (!Number.isFinite(from) || !Number.isFinite(to)) continue;
+
+      if (haeltFokus(block)) {
+        block.style.opacity = "1";
+        block.style.setProperty("--copy-y", "0px");
+        block.style.visibility = "visible";
+        block.classList.add("is-in");
+        continue;
+      }
 
       const enter = smoothstep(from, from + COPY_FADE, scroll);
       const exit = smoothstep(to - COPY_FADE, to, scroll);
