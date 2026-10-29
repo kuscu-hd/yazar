@@ -3858,7 +3858,9 @@ span.team-dialog-photo {
   .cover-panel.is-mobile-layer {
     position: fixed;
     z-index: 7;
-    top: calc(var(--copy-header-y) + var(--copy-stage-y, 0px));
+    /* The mobile header is 88px tall. Keep the palette 8px below it:
+       an initial layout measurement or scroll offset must not move it. */
+    top: 96px;
     bottom: auto;
     left: 16px;
     right: 16px;

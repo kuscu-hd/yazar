@@ -50,7 +50,6 @@
     for (const { node } of mobileLayerAnchors) {
       node.style.setProperty("--copy-unit", `${height / 100}px`);
       node.style.setProperty("--copy-anchor-y", `${Math.floor(height - Math.max(24, height * 0.07) - safeBottom)}px`);
-      node.style.setProperty("--copy-header-y", `${document.querySelector(".site-header").offsetHeight + 8}px`);
     }
     copyRail.classList.toggle("is-short-copy", height <= 700);
     copyRail.classList.toggle("is-landscape-copy", window.innerWidth > height);
@@ -60,8 +59,8 @@
     if (!mobileCopy.matches || !copyRail || !coverPanel) return;
     const distance = window.scrollY - section.offsetTop;
     const leave = Math.min(0, section.offsetHeight - stage.offsetHeight - distance);
+    copyRail.style.setProperty("--copy-stage-y", `${leave}px`);
     for (const { node } of mobileLayerAnchors) {
-      node.style.setProperty("--copy-stage-y", `${leave}px`);
       node.classList.toggle("is-offstage", distance >= section.offsetHeight || distance < -window.innerHeight);
     }
     copyRail.classList.toggle("is-cover-chapter", scroll >= 2400 && scroll < 3750);
