@@ -16,6 +16,57 @@
   const coverPick = document.querySelector(".cover-pick");
   const coverLabel = document.querySelector(".cover-label");
   const coverDots = document.querySelector(".cover-dots");
+  const copyRail = document.querySelector(".copy-rail");
+  const coverPanel = document.querySelector(".cover-panel");
+  const mobileLayerAnchors = [copyRail, coverPanel].filter(Boolean).map((node) => {
+    const anchor = document.createComment("original book layer position");
+    node.before(anchor);
+    return { node, anchor };
+  });
+  let mobileAnchorWidth = 0;
+
+  function placeMobileCopyLayers() {
+    if (!section) return;
+    for (const { node, anchor } of mobileLayerAnchors) {
+      if (mobileCopy.matches && !node.classList.contains("is-mobile-layer")) {
+        section.parentElement.append(node);
+        node.classList.add("is-mobile-layer");
+      } else if (!mobileCopy.matches && node.classList.contains("is-mobile-layer")) {
+        anchor.after(node);
+        node.classList.remove("is-mobile-layer", "is-offstage", "is-cover-chapter");
+      }
+    }
+    if (!mobileCopy.matches) { mobileAnchorWidth = 0; return; }
+    if (mobileAnchorWidth === window.innerWidth) return;
+    mobileAnchorWidth = window.innerWidth;
+    // Measure the small viewport once per orientation/width. Safari's
+    // expanding browser bars must not keep moving the text anchor.
+    const probe = document.createElement("div");
+    probe.style.cssText = "position:fixed;height:100svh;width:0;box-sizing:border-box;padding-bottom:env(safe-area-inset-bottom,0px);visibility:hidden;pointer-events:none";
+    document.body.append(probe);
+    const height = Math.min(probe.offsetHeight || window.innerHeight, window.visualViewport?.height || window.innerHeight);
+    const safeBottom = parseFloat(getComputedStyle(probe).paddingBottom) || 0;
+    probe.remove();
+    for (const { node } of mobileLayerAnchors) {
+      node.style.setProperty("--copy-unit", `${height / 100}px`);
+      node.style.setProperty("--copy-anchor-y", `${Math.floor(height - Math.max(24, height * 0.07) - safeBottom)}px`);
+      node.style.setProperty("--copy-header-y", `${document.querySelector(".site-header").offsetHeight + 8}px`);
+    }
+    copyRail.classList.toggle("is-short-copy", height <= 700);
+    copyRail.classList.toggle("is-landscape-copy", window.innerWidth > height);
+  }
+
+  function updateMobileCopyLayers(scroll, ready) {
+    if (!mobileCopy.matches || !copyRail || !coverPanel) return;
+    const distance = window.scrollY - section.offsetTop;
+    const leave = Math.min(0, section.offsetHeight - stage.offsetHeight - distance);
+    for (const { node } of mobileLayerAnchors) {
+      node.style.setProperty("--copy-stage-y", `${leave}px`);
+      node.classList.toggle("is-offstage", distance >= section.offsetHeight || distance < -window.innerHeight);
+    }
+    copyRail.classList.toggle("is-cover-chapter", scroll >= 2400 && scroll < 3750);
+    coverPanel.classList.toggle("is-ready", ready);
+  }
   // Zwei Stück: eines auf dem Deckel, eines quer auf dem Rücken.
   const coverLogos = Array.from(document.querySelectorAll(".cover-logo"));
 
@@ -982,6 +1033,7 @@
 
     updateReveal(revealOpen, fadeY);
     updateCopy(smoothScroll);
+    updateMobileCopyLayers(smoothScroll, coverOpacity > 0.9);
     syncVideos(mainFade, clip);
 
     // Während des Ausklangs und der Blende kommen keine Scrollereignisse --
@@ -1260,7 +1312,12 @@
     },
     { passive: true }
   );
+  mobileCopy.addEventListener("change", () => {
+    placeMobileCopyLayers();
+    requestTick();
+  });
   window.addEventListener("resize", () => {
+    placeMobileCopyLayers();
     // Der Versatz der Box hängt an ihrer Breite, muss also mitwandern.
     applyFilmFit(activeClip, true);
     updateRevealGeometry();
@@ -1376,6 +1433,7 @@
     }
   }
 
+  placeMobileCopyLayers();
   buildProgressMarks();
   prepareCopyReveal();
   activeClip = 0;
