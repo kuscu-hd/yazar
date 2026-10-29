@@ -3618,6 +3618,10 @@ span.team-dialog-photo {
     right: clamp(20px, 6vw, 48px);
     top: auto;
     bottom: 7vh;
+    /* Keep the CTA above expanded browser bars, even when the unchanged
+       video stage is taller than the visible phone viewport. svh remains
+       stable as Safari hides/shows its toolbar. */
+    bottom: calc(100% - 100svh + max(24px, 7svh) + env(safe-area-inset-bottom, 0px));
     width: auto;
     height: 42vh;
     transform: none;
@@ -3626,7 +3630,8 @@ span.team-dialog-photo {
   .copy-block {
     top: auto;
     bottom: 0;
-    transform: translateY(var(--copy-y, 0px));
+    /* The children still fly in; the text block itself stays anchored. */
+    transform: none;
   }
 
   .scroll-hint {
@@ -3726,6 +3731,15 @@ span.team-dialog-photo {
   .service-index {
     margin-top: 0;
   }
+}
+
+@media (max-width: 900px) and (max-height: 700px) {
+  .copy-block h1 { font-size: clamp(1.65rem, 6svh, 2.5rem); }
+  .copy-block h2 { font-size: clamp(1.25rem, 4.5svh, 1.7rem); }
+  .copy-index { margin-bottom: 6px; }
+  .copy-kicker { margin-bottom: 8px; }
+  .copy-text, .copy-lede { margin-top: 12px; font-size: 0.9rem; line-height: 1.5; }
+  .copy-block .copy-link { margin-top: 16px; }
 }
 
 @media (max-width: 560px) {

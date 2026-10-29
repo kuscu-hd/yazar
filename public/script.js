@@ -6,6 +6,8 @@
   const film = document.querySelector(".film");
   const root = document.documentElement;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const mobileCopy = window.matchMedia("(max-width: 900px)");
+  let copyRevealWidth = window.innerWidth;
   const loopVideo = document.querySelector(".film-video-loop");
   const clipVideos = Array.from(document.querySelectorAll(".film-video-clip"));
   const copyBlocks = Array.from(document.querySelectorAll(".copy-block"));
@@ -853,7 +855,7 @@
   // Leichtes Einrasten: erst wenn der Scroll steht, und nur über kurze
   // Distanz -- es soll nachhelfen, nicht am Rad drehen.
   function applySnap() {
-    if (reduceMotion.matches || !section) return;
+    if (reduceMotion.matches || mobileCopy.matches || !section) return;
     const here = getScrollDistance();
     // Steht die Seite wirklich still? Läuft noch eine Fahrt (etwa nach einem
     // Klick auf einen Ankerlink), würde das Einrasten sie unterwegs abfangen.
@@ -1263,7 +1265,12 @@
     applyFilmFit(activeClip, true);
     updateRevealGeometry();
     updateCoverGeometry();
-    prepareCopyReveal();
+    // Safari's browser bars can resize the viewport without changing the
+    // text width. Rebuilding the headings there restarts their entrance.
+    if (!mobileCopy.matches || window.innerWidth !== copyRevealWidth) {
+      prepareCopyReveal();
+      copyRevealWidth = window.innerWidth;
+    }
     requestTick();
   });
 
