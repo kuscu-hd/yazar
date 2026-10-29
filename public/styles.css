@@ -3829,3 +3829,178 @@ span.team-dialog-photo {
      Videos im Rahmen bekommen scale(1 / --win-zoom), damit sie den Zoom
      der Plate nicht mitmachen.
 ------------------------------------------------------------------ */
+
+/* Mobile book scenes: reserve independent space for reading and controls. */
+.book-scroll-cue {
+  position: absolute;
+  z-index: 9;
+  right: 8px;
+  top: 38%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--ink);
+  pointer-events: none;
+}
+
+.book-scroll-label {
+  writing-mode: vertical-rl;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.book-scroll-cue progress {
+  appearance: none;
+  width: 4px;
+  height: 76px;
+  writing-mode: vertical-lr;
+  border: 0;
+  border-radius: 3px;
+  overflow: hidden;
+  background: rgb(22 18 26 / 0.14);
+}
+
+.book-scroll-cue progress::-webkit-progress-bar {
+  background: rgb(22 18 26 / 0.14);
+}
+
+.book-scroll-cue progress::-webkit-progress-value {
+  background: var(--accent);
+}
+
+.book-scroll-cue progress::-moz-progress-bar {
+  background: var(--accent);
+}
+
+.book-scroll-percent {
+  font-size: 9px;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 900px) {
+  .site-header {
+    gap: 10px;
+    padding: 14px 16px;
+  }
+
+  .brand { min-width: 0; }
+  .brand img { height: 28px; max-width: 100%; object-fit: contain; }
+  .nav-toggle { flex: 0 0 44px; width: 44px; height: 44px; }
+  .lang-switch { flex: none; gap: 0; padding: 2px; }
+  .lang-switch a { min-width: 36px; height: 38px; padding-inline: 6px; }
+
+  .cinema-scroll { height: calc(100svh + 5900px); }
+
+  .stage {
+    height: 100svh;
+    min-height: 0;
+    --film-top: clamp(118px, 21svh, 180px);
+    --film-width: min(72vw, 31svh);
+  }
+
+  .copy-rail {
+    left: 20px;
+    right: 42px;
+    bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+    height: auto;
+  }
+
+  .copy-block h1 { font-size: clamp(1.75rem, 8.6vw, 2.5rem); overflow-wrap: anywhere; }
+  .copy-block h2 { font-size: clamp(1.35rem, 6.2vw, 1.7rem); }
+  .copy-index { margin-bottom: 6px; }
+  .copy-kicker { margin-bottom: 10px; font-size: 11px; }
+  .copy-text, .copy-lede { margin-top: 14px; font-size: 0.9375rem; line-height: 1.5; }
+  .copy-block .copy-link { margin-top: 16px; padding-inline: 20px; max-width: 100%; }
+
+  .stage.is-customizing {
+    --film-top: clamp(118px, 21svh, 180px);
+    --film-width: min(72vw, 31svh);
+  }
+
+  .stage.is-customizing .copy-rail {
+    bottom: calc(250px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .stage.is-compact-customizing .copy-text { display: none; }
+
+  .cover-panel {
+    left: 20px;
+    right: 42px;
+    bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+    width: auto;
+    margin-left: 0;
+    gap: 8px;
+  }
+
+  .cover-groups { flex-direction: column; align-items: stretch; gap: 8px; width: 100%; }
+  .cover-group { justify-content: space-between; gap: 8px; }
+  .cover-group-label { color: var(--muted); letter-spacing: 0.08em; }
+  .cover-swatches { gap: 0; }
+  .cover-swatch { width: 38px; height: 38px; flex: 0 0 38px; border: 6px solid var(--page); box-shadow: inset 0 0 0 1px rgb(22 18 26 / 0.25); }
+  .cover-swatch::after { inset: -6px; }
+  .cover-swatch.is-on { border-color: var(--page); transform: none; box-shadow: inset 0 0 0 2px var(--ink); outline: 2px solid var(--accent); outline-offset: -4px; }
+  .cover-swatch:hover { transform: none; border-color: var(--page); }
+
+  .wa-float {
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    right: 16px;
+    width: 52px;
+    height: 52px;
+  }
+
+  .contact-form input:not([type="checkbox"]):not([type="radio"]),
+  .contact-form textarea { font-size: 16px; }
+  .cta-dialog { max-height: calc(100dvh - 48px); }
+  .cta-dialog-close { top: 8px; right: 8px; }
+  .cta-dialog-inner { padding: 52px 24px 24px; }
+}
+
+/* Small portrait scenes keep the action reachable while choosing a cover.
+   The service description remains available before/after the selection and
+   the service link stays visible throughout. */
+@media (max-width: 900px) and (max-height: 700px) and (orientation: portrait) {
+  .stage { --film-top: 118px; --film-width: min(65vw, 27svh); }
+  .copy-index { display: none; }
+  .copy-kicker { margin-bottom: 6px; }
+  .copy-text, .copy-lede { font-size: 0.875rem; line-height: 1.45; margin-top: 10px; }
+  .copy-block h2 { font-size: 1.35rem; }
+  .copy-block .copy-link { margin-top: 12px; }
+  .stage.is-customizing { --film-top: 118px; --film-width: min(65vw, 27svh); }
+}
+
+/* Landscape phones use the space beside the book for text. */
+@media (max-width: 900px) and (max-height: 500px) and (orientation: landscape) {
+  .stage, .stage.is-customizing {
+    --film-right: 76%;
+    --film-top: 40svh;
+    --film-width: min(30vw, 42svh);
+  }
+  .copy-rail, .stage.is-customizing .copy-rail {
+    left: 47%;
+    right: 44px;
+    bottom: 28px;
+  }
+  .copy-index { display: none; }
+  .copy-kicker { font-size: 10px; margin-bottom: 5px; }
+  .copy-block h1 { font-size: 1.55rem; }
+  .copy-block h2 { font-size: 1.2rem; }
+  .copy-text, .copy-lede { font-size: 0.8125rem; line-height: 1.4; margin-top: 8px; }
+  .copy-block .copy-link { margin-top: 10px; padding-inline: 14px; }
+  .cover-panel { left: 16px; right: 55%; bottom: 16px; gap: 3px; }
+  .cover-label { font-size: 9px; }
+  .cover-groups { gap: 0; }
+  .cover-group-label { font-size: 9px; }
+  .cover-swatch { width: 34px; height: 34px; flex-basis: 34px; }
+  .wa-float { width: 44px; height: 44px; right: 8px; bottom: 8px; }
+  .book-scroll-cue { top: 24%; }
+}
+
+@media (max-width: 900px) and (max-height: 350px) and (orientation: landscape) {
+  .copy-rail, .stage.is-customizing .copy-rail { left: 44%; bottom: 16px; }
+  .cover-panel { right: 58%; }
+  .copy-kicker { display: none; }
+  .copy-block h2 { font-size: 1rem; }
+  .copy-text, .copy-lede { line-height: 1.35; }
+}

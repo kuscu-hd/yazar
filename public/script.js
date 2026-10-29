@@ -6,6 +6,7 @@
   const film = document.querySelector(".film");
   const root = document.documentElement;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const touchDevice = window.matchMedia("(hover: none), (pointer: coarse)");
   const loopVideo = document.querySelector(".film-video-loop");
   const clipVideos = Array.from(document.querySelectorAll(".film-video-clip"));
   const copyBlocks = Array.from(document.querySelectorAll(".copy-block"));
@@ -16,6 +17,32 @@
   const coverDots = document.querySelector(".cover-dots");
   // Zwei Stück: eines auf dem Deckel, eines quer auf dem Rücken.
   const coverLogos = Array.from(document.querySelectorAll(".cover-logo"));
+  // Kept inside the book stage: this measures the animation, not the page.
+  let bookProgress;
+  let bookProgressText;
+  if (stage) {
+    const labels = {
+      tr: ["Kitabı keşfetmek için kaydırın", "Kitap ilerlemesi", "Kaydırın ↓"],
+      de: ["Scrollen Sie, um das Buch zu entdecken", "Buchfortschritt", "Scrollen ↓"],
+      en: ["Scroll to discover the book", "Book progress", "Scroll ↓"],
+    }[root.lang] || ["Scroll to discover the book", "Book progress", "Scroll ↓"];
+    const cue = document.createElement("div");
+    cue.className = "book-scroll-cue";
+    const label = document.createElement("span");
+    label.className = "book-scroll-label";
+    label.textContent = labels[2];
+    cue.title = labels[0];
+    bookProgress = document.createElement("progress");
+    bookProgress.max = 100;
+    bookProgress.value = 0;
+    bookProgress.setAttribute("aria-label", labels[1]);
+    bookProgressText = document.createElement("span");
+    bookProgressText.className = "book-scroll-percent";
+    bookProgressText.setAttribute("aria-hidden", "true");
+    bookProgressText.textContent = "0%";
+    cue.append(label, bookProgress, bookProgressText);
+    stage.append(cue);
+  }
 
   /* Scroll-Fahrplan in Pixeln Scrollstrecke (max. 8200, siehe
      .cinema-scroll in styles.css). */
@@ -327,7 +354,7 @@
   };
 
   const getScrollDistance = () =>
-    clamp(-section.getBoundingClientRect().top, 0, section.offsetHeight - window.innerHeight);
+    clamp(-section.getBoundingClientRect().top, 0, section.offsetHeight - stage.offsetHeight);
 
   const clipDuration = (i) => {
     const v = clipVideos[i];
@@ -656,7 +683,10 @@
   function markSwatches(selector, active) {
     const host = document.querySelector(selector);
     if (!host) return;
-    Array.from(host.children).forEach((btn, i) => btn.classList.toggle("is-on", i === active));
+    Array.from(host.children).forEach((btn, i) => {
+      btn.classList.toggle("is-on", i === active);
+      btn.setAttribute("aria-pressed", String(i === active));
+    });
   }
 
   // Die Knöpfe stehen fertig im HTML, mit Namen und Farbe in der Sprache
@@ -755,6 +785,7 @@
     // Standbild und Buchflächen hängen an der Lage der Box.
     updateRevealGeometry();
     updateCoverGeometry();
+    fitMobileCoverCopy();
   }
 
   /* ---------- Textspalte ---------- */
@@ -829,6 +860,17 @@
     }
   }
 
+  function fitMobileCoverCopy() {
+    if (!stage || !film) return;
+    stage.classList.remove("is-compact-customizing");
+    if (!stage.classList.contains("is-customizing") ||
+        !window.matchMedia("(max-width: 900px) and (orientation: portrait)").matches) return;
+    const block = copyBlocks.find((el) => el.style.visibility === "visible");
+    if (block && block.getBoundingClientRect().top < film.getBoundingClientRect().bottom + 12) {
+      stage.classList.add("is-compact-customizing");
+    }
+  }
+
   /* ---------- Kapitelmarken und Einrasten ---------- */
 
   function buildProgressMarks() {
@@ -853,7 +895,7 @@
   // Leichtes Einrasten: erst wenn der Scroll steht, und nur über kurze
   // Distanz -- es soll nachhelfen, nicht am Rad drehen.
   function applySnap() {
-    if (reduceMotion.matches || !section) return;
+    if (reduceMotion.matches || touchDevice.matches || !section) return;
     const here = getScrollDistance();
     // Steht die Seite wirklich still? Läuft noch eine Fahrt (etwa nach einem
     // Klick auf einen Ankerlink), würde das Einrasten sie unterwegs abfangen.
@@ -963,6 +1005,11 @@
     root.style.setProperty("--rv-opacity", revealFade);
     const progress = clamp(smoothScroll / TOTAL);
     root.style.setProperty("--progress", progress);
+    if (bookProgress) {
+      const percent = Math.round(progress * 100);
+      bookProgress.value = percent;
+      bookProgressText.textContent = `${percent}%`;
+    }
     updateProgressMarks(progress);
     root.style.setProperty("--hint-opacity", 1 - smoothstep(0, 220, smoothScroll));
 
@@ -972,6 +1019,13 @@
     root.style.setProperty("--cover-opacity", coverOpacity);
     root.style.setProperty("--cover-visibility", coverOpacity < 0.004 ? "hidden" : "visible");
     if (coverPick) coverPick.classList.toggle("is-ready", coverOpacity > 0.9);
+    const customizing = coverOpacity > 0.004;
+    if (stage.classList.contains("is-customizing") !== customizing) {
+      stage.classList.toggle("is-customizing", customizing);
+      applyFilmFit(activeClip, true);
+      updateCopy(smoothScroll);
+      fitMobileCoverCopy();
+    }
 
     // Die weiche Kante oben und unten wandert mit der Lage im Abschnitt.
     const fit = CLIP_FIT[clip.index];
@@ -1264,6 +1318,7 @@
     updateRevealGeometry();
     updateCoverGeometry();
     prepareCopyReveal();
+    fitMobileCoverCopy();
     requestTick();
   });
 
