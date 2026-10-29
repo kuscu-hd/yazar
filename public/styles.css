@@ -3831,53 +3831,7 @@ span.team-dialog-photo {
 ------------------------------------------------------------------ */
 
 /* Mobile book scenes: reserve independent space for reading and controls. */
-.book-scroll-cue {
-  position: absolute;
-  z-index: 9;
-  right: 8px;
-  top: 38%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  color: var(--ink);
-  pointer-events: none;
-}
-
-.book-scroll-label {
-  writing-mode: vertical-rl;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-}
-
-.book-scroll-cue progress {
-  appearance: none;
-  width: 4px;
-  height: 76px;
-  writing-mode: vertical-lr;
-  border: 0;
-  border-radius: 3px;
-  overflow: hidden;
-  background: rgb(22 18 26 / 0.14);
-}
-
-.book-scroll-cue progress::-webkit-progress-bar {
-  background: rgb(22 18 26 / 0.14);
-}
-
-.book-scroll-cue progress::-webkit-progress-value {
-  background: var(--accent);
-}
-
-.book-scroll-cue progress::-moz-progress-bar {
-  background: var(--accent);
-}
-
-.book-scroll-percent {
-  font-size: 9px;
-  font-variant-numeric: tabular-nums;
-}
+.book-chapters { display: none; }
 
 @media (max-width: 900px) {
   .site-header {
@@ -3893,11 +3847,13 @@ span.team-dialog-photo {
 
   .cinema-scroll { height: calc(100svh + 5900px); }
 
+  .stage:not(.is-revealing) .copy-scrim { background: none; }
+
   .stage {
     height: 100svh;
     min-height: 0;
-    --film-top: clamp(118px, 21svh, 180px);
-    --film-width: min(72vw, 31svh);
+    --film-top: 27svh;
+    --film-width: 92vw;
   }
 
   .copy-rail {
@@ -3914,13 +3870,8 @@ span.team-dialog-photo {
   .copy-text, .copy-lede { margin-top: 14px; font-size: 0.9375rem; line-height: 1.5; }
   .copy-block .copy-link { margin-top: 16px; padding-inline: 20px; max-width: 100%; }
 
-  .stage.is-customizing {
-    --film-top: clamp(118px, 21svh, 180px);
-    --film-width: min(72vw, 31svh);
-  }
-
   .stage.is-customizing .copy-rail {
-    bottom: calc(250px + env(safe-area-inset-bottom, 0px));
+    bottom: calc(222px + env(safe-area-inset-bottom, 0px));
   }
 
   .stage.is-compact-customizing .copy-text { display: none; }
@@ -3961,13 +3912,11 @@ span.team-dialog-photo {
    The service description remains available before/after the selection and
    the service link stays visible throughout. */
 @media (max-width: 900px) and (max-height: 700px) and (orientation: portrait) {
-  .stage { --film-top: 118px; --film-width: min(65vw, 27svh); }
   .copy-index { display: none; }
   .copy-kicker { margin-bottom: 6px; }
   .copy-text, .copy-lede { font-size: 0.875rem; line-height: 1.45; margin-top: 10px; }
   .copy-block h2 { font-size: 1.35rem; }
   .copy-block .copy-link { margin-top: 12px; }
-  .stage.is-customizing { --film-top: 118px; --film-width: min(65vw, 27svh); }
 }
 
 /* Landscape phones use the space beside the book for text. */
@@ -3994,7 +3943,6 @@ span.team-dialog-photo {
   .cover-group-label { font-size: 9px; }
   .cover-swatch { width: 34px; height: 34px; flex-basis: 34px; }
   .wa-float { width: 44px; height: 44px; right: 8px; bottom: 8px; }
-  .book-scroll-cue { top: 24%; }
 }
 
 @media (max-width: 900px) and (max-height: 350px) and (orientation: landscape) {
@@ -4003,4 +3951,40 @@ span.team-dialog-photo {
   .copy-kicker { display: none; }
   .copy-block h2 { font-size: 1rem; }
   .copy-text, .copy-lede { line-height: 1.35; }
+}
+
+
+@media (max-width: 900px) {
+  .book-chapters {
+    position: absolute;
+    z-index: 9;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+  }
+  .book-chapters button {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  .book-chapters button::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border: 1px solid rgb(22 18 26 / 0.45);
+    border-radius: 50%;
+    background: var(--page);
+  }
+  .book-chapters button.is-current::before {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgb(226 35 26 / 0.12);
+  }
 }

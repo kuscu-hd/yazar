@@ -8,7 +8,9 @@ Zusätzlich wurde `/private/tmp/yazar-kuscu-hd-before-mobile-2026-10-29.bundle`
 angelegt. Die temporäre Zusatzdatei ist nicht die primäre Sicherung; der Git-Tag
 bleibt im Repository erhalten. Zum Zeitpunkt der Sicherung war noch nichts
 gepusht oder veröffentlicht. Der Nutzer hat den Push anschließend freigegeben;
-der Sicherungs-Tag wird zusammen mit der Änderung zu origin übertragen.
+der Sicherungs-Tag wurde zusammen mit der Änderung zu origin übertragen.
+Die erste veröffentlichte mobile Fassung (`5d56fd0`) ist zusätzlich als
+`mobile-v1-2026-10-29` gesichert.
 
 ## Diese Anpassung zurücknehmen
 
@@ -29,16 +31,24 @@ umzuschreiben.
 ## Umfang
 
 - Kompakter mobiler Header, Menü innerhalb des Bildschirms.
-- Rechts Scrollhinweis und Fortschritt der Buchanimation in TR, DE und EN.
-- An Handybreite und -höhe angepasste Buch-/Textanordnung; eigenes Querformat.
+- Rechts fünf antippbare Abschnittspunkte in TR, DE und EN; die bestehende
+  Fortschrittsleiste oben bleibt bestehen. Keine doppelte Prozentanzeige.
+- Möglichst große Buchdarstellung im freien Bereich direkt vor dem aktiven
+  Text; eigenes Querformat. Leere Ränder um das stehende Cover können über den
+  Bildschirmrand hinausreichen, damit das Buch selbst größer erscheint.
 - Getrennte Bereiche für CTAs, Farbauswahl und WhatsApp.
 - Farbauswahl in zwei Reihen, Auswahlzustand auch per `aria-pressed`.
-- Kein automatisches Einrasten auf Geräten mit Touch-Bedienung.
+- Ein vertikaler Wisch wechselt mobil zum nächsten/vorherigen Buchabschnitt.
+  Der letzte Vorwärts-Wisch verlässt die Animation zum normalen Seiteninhalt.
+  Horizontale Gesten und Pinch-Zoom werden nicht für Kapitelwechsel verwendet.
+  Bei reduzierter Bewegung erfolgen die Sprünge ohne Scrollanimation.
+- Die Kapitelpunkte und die Größenanpassung gelten nur bis 900 px Breite; die
+  ursprüngliche Desktop-Darstellung und ihr Scrollverhalten bleiben erhalten.
 - Mobiles Kontaktformular mit 16-px-Eingaben und innenliegendem Schließenknopf.
 
-Wenn auf schmalen oder niedrigen Hochformat-Displays der Platz nicht reicht,
-wird während der Farbauswahl der beschreibende Absatz kurz ausgeblendet, um
-Titel, Service-Link und Farben erreichbar zu halten.
+Während der Farbauswahl hat die große Buchdarstellung Vorrang. Wenn Buch und
+vollständiger Beschreibungstext nicht gemeinsam passen, wird der Absatz
+vorübergehend ausgeblendet; Titel, Service-Link und Farben bleiben erreichbar.
 Vor und nach der Auswahl ist der Absatz wieder sichtbar; die verlinkte
 Leistungsseite enthält die vollständigen Informationen.
 
@@ -47,7 +57,11 @@ Leistungsseite enthält die vollständigen Informationen.
 Lokale Browserprüfung in Chrome mit Touch-Emulation; alle drei Sprachen,
 11 Bildschirmgrößen von 320 × 568 bis 1440 × 900 px, einschließlich
 Querformat und Zwischenhöhen. 165 Szenenprüfungen bestanden. Geprüft werden
-Szenenpositionen,
-Dialog öffnen/schließen, Farbauswahl, Logo vor/zurück und Scrollverhalten.
+Szenenpositionen, Dialog öffnen/schließen, Farbauswahl, Logo vor/zurück und
+Navigation über die Abschnittspunkte. Zusätzliche Touch-Tests prüfen Vorwärts-/
+Rückwärts-Wischen, horizontale Gesten, den Ausstieg zum normalen Seiteninhalt
+und den Wechsel auf Desktop, jeweils mit und ohne reduzierte Bewegung.
+Desktop-Screenshots bei 1024 und 1440 px sind bildgleich mit dem ursprünglichen
+Stand vor den mobilen Änderungen (`mobile-before-2026-10-29`).
 Ein echter iPhone-Safari-Test und eine Formularübermittlung an Netlify sind
 hierdurch nicht abgedeckt. Es werden keine Testnachrichten abgeschickt.
