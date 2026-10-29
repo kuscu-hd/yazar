@@ -16,14 +16,6 @@
   const coverDots = document.querySelector(".cover-dots");
   // Zwei Stück: eines auf dem Deckel, eines quer auf dem Rücken.
   const coverLogos = Array.from(document.querySelectorAll(".cover-logo"));
-  const mobileView = window.matchMedia("(max-width: 900px)");
-  let chapterButtons = [];
-  let mobileLayoutKey = "";
-  let mobileSnapping = false;
-  let mobileSnapRelease = 0;
-  let mobileGesture = null;
-  let lastScrollY = window.scrollY;
-  let mobileDirection = 1;
 
   /* Scroll-Fahrplan in Pixeln Scrollstrecke (max. 8200, siehe
      .cinema-scroll in styles.css). */
@@ -138,27 +130,6 @@
     center: (seg.from + seg.to) / 2,
     unit: seg.hold,
   }));
-  const mobileStops = [0, ...HOLDS.map((hold) => hold.center), 5500];
-  if (stage) {
-    const chapters = document.createElement("nav");
-    chapters.className = "book-chapters";
-    chapters.setAttribute("aria-label", {
-      tr: "Kitap bölümleri", de: "Buchabschnitte", en: "Book chapters",
-    }[root.lang] || "Book chapters");
-    chapterButtons = mobileStops.map((stop, i) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      const heading = copyBlocks[i]?.querySelector(".copy-kicker, h1");
-      const name = heading?.innerText.replace(/\s+/g, " ").trim() || String(i + 1);
-      button.setAttribute("aria-label", `${i + 1}. ${name}`);
-      button.title = name;
-      button.addEventListener("click", () => goToMobileChapter(i));
-      chapters.append(button);
-      return button;
-    });
-    stage.append(chapters);
-  }
-
   /* Bis hierher läuft der Loop frei; ab hier führt der Scroll das Video.
      Zwölf Pixel sind kein Weg, sondern nur die Schwelle, unterhalb derer
      die Seite als "ganz oben" gilt -- ein Wackeln am Trackpad soll die
@@ -356,7 +327,7 @@
   };
 
   const getScrollDistance = () =>
-    clamp(-section.getBoundingClientRect().top, 0, section.offsetHeight - (mobileView.matches ? stage.offsetHeight : window.innerHeight));
+    clamp(-section.getBoundingClientRect().top, 0, section.offsetHeight - window.innerHeight);
 
   const clipDuration = (i) => {
     const v = clipVideos[i];
@@ -685,10 +656,7 @@
   function markSwatches(selector, active) {
     const host = document.querySelector(selector);
     if (!host) return;
-    Array.from(host.children).forEach((btn, i) => {
-      btn.classList.toggle("is-on", i === active);
-      btn.setAttribute("aria-pressed", String(i === active));
-    });
+    Array.from(host.children).forEach((btn, i) => btn.classList.toggle("is-on", i === active));
   }
 
   // Die Knöpfe stehen fertig im HTML, mit Namen und Farbe in der Sprache
@@ -861,74 +829,6 @@
     }
   }
 
-  // Fill the space immediately above the active text with the largest book
-  // that fits. The source clips have soft white margins; those may extend
-  // beyond this slot, while the actual book stays clear of text and header.
-  function sizeMobileBook() {
-    if (!stage || !film) return false;
-    if (!mobileView.matches) {
-      if (!stage.style.getPropertyValue("--film-width")) return false;
-      mobileLayoutKey = "";
-      stage.style.removeProperty("--film-width");
-      stage.style.removeProperty("--film-top");
-      stage.classList.remove("is-compact-customizing");
-      return true;
-    }
-    const block = copyBlocks.find((el) => el.style.visibility === "visible");
-    if (!block || activeClip < 0) return false;
-    const customizing = stage.classList.contains("is-customizing");
-    const key = `${stage.clientWidth}:${stage.clientHeight}:${copyBlocks.indexOf(block)}:${customizing}:${activeClip}:${clipRatio(activeClip)}`;
-    if (key === mobileLayoutKey) return false;
-    mobileLayoutKey = key;
-    stage.classList.remove("is-compact-customizing");
-    const scene = stage.getBoundingClientRect();
-    const headerBottom = document.querySelector(".site-header").getBoundingClientRect().bottom - scene.top + 4;
-    const landscape = scene.width > scene.height;
-    // The standing cover has wide empty margins. Let those run offscreen
-    // so the book itself can use the available height during customization.
-    const widthCap = scene.width * (landscape
-      ? (customizing ? 0.6 : scene.height <= 350 ? 0.38 : 0.43)
-      : (customizing ? 2 : 0.92));
-    const fit = CLIP_FIT[activeClip];
-    const ratio = clipRatio(activeClip);
-    const visibleHeight = activeClip === 3 ? (customizing ? 0.9 : 1) : 0.76;
-    const getBottom = () => landscape
-      ? (customizing ? document.querySelector(".cover-panel").getBoundingClientRect().top - scene.top - 12 : scene.height - 20)
-      : block.getBoundingClientRect().top - scene.top - 12;
-    let bottom = getBottom();
-    if (!landscape && customizing && bottom - headerBottom < widthCap * fit.scale / ratio * visibleHeight) {
-      stage.classList.add("is-compact-customizing");
-      bottom = getBottom();
-    }
-    const available = Math.max(40, bottom - headerBottom);
-    const width = Math.min(widthCap, available * ratio / (fit.scale * visibleHeight));
-    const height = width * fit.scale / ratio;
-    // Align the book's lower edge with the text, rather than leaving a large
-    // empty middle. White video margins can extend below the visible book.
-    const top = bottom - height * visibleHeight / 2 - fit.cy * width;
-    stage.style.setProperty("--film-width", `${width}px`);
-    stage.style.setProperty("--film-top", `${top}px`);
-    return true;
-  }
-
-  function nearestMobileChapter(distance) {
-    return mobileStops.reduce((best, stop, i) =>
-      Math.abs(stop - distance) < Math.abs(mobileStops[best] - distance) ? i : best, 0);
-  }
-
-  function goToMobileChapter(index) {
-    if (!mobileView.matches || !section) return;
-    window.clearTimeout(snapTimer);
-    window.clearTimeout(mobileSnapRelease);
-    mobileSnapping = true;
-    const header = document.querySelector(".site-header").offsetHeight;
-    const top = index >= mobileStops.length
-      ? section.offsetTop + section.offsetHeight - header + 1
-      : section.offsetTop + mobileStops[clamp(index, 0, mobileStops.length - 1)];
-    window.scrollTo({ top, behavior: reduceMotion.matches ? "instant" : "smooth" });
-    mobileSnapRelease = window.setTimeout(() => { mobileSnapping = false; }, 1400);
-  }
-
   /* ---------- Kapitelmarken und Einrasten ---------- */
 
   function buildProgressMarks() {
@@ -953,22 +853,12 @@
   // Leichtes Einrasten: erst wenn der Scroll steht, und nur über kurze
   // Distanz -- es soll nachhelfen, nicht am Rad drehen.
   function applySnap() {
-    if (!section || (!mobileView.matches && reduceMotion.matches)) return;
-    if (mobileView.matches && (mobileSnapping || mobileGesture ||
-        window.scrollY < section.offsetTop || window.scrollY > section.offsetTop + TOTAL)) return;
+    if (reduceMotion.matches || !section) return;
     const here = getScrollDistance();
     // Steht die Seite wirklich still? Läuft noch eine Fahrt (etwa nach einem
     // Klick auf einen Ankerlink), würde das Einrasten sie unterwegs abfangen.
     if (Math.abs(here - snapAnchor) > 2) {
       scheduleSnap();
-      return;
-    }
-    if (mobileView.matches) {
-      let next = nearestMobileChapter(here);
-      const delta = here - mobileStops[next];
-      if (Math.abs(delta) < SNAP_MIN) return;
-      if (delta * mobileDirection > 0) next += mobileDirection;
-      goToMobileChapter(clamp(next, 0, mobileStops.length));
       return;
     }
     for (const hold of HOLDS) {
@@ -1064,7 +954,6 @@
     const mainFade = handoverFade(clip);
     const revealFade = smoothstep(REVEAL_FADE_START, REVEAL_FADE_END, smoothScroll);
     const revealOpen = smoothstep(REVEAL_OPEN_START, REVEAL_OPEN_END, smoothScroll);
-    stage.classList.toggle("is-revealing", revealFade > 0.004);
 
     // Der Loop geht in dem Bild aus, in dem der Clipstapel angeht -- beide
     // zeigen dann dasselbe. Danach bleibt er weg, damit er beim Wechsel aufs
@@ -1074,14 +963,6 @@
     root.style.setProperty("--rv-opacity", revealFade);
     const progress = clamp(smoothScroll / TOTAL);
     root.style.setProperty("--progress", progress);
-    if (mobileView.matches) {
-      const current = nearestMobileChapter(smoothScroll);
-      chapterButtons.forEach((button, i) => {
-        button.classList.toggle("is-current", i === current);
-        if (i === current) button.setAttribute("aria-current", "step");
-        else button.removeAttribute("aria-current");
-      });
-    }
     updateProgressMarks(progress);
     root.style.setProperty("--hint-opacity", 1 - smoothstep(0, 220, smoothScroll));
 
@@ -1091,12 +972,6 @@
     root.style.setProperty("--cover-opacity", coverOpacity);
     root.style.setProperty("--cover-visibility", coverOpacity < 0.004 ? "hidden" : "visible");
     if (coverPick) coverPick.classList.toggle("is-ready", coverOpacity > 0.9);
-    const customizing = coverOpacity > 0.004;
-    if (stage.classList.contains("is-customizing") !== customizing) {
-      stage.classList.toggle("is-customizing", customizing);
-      applyFilmFit(activeClip, true);
-      updateCopy(smoothScroll);
-    }
 
     // Die weiche Kante oben und unten wandert mit der Lage im Abschnitt.
     const fit = CLIP_FIT[clip.index];
@@ -1106,7 +981,6 @@
     updateReveal(revealOpen, fadeY);
     updateCopy(smoothScroll);
     syncVideos(mainFade, clip);
-    if (sizeMobileBook()) applyFilmFit(activeClip, true);
 
     // Während des Ausklangs und der Blende kommen keine Scrollereignisse --
     // die Bilder müssen also selbst angefordert werden.
@@ -1379,49 +1253,12 @@
   window.addEventListener(
     "scroll",
     () => {
-      if (!mobileSnapping && window.scrollY !== lastScrollY) mobileDirection = Math.sign(window.scrollY - lastScrollY);
-      lastScrollY = window.scrollY;
       requestTick();
       scheduleSnap();
     },
     { passive: true }
   );
-  // One vertical swipe advances one chapter. Horizontal gestures and pinch
-  // zoom stay native; the final forward swipe leaves the book for the page.
-  stage.addEventListener("touchstart", (event) => {
-    if (!mobileView.matches || event.touches.length !== 1 ||
-        window.scrollY > section.offsetTop + TOTAL || window.scrollY < section.offsetTop) return;
-    window.clearTimeout(snapTimer);
-    window.clearTimeout(mobileSnapRelease);
-    if (mobileSnapping) window.scrollTo({ top: window.scrollY, behavior: "instant" });
-    mobileSnapping = false;
-    const touch = event.touches[0];
-    mobileGesture = { x: touch.clientX, y: touch.clientY, chapter: nearestMobileChapter(getScrollDistance()), captured: false, dy: 0 };
-  }, { passive: true });
-  stage.addEventListener("touchmove", (event) => {
-    if (!mobileGesture) return;
-    if (event.touches.length !== 1) { mobileGesture = null; return; }
-    const touch = event.touches[0];
-    const dy = mobileGesture.y - touch.clientY;
-    const dx = mobileGesture.x - touch.clientX;
-    if (Math.abs(dy) < 12 || Math.abs(dy) < Math.abs(dx) * 1.2 || (dy < 0 && mobileGesture.chapter === 0)) return;
-    if (event.cancelable) {
-      event.preventDefault();
-      mobileGesture.captured = true;
-      mobileGesture.dy = dy;
-    }
-  }, { passive: false });
-  stage.addEventListener("touchend", () => {
-    const gesture = mobileGesture;
-    mobileGesture = null;
-    if (gesture?.captured && Math.abs(gesture.dy) >= 36) {
-      goToMobileChapter(gesture.chapter + Math.sign(gesture.dy));
-    }
-  }, { passive: true });
-  stage.addEventListener("touchcancel", () => { mobileGesture = null; }, { passive: true });
-
   window.addEventListener("resize", () => {
-    mobileLayoutKey = "";
     // Der Versatz der Box hängt an ihrer Breite, muss also mitwandern.
     applyFilmFit(activeClip, true);
     updateRevealGeometry();
