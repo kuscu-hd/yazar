@@ -3921,3 +3921,27 @@ span.team-dialog-photo {
   .copy-rail.is-cover-chapter.is-landscape-copy { left: 72px; right: 72px; }
   .cover-panel.is-mobile-layer.is-offstage { display: none; }
 }
+
+/* Temporäres Gedenklogo zum 10. November 2026.
+   Zur Rücknahme die Bildverweise in HTML und tools/sync-shell.mjs auf
+   yazar_logo.webp (480 × 156) zurücksetzen und diesen Block entfernen.
+   PNG mit echtem Alphakanal; im dunklen Footer weiß dargestellt. */
+.brand img[src$="yazar_logo_10_kasim.png"] {
+  height: clamp(48px, 5.1vw, 68px);
+  filter: none;
+}
+
+.site-footer-logo[src$="yazar_logo_10_kasim.png"] {
+  height: 56px;
+  filter: brightness(0) invert(1);
+}
+
+@media (max-width: 480px) {
+  .site-header { gap: 10px; }
+
+  .brand img[src$="yazar_logo_10_kasim.png"] {
+    width: 120px;
+    max-width: calc(100vw - 256px);
+    height: auto;
+  }
+}

@@ -206,7 +206,7 @@ function region(page, lang, html, file) {
     for (const v of [ORG.street, ORG.locality, ORG.region, ORG.opens, ORG.closes]) {
       if (!visible.includes(v)) throw new Error(`${file}: "${v}" steht nicht auf der Seite`);
     }
-    if (!html.includes('src="/assets/yazar_logo.webp"')) throw new Error(`${file}: Logo fehlt`);
+    if (!/src="\/assets\/yazar_logo(?:_10_kasim\.png|\.webp)"/.test(html)) throw new Error(`${file}: Logo fehlt`);
   }
   const body = toJson(graph)
     .split("\n")
