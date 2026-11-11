@@ -135,6 +135,8 @@ const META = {
       "Yazardan Direkt'in gizlilik ve güvenlik politikası: kişisel bilgilerin kullanımı, paylaşımı, güvenliği ve çerezler."],
     de: ["Datenschutz und Sicherheit | Yazardan Direkt",
       "Die Datenschutz- und Sicherheitsrichtlinie von Yazardan Direkt: Umgang mit persönlichen Daten, Weitergabe, Sicherheit und Cookies."],
+    en: ["Privacy Policy | Yazardan Direkt",
+      "The privacy and security policy of Yazardan Direkt: how personal data is used, shared and protected, cookies and Google Analytics."],
   },
   notfound: {
     tr: ["Sayfa bulunamadı | Yazardan Direkt",
@@ -259,6 +261,7 @@ const TEXT = {
       // wie in der Fußzeile der alten Seite benannt
       privacy: "Gizlilik İlkesi",
       kvkk: "Aydınlatma Metni",
+      cookies: "Çerez Ayarları",
     },
   },
 
@@ -322,11 +325,13 @@ const TEXT = {
       whatsapp: "WhatsApp",
       privacy: "Datenschutz und Sicherheit",
       kvkk: "Datenschutzhinweise",
+      cookies: "Cookie-Einstellungen",
     },
   },
   /* Englisch: übersetzt aus dem Türkischen, in den Seiten als unreviewed
-     markiert. Die beiden Rechtstexte gibt es auf Englisch nicht -- die
-     Fußzeile führt von hier auf die türkischen. */
+     markiert. Die Datenschutzerklärung gibt es auf Englisch (übersetzt aus
+     der deutschen Fassung), das Aydınlatma Metni nicht -- dorthin führt die
+     Fußzeile auf die türkische Fassung. */
   en: {
     brand: "Yazardan Direkt",
     menuMain: "Main menu",
@@ -383,6 +388,7 @@ const TEXT = {
       whatsapp: "WhatsApp",
       privacy: "Privacy Policy",
       kvkk: "Data Protection Notice",
+      cookies: "Cookie Settings",
     },
   },
 };
@@ -456,6 +462,10 @@ function head(page, lang) {
     `<link rel="apple-touch-icon" href="/assets/icon-180.png" />`,
     `<link rel="stylesheet" href="/styles.css" />`,
     `<script src="/script.js" defer></script>`,
+    /* Cookie-Einwilligung und Google Analytics 4. gtag.js steht bewusst
+       NICHT hier: consent.js lädt es erst nach "Kabul et" / "Akzeptieren" /
+       "Accept" nach. Wer consent.js ändert, zählt ?v= hoch. */
+    `<script src="/consent.js?v=2" defer></script>`,
   ];
 }
 
@@ -673,13 +683,16 @@ function footer(page, lang) {
     `    <div class="site-footer-base">`,
     `      <p>© <span class="site-footer-year">2026</span> Yazardan Direkt. <span>${esc(f.rights)}</span></p>`,
     `      <nav class="site-footer-legal" aria-label="${attr(f.legalLabel)}">`,
-    // Die Rechtstexte gibt es nur auf Türkisch und Deutsch. Von einer
+    // Das Aydınlatma Metni gibt es nur auf Türkisch und Deutsch. Von einer
     // englischen Seite führt der Weg deshalb auf die türkische Fassung --
     // mit hreflang, damit der Sprachwechsel angesagt ist.
     ...(lang === "tr" ? [] : [`        <!-- ${lang.toUpperCase()}: unreviewed -->`]),
     `        ${legal("privacy", f.privacy)}`,
     ...(lang === "tr" ? [] : [`        <!-- ${lang.toUpperCase()}: unreviewed -->`]),
     `        ${legal("kvkk", f.kvkk)}`,
+    // Widerruf der Einwilligung: consent.js fängt den Klick ab und öffnet
+    // den Banner. Ohne JavaScript führt der Link auf die Datenschutzerklärung.
+    `        <a href="${attr(urlOr("privacy", lang))}#cookies" data-consent-settings>${esc(f.cookies)}</a>`,
     `      </nav>`,
     `      <a href="#top">${esc(f.top)}</a>`,
     `    </div>`,
