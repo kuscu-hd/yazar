@@ -466,6 +466,9 @@ function head(page, lang) {
        NICHT hier: consent.js lädt es erst nach "Kabul et" / "Akzeptieren" /
        "Accept" nach. Wer consent.js ändert, zählt ?v= hoch. */
     `<script src="/consent.js?v=2" defer></script>`,
+    /* GA4-Conversions (generate_lead, contact_click). Muss NACH consent.js
+       stehen: sendet nur mit Einwilligung über das dort geladene gtag. */
+    `<script src="/tracking.js?v=1" defer></script>`,
   ];
 }
 
