@@ -16,18 +16,21 @@
        2. Dankeseite: Merkzeichen lesen und SOFORT löschen. Nur wenn es
           zu dieser Seite gehört, höchstens 10 Minuten alt ist und die
           Einwilligung besteht, geht generate_lead raus -- genau einmal.
+          Parameter: form_name und site_language ("language" ist in gtag
+          ein reserviertes Feld und käme nicht als Event-Parameter an).
           Direktaufruf, Neuladen, Zurück-Taste: kein Merkzeichen, kein Event.
 
    contact_click
      Klicks auf tel:, mailto: und WhatsApp-Links (wa.me, api.whatsapp.com).
-     Parameter: method (phone | email | whatsapp) und link_location.
+     Parameter: method (phone | email | whatsapp), link_location und
+     site_language.
 
    KEINE personenbezogenen Daten: weder Feldinhalte noch Nummer oder
    Adresse des angeklickten Links gehen in ein Event.
 
    Eingebunden im <head> jeder Seite über tools/sync-shell.mjs, NACH
    consent.js:
-     <script src="/tracking.js?v=1" defer></script>
+     <script src="/tracking.js?v=2" defer></script>
    Wer diese Datei ändert, zählt dort ?v= hoch.
    ===================================================================== */
 
@@ -131,7 +134,7 @@
 
     send('generate_lead', {
       form_name: String(flag.form_name || 'unbekannt'),
-      language: lang()
+      site_language: lang()
     });
   }
 
@@ -164,7 +167,7 @@
     send('contact_click', {
       method: method,
       link_location: linkLocation(link),
-      language: lang()
+      site_language: lang()
     });
   });
 
@@ -181,5 +184,5 @@
      neu aus -- ein Merkzeichen von dort aus trotzdem verwerfen. */
   window.addEventListener('pageshow', function (event) { if (event.persisted) redeemLead(); });
 
-  window.YazarTracking = { version: 1 };
+  window.YazarTracking = { version: 2 };
 })();

@@ -468,7 +468,7 @@ function head(page, lang) {
     `<script src="/consent.js?v=2" defer></script>`,
     /* GA4-Conversions (generate_lead, contact_click). Muss NACH consent.js
        stehen: sendet nur mit Einwilligung über das dort geladene gtag. */
-    `<script src="/tracking.js?v=1" defer></script>`,
+    `<script src="/tracking.js?v=2" defer></script>`,
   ];
 }
 
