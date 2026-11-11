@@ -36,11 +36,13 @@ export const PAGES = [
   // ohne hreflang -- sie hat keine eigene Adresse, unter der man sie sucht.
   { id: "notfound", section: null, noindex: true, bare: true, only: ["tr"], tr: ["404.html", "/404"], de: ["de/404.html", "/de/404"] },
   // Rechtstexte.
-  // Die beiden Rechtstexte gibt es nur auf Türkisch und Deutsch: sie sind
-  // verbindliche Erklärungen nach türkischem Recht und werden nicht
-  // nebenbei übersetzt.
+  // Das Aydınlatma Metni gibt es nur auf Türkisch und Deutsch: es ist eine
+  // verbindliche Erklärung nach türkischem Recht und wird nicht nebenbei
+  // übersetzt. Die Datenschutzerklärung gibt es seit November 2026 auch auf
+  // Englisch (übersetzt aus der deutschen Fassung, als unreviewed markiert),
+  // weil der Cookie-Banner auf jeder Seite auf sie verweist.
   { id: "kvkk", section: null, only: ["tr", "de"], tr: ["aydinlatma-metni.html", "/aydinlatma-metni"], de: ["de/datenschutzhinweise.html", "/de/datenschutzhinweise"] },
-  { id: "privacy", section: null, only: ["tr", "de"], tr: ["gizlilik-ve-guvenlik-politikasi.html", "/gizlilik-ve-guvenlik-politikasi"], de: ["de/datenschutz-und-sicherheit.html", "/de/datenschutz-und-sicherheit"] },
+  { id: "privacy", section: null, tr: ["gizlilik-ve-guvenlik-politikasi.html", "/gizlilik-ve-guvenlik-politikasi"], de: ["de/datenschutz-und-sicherheit.html", "/de/datenschutz-und-sicherheit"], en: ["en/privacy-policy.html", "/en/privacy-policy"] },
 ];
 
 export const SERVICE_IDS = ["consult", "editing", "design", "translation", "print", "ebook"];

@@ -70,6 +70,7 @@
 /en/international.html                        /en/international                     301!
 /en/contact.html                              /en/contact                           301!
 /en/thank-you.html                            /en/thank-you                         301!
+/en/privacy-policy.html                       /en/privacy-policy                    301!
 
 # Die Fehlerseite selbst. Sie ist über ihren Dateinamen erreichbar, und
 # /404 löst Netlify genauso auf 404.html auf wie /tasarim auf tasarim.html --
